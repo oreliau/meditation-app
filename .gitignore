@@ -45,3 +45,6 @@ example
 # OpenCode
 .opencode/*
 !.opencode/Dockerfile
+
+# ADRs
+docs/adr/

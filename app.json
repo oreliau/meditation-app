@@ -39,11 +39,11 @@
         "expo-font",
         {
           "fonts": [
-            "./assets/fonts/Inter_400Regular.ttf",
-            "./assets/fonts/Inter_500Medium.ttf",
-            "./assets/fonts/Inter_600SemiBold.ttf",
-            "./assets/fonts/PlayfairDisplay_500Medium.ttf",
-            "./assets/fonts/PlayfairDisplay_600SemiBold.ttf"
+            "node_modules/@expo-google-fonts/inter/400Regular/Inter_400Regular.ttf",
+            "node_modules/@expo-google-fonts/inter/500Medium/Inter_500Medium.ttf",
+            "node_modules/@expo-google-fonts/inter/600SemiBold/Inter_600SemiBold.ttf",
+            "node_modules/@expo-google-fonts/playfair-display/500Medium/PlayfairDisplay_500Medium.ttf",
+            "node_modules/@expo-google-fonts/playfair-display/600SemiBold/PlayfairDisplay_600SemiBold.ttf"
           ]
         }
       ],

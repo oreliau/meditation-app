@@ -4,8 +4,8 @@
 //
 // These are just the font *family names* — loading is platform-specific
 // (see useLoadFonts.ts / useLoadFonts.web.ts) and both must use these same
-// names, since native links app.json's assets/fonts/*.ttf under their
-// PostScript names, which match these exactly.
+// names, since native links app.json's node_modules/@expo-google-fonts/*
+// .ttf files under their PostScript names, which match these exactly.
 export const playfairDisplay = {
   medium: "PlayfairDisplay_500Medium",
   semiBold: "PlayfairDisplay_600SemiBold",
