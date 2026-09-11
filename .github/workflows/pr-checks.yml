@@ -1,0 +1,136 @@
+name: PR Checks
+
+on:
+  pull_request:
+    branches: [main]
+
+env:
+  EXPO_NO_TELEMETRY: "1"
+
+jobs:
+  typecheck:
+    name: Typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 12.3.4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: typecheck
+        run: pnpm run typecheck
+
+  lint:
+    name: Lint (biome)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 12.3.4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: lint:ci
+        run: pnpm run lint:ci
+
+  expo-doctor:
+    name: expo-doctor
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 12.3.4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: expo:doctor
+        run: pnpm run expo:doctor
+
+  react-compiler-healthcheck:
+    name: React Compiler healthcheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 12.3.4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: react-compiler:healthcheck
+        run: pnpm run react-compiler:healthcheck
+
+  prebuild:
+    name: Expo prebuild (native config)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 12.3.4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # unistyles ships custom native code (no Expo Go support), so a config
+      # that fails to prebuild (e.g. a bad expo-font `fonts` path) would only
+      # surface at native-build time otherwise. --no-install skips pod/gradle
+      # dependency resolution, which needs Xcode/Android SDK this runner
+      # doesn't have — this step only validates config-plugin resolution.
+      - name: expo:prebuild
+        run: pnpm run expo:prebuild
+
+  web-export:
+    name: Web static export
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 12.3.4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # Regression check for the MMKV-backed theme-override read that used
+      # to crash Expo Router's static prerender (no `window` server-side).
+      - name: expo:export:web
+        run: pnpm run expo:export:web
