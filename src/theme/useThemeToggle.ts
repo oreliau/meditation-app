@@ -3,8 +3,8 @@ import { UnistylesRuntime } from "react-native-unistyles";
 import {
   getPersistedThemeOverride,
   THEME_OVERRIDE_KEY,
-  themeStorage,
   type ThemeOverride,
+  themeStorage,
 } from "./storage";
 
 // "system" here is the domain term Adaptive mode; "light"/"dark" are a

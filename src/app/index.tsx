@@ -6,7 +6,9 @@ export default function Index() {
   return (
     <View style={styles.container}>
       <Text style={styles.headline}>Lumina Flow</Text>
-      <Text style={styles.body}>Edit src/app/index.tsx to edit this screen.</Text>
+      <Text style={styles.body}>
+        Edit src/app/index.tsx to edit this screen.
+      </Text>
       <ThemeToggleButton />
     </View>
   );
