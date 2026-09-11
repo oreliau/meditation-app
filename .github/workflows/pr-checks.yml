@@ -25,8 +25,8 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - name: tsc --noEmit
-        run: pnpm exec tsc --noEmit
+      - name: typecheck
+        run: pnpm run typecheck
 
   lint:
     name: Lint (biome)
@@ -45,8 +45,8 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - name: biome ci
-        run: pnpm exec biome ci .
+      - name: lint:ci
+        run: pnpm run lint:ci
 
   expo-doctor:
     name: expo-doctor
@@ -65,8 +65,8 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - name: expo-doctor
-        run: pnpm dlx expo-doctor@latest
+      - name: expo:doctor
+        run: pnpm run expo:doctor
 
   react-compiler-healthcheck:
     name: React Compiler healthcheck
@@ -85,8 +85,8 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - name: react-compiler-healthcheck
-        run: pnpm dlx react-compiler-healthcheck@latest
+      - name: react-compiler:healthcheck
+        run: pnpm run react-compiler:healthcheck
 
   prebuild:
     name: Expo prebuild (native config)
@@ -110,8 +110,8 @@ jobs:
       # surface at native-build time otherwise. --no-install skips pod/gradle
       # dependency resolution, which needs Xcode/Android SDK this runner
       # doesn't have — this step only validates config-plugin resolution.
-      - name: expo prebuild --clean
-        run: pnpm exec expo prebuild --clean --no-install
+      - name: expo:prebuild
+        run: pnpm run expo:prebuild
 
   web-export:
     name: Web static export
@@ -132,5 +132,5 @@ jobs:
 
       # Regression check for the MMKV-backed theme-override read that used
       # to crash Expo Router's static prerender (no `window` server-side).
-      - name: expo export --platform web
-        run: pnpm exec expo export --platform web
+      - name: expo:export:web
+        run: pnpm run expo:export:web
