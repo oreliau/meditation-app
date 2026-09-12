@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import {
   getPersistedThemeOverride,
   THEME_OVERRIDE_KEY,
@@ -25,7 +25,11 @@ function readCurrentMode(): ThemeMode {
 export function useThemeToggle() {
   const [mode, setMode] = useState<ThemeMode>(readCurrentMode);
 
-  const cycle = useCallback(() => {
+  // No useCallback: `cycle` is only read as an event handler, never as an
+  // effect dependency or a memoized child's prop, so a stable identity carries
+  // no behavioral intent. The React Compiler (app.json `experiments.
+  // reactCompiler`) caches it automatically.
+  function cycle() {
     const next = nextMode[mode];
     const runtime = getThemeRuntime();
 
@@ -39,7 +43,7 @@ export function useThemeToggle() {
     }
 
     setMode(next);
-  }, [mode]);
+  }
 
   return { mode, cycle };
 }
