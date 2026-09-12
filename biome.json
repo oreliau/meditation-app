@@ -7,7 +7,15 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "includes": ["**", "!assets", "!.claude", "!.agents", "!kits"]
+    "includes": [
+      "**",
+      "!assets",
+      "!.claude",
+      "!.agents",
+      "!kits",
+      "!sandbox/kits",
+      "!docs/stitch_lumina_flow_meditation"
+    ]
   },
   "formatter": {
     "enabled": true,
