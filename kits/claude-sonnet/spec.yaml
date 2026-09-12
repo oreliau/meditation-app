@@ -1,0 +1,26 @@
+schemaVersion: "2"
+kind: sandbox
+name: claude-sonnet
+extends: claude
+
+setup:
+  install:
+    - command: "apt-get update && apt-get install -y jq"
+
+permissions:
+  network:
+    allow:
+      - mcp.expo.dev
+      - stitch.googleapis.com
+      - expo.dev
+      - www.unistyl.es
+      - api.expo.dev
+      - exp.host
+      - cdp.exp.host
+      - reactnative.directory
+
+sandbox:
+  command:
+    - --dangerously-skip-permissions
+    - --settings
+    - /home/agent/.config/claude/sonnet.json
