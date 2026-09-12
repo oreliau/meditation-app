@@ -3,6 +3,17 @@ kind: sandbox
 name: claude-sonnet
 extends: claude
 
+credentials:
+  - service: github
+    apiKey:
+      name: GH_TOKEN
+      proxyManaged: true
+      inject:
+        - domain: api.github.com
+          scheme: bearer
+	- domain: github.com
+	  scheme: bearer
+
 setup:
   install:
     - command: "apt-get update && apt-get install -y jq"
