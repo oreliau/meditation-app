@@ -12,11 +12,10 @@ import {
 
 const DURATION_MS = 12 * 60 * 1000;
 const T0 = 1_700_000_000_000;
-const clock = { now: T0, durationMs: DURATION_MS };
 
 describe("Play", () => {
   it("starts a Running session at the full configured duration from Idle", () => {
-    const session = play(idleSession, clock);
+    const session = play(idleSession, T0, DURATION_MS);
 
     expect(session.status).toBe("Running");
     expect(remainingMs(session, T0, DURATION_MS)).toBe(DURATION_MS);
@@ -28,7 +27,7 @@ describe("Play", () => {
 
 describe("Pause", () => {
   it("freezes the remaining time from Running", () => {
-    const running = play(idleSession, clock);
+    const running = play(idleSession, T0, DURATION_MS);
     const paused = pause(running, T0 + 30_000);
 
     expect(paused.status).toBe("Paused");
@@ -48,8 +47,8 @@ describe("Pause", () => {
 
 describe("Play from Paused", () => {
   it("resumes from the frozen remaining time, not the full duration", () => {
-    const paused = pause(play(idleSession, clock), T0 + 30_000);
-    const resumed = play(paused, { ...clock, now: T0 + 90_000 });
+    const paused = pause(play(idleSession, T0, DURATION_MS), T0 + 30_000);
+    const resumed = play(paused, T0 + 90_000, DURATION_MS);
 
     expect(resumed.status).toBe("Running");
     expect(remainingMs(resumed, T0 + 90_000, DURATION_MS)).toBe(
@@ -60,14 +59,16 @@ describe("Play from Paused", () => {
 
 describe("Stop", () => {
   it("ends a Running session with remaining time forced to 0", () => {
-    const stopped = stop(play(idleSession, clock));
+    const stopped = stop(play(idleSession, T0, DURATION_MS));
 
     expect(stopped.status).toBe("Stopped");
     expect(remainingMs(stopped, T0 + 1_000, DURATION_MS)).toBe(0);
   });
 
   it("ends a Paused session the same way", () => {
-    const stopped = stop(pause(play(idleSession, clock), T0 + 30_000));
+    const stopped = stop(
+      pause(play(idleSession, T0, DURATION_MS), T0 + 30_000),
+    );
 
     expect(stopped.status).toBe("Stopped");
     expect(remainingMs(stopped, T0 + 30_000, DURATION_MS)).toBe(0);
@@ -82,45 +83,47 @@ describe("Stop", () => {
 
 describe("Play after Stopped / Completed", () => {
   it("begins a fresh session at the full configured duration", () => {
-    const stopped = stop(play(idleSession, clock));
-    const restarted = play(stopped, { ...clock, now: T0 + 60_000 });
+    const stopped = stop(play(idleSession, T0, DURATION_MS));
+    const restarted = play(stopped, T0 + 60_000, DURATION_MS);
     expect(remainingMs(restarted, T0 + 60_000, DURATION_MS)).toBe(DURATION_MS);
 
     const completed: Session = { status: "Completed" };
-    const again = play(completed, { ...clock, now: T0 + 60_000 });
+    const again = play(completed, T0 + 60_000, DURATION_MS);
     expect(remainingMs(again, T0 + 60_000, DURATION_MS)).toBe(DURATION_MS);
   });
 });
 
 describe("Restart", () => {
-  const later = { ...clock, now: T0 + 60_000 };
+  const later = T0 + 60_000;
 
   it.each<[string, Session]>([
     ["Idle", idleSession],
-    ["Running", play(idleSession, clock)],
-    ["Paused", pause(play(idleSession, clock), T0 + 30_000)],
+    ["Running", play(idleSession, T0, DURATION_MS)],
+    ["Paused", pause(play(idleSession, T0, DURATION_MS), T0 + 30_000)],
     ["Stopped", { status: "Stopped" }],
     ["Completed", { status: "Completed" }],
   ])(
     "from %s ends the current session and starts a fresh Running one at full duration",
     (_label, from) => {
-      const restarted = restart(from, later);
+      const restarted = restart(from, later, DURATION_MS);
 
       expect(restarted.status).toBe("Running");
-      expect(remainingMs(restarted, later.now, DURATION_MS)).toBe(DURATION_MS);
+      expect(remainingMs(restarted, later, DURATION_MS)).toBe(DURATION_MS);
     },
   );
 
   it("is equivalent to Stop then Play", () => {
-    const paused = pause(play(idleSession, clock), T0 + 30_000);
+    const paused = pause(play(idleSession, T0, DURATION_MS), T0 + 30_000);
 
-    expect(restart(paused, later)).toEqual(play(stop(paused), later));
+    expect(restart(paused, later, DURATION_MS)).toEqual(
+      play(stop(paused), later, DURATION_MS),
+    );
   });
 });
 
 describe("Natural completion (tick)", () => {
   it("keeps Running while time remains and reports no completion", () => {
-    const running = play(idleSession, clock);
+    const running = play(idleSession, T0, DURATION_MS);
     const result = tick(running, T0 + DURATION_MS - 1);
 
     expect(result.session).toBe(running);
@@ -128,7 +131,7 @@ describe("Natural completion (tick)", () => {
   });
 
   it("moves to Completed once the remaining time reaches 0 on its own", () => {
-    const running = play(idleSession, clock);
+    const running = play(idleSession, T0, DURATION_MS);
     const result = tick(running, T0 + DURATION_MS);
 
     expect(result.session.status).toBe("Completed");
@@ -137,7 +140,10 @@ describe("Natural completion (tick)", () => {
   });
 
   it("reports completion only once — ticking a Completed session is quiet", () => {
-    const completed = tick(play(idleSession, clock), T0 + DURATION_MS).session;
+    const completed = tick(
+      play(idleSession, T0, DURATION_MS),
+      T0 + DURATION_MS,
+    ).session;
     const again = tick(completed, T0 + DURATION_MS + 1_000);
 
     expect(again.session).toBe(completed);
@@ -145,7 +151,7 @@ describe("Natural completion (tick)", () => {
   });
 
   it("never reports completion for a Stopped session (Stop is the quiet ending)", () => {
-    const stopped = stop(play(idleSession, clock));
+    const stopped = stop(play(idleSession, T0, DURATION_MS));
     const result = tick(stopped, T0 + DURATION_MS + 1_000);
 
     expect(result.session.status).toBe("Stopped");
@@ -153,7 +159,7 @@ describe("Natural completion (tick)", () => {
   });
 
   it("leaves Paused and Idle sessions untouched no matter how much time passes", () => {
-    const paused = pause(play(idleSession, clock), T0 + 30_000);
+    const paused = pause(play(idleSession, T0, DURATION_MS), T0 + 30_000);
 
     expect(tick(paused, T0 + DURATION_MS * 2)).toEqual({
       session: paused,
@@ -168,7 +174,7 @@ describe("Natural completion (tick)", () => {
 
 describe("Restore after relaunch", () => {
   it("resumes a Running session that still has time left, recomputed from the wall clock", () => {
-    const running = play(idleSession, clock);
+    const running = play(idleSession, T0, DURATION_MS);
     const restored = restore(running, T0 + 60_000);
 
     expect(restored).toBe(running);
@@ -178,7 +184,7 @@ describe("Restore after relaunch", () => {
   });
 
   it("shows a Running session that expired while the app was closed as Completed", () => {
-    const running = play(idleSession, clock);
+    const running = play(idleSession, T0, DURATION_MS);
     const restored = restore(running, T0 + DURATION_MS + 5_000);
 
     expect(restored.status).toBe("Completed");
@@ -190,7 +196,7 @@ describe("Restore after relaunch", () => {
   });
 
   it("brings back Paused / Stopped / Completed / Idle sessions as they were", () => {
-    const paused = pause(play(idleSession, clock), T0 + 30_000);
+    const paused = pause(play(idleSession, T0, DURATION_MS), T0 + 30_000);
     const stopped: Session = { status: "Stopped" };
     const completed: Session = { status: "Completed" };
 

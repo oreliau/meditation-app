@@ -6,8 +6,9 @@ import { StyleSheet } from "react-native-unistyles";
 const hasLiquidGlass = isLiquidGlassAvailable();
 
 // The mockups' `.glass-panel`: real Liquid Glass where the OS offers it
-// (iOS 26+), otherwise a translucent Aura surface with a soft outline so
-// Android/web/older iOS read the same way.
+// (iOS 26+), otherwise DESIGN.md > Elevation's glass layer — a 5-10%
+// `tertiary` fill with a 20% `tertiary` 1px edge — so Android/web/older iOS
+// read the same way without resorting to drop shadows.
 export function GlassPanel({ style, ...props }: ViewProps) {
   if (hasLiquidGlass) {
     return (
@@ -27,13 +28,9 @@ const styles = StyleSheet.create((theme) => ({
     overflow: "hidden",
   },
   fallback: {
-    backgroundColor: theme.colors.surfaceContainerLowest,
+    // Hex alpha suffixes: 14 = 8%, 33 = 20%.
+    backgroundColor: `${theme.colors.tertiary}14`,
     borderWidth: 1,
-    borderColor: theme.colors.outlineVariant,
-    shadowColor: theme.colors.primary,
-    shadowOpacity: 0.15,
-    shadowRadius: 24,
-    shadowOffset: { width: 0, height: 8 },
-    elevation: 6,
+    borderColor: `${theme.colors.tertiary}33`,
   },
 }));

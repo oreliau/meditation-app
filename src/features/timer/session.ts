@@ -18,16 +18,21 @@ export type Session =
   | { status: "Stopped" }
   | { status: "Completed" };
 
-export type Clock = {
-  now: number;
-  durationMs: number;
-};
-
 export const idleSession: Session = { status: "Idle" };
+
+// A session that is underway — Running or Paused — as opposed to one that
+// hasn't started (Idle) or has already ended (Stopped/Completed).
+export function isActive(session: Session): boolean {
+  return session.status === "Running" || session.status === "Paused";
+}
 
 // Play resumes a Paused session where it left off; from any other state it
 // begins a fresh session at the full configured duration.
-export function play(session: Session, { now, durationMs }: Clock): Session {
+export function play(
+  session: Session,
+  now: number,
+  durationMs: number,
+): Session {
   if (session.status === "Running") {
     return session;
   }
@@ -49,7 +54,7 @@ export function pause(session: Session, now: number): Session {
 // Stop is the quiet ending: remaining time drops to 0 immediately and — unlike
 // Completed — no completion feedback follows (see CONTEXT.md > Stopped).
 export function stop(session: Session): Session {
-  if (session.status !== "Running" && session.status !== "Paused") {
+  if (!isActive(session)) {
     return session;
   }
 
@@ -58,8 +63,12 @@ export function stop(session: Session): Session {
 
 // Restart both ends and begins a session (CONTEXT.md > Restart): from any
 // state it yields a fresh Running session at the full configured duration.
-export function restart(session: Session, clock: Clock): Session {
-  return play(stop(session), clock);
+export function restart(
+  session: Session,
+  now: number,
+  durationMs: number,
+): Session {
+  return play(stop(session), now, durationMs);
 }
 
 export type TickResult = {

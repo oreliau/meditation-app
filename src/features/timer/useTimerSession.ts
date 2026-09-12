@@ -2,8 +2,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { AppState } from "react-native";
 import { DEFAULT_DURATION_MINUTES, type DurationMinutes } from "./durations";
 import {
-  type Clock,
   idleSession,
+  isActive,
   pause,
   play,
   remainingMs,
@@ -28,10 +28,12 @@ const TICK_MS = 250;
 
 export type TimerSession = {
   status: SessionStatus;
+  // Running or Paused: there is a session underway that Stop can end.
+  isActive: boolean;
   remainingSeconds: number;
   durationMinutes: DurationMinutes;
   // The picker only applies before a session starts (Idle) or after one has
-  // ended (Stopped/Completed); it's locked while Running/Paused.
+  // ended (Stopped/Completed); it's locked while a session is active.
   canChangeDuration: boolean;
   setDurationMinutes: (minutes: DurationMinutes) => void;
   play: () => void;
@@ -52,10 +54,6 @@ function minutesToMs(minutes: number): number {
 
 function toSeconds(ms: number): number {
   return Math.ceil(ms / 1000);
-}
-
-function isDurationLocked(session: Session): boolean {
-  return session.status === "Running" || session.status === "Paused";
 }
 
 export function useTimerSession({
@@ -81,6 +79,12 @@ export function useTimerSession({
     onCompletedRef.current = onCompleted;
   }, [onCompleted]);
 
+  // restore() may have moved a stored Running session to Completed; write
+  // that back so storage never lags behind what the user was shown.
+  useEffect(() => {
+    persistSession(sessionRef.current);
+  }, []);
+
   const syncRemaining = useCallback((next: Session, now: number) => {
     setRemainingSeconds(
       toSeconds(
@@ -97,14 +101,6 @@ export function useTimerSession({
       syncRemaining(next, now);
     },
     [syncRemaining],
-  );
-
-  const clock = useCallback(
-    (): Clock => ({
-      now: Date.now(),
-      durationMs: minutesToMs(durationMinutesRef.current),
-    }),
-    [],
   );
 
   const advance = useCallback(() => {
@@ -145,7 +141,7 @@ export function useTimerSession({
 
   const setDurationMinutes = useCallback(
     (minutes: DurationMinutes) => {
-      if (isDurationLocked(sessionRef.current)) {
+      if (isActive(sessionRef.current)) {
         return;
       }
 
@@ -158,9 +154,12 @@ export function useTimerSession({
   );
 
   const handlePlay = useCallback(() => {
-    const now = clock();
-    commit(play(sessionRef.current, now), now.now);
-  }, [clock, commit]);
+    const now = Date.now();
+    commit(
+      play(sessionRef.current, now, minutesToMs(durationMinutesRef.current)),
+      now,
+    );
+  }, [commit]);
 
   const handlePause = useCallback(() => {
     const now = Date.now();
@@ -172,15 +171,19 @@ export function useTimerSession({
   }, [commit]);
 
   const handleRestart = useCallback(() => {
-    const now = clock();
-    commit(restart(sessionRef.current, now), now.now);
-  }, [clock, commit]);
+    const now = Date.now();
+    commit(
+      restart(sessionRef.current, now, minutesToMs(durationMinutesRef.current)),
+      now,
+    );
+  }, [commit]);
 
   return {
     status: session.status,
+    isActive: isActive(session),
     remainingSeconds,
     durationMinutes,
-    canChangeDuration: !isDurationLocked(session),
+    canChangeDuration: !isActive(session),
     setDurationMinutes,
     play: handlePlay,
     pause: handlePause,

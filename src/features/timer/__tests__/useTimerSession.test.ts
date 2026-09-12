@@ -1,4 +1,5 @@
 import { act, renderHook } from "@testing-library/react";
+import { AppState, type AppStateStatus } from "react-native";
 import { timerStorage } from "../storage";
 import { useTimerSession } from "../useTimerSession";
 
@@ -48,6 +49,39 @@ describe("useTimerSession", () => {
       jest.advanceTimersByTime(5 * 60 * 1_000);
     });
     expect(result.current.remainingSeconds).toBe(7 * 60 - 1);
+  });
+
+  it("re-syncs from the wall clock the moment the app returns to the foreground", () => {
+    // jest-expo mocks AppState; capture the listener the hook registers so the
+    // test can play the OS: timers stall while backgrounded, then "active".
+    const listeners: Array<(state: AppStateStatus) => void> = [];
+    const addEventListener = AppState.addEventListener as jest.Mock;
+    addEventListener.mockImplementationOnce((_type, listener) => {
+      listeners.push(listener);
+      return { remove: jest.fn() };
+    });
+    const onCompleted = jest.fn();
+    const { result } = renderHook(() => useTimerSession({ onCompleted }));
+
+    act(() => {
+      result.current.play();
+    });
+    // Wall clock advances 2 min without any timer firing (backgrounded).
+    jest.setSystemTime(T0 + 2 * 60 * 1_000);
+    expect(result.current.remainingSeconds).toBe(12 * 60);
+
+    act(() => {
+      for (const listener of listeners) listener("active");
+    });
+    expect(result.current.remainingSeconds).toBe(10 * 60);
+
+    // Expiring while suspended completes (with feedback) on return.
+    jest.setSystemTime(T0 + 13 * 60 * 1_000);
+    act(() => {
+      for (const listener of listeners) listener("active");
+    });
+    expect(result.current.status).toBe("Completed");
+    expect(onCompleted).toHaveBeenCalledTimes(1);
   });
 
   it("fires onCompleted exactly once when the session reaches 0 on its own", () => {

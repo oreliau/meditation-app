@@ -3,7 +3,6 @@ import { Stack } from "expo-router";
 import { ScrollView, Text, View } from "react-native";
 import { StyleSheet, useUnistyles } from "react-native-unistyles";
 import { ControlButton } from "@/features/timer/ControlButton";
-import { useCompletionFeedback } from "@/features/timer/completionFeedback";
 import {
   DURATION_PRESETS_MINUTES,
   formatClock,
@@ -11,6 +10,7 @@ import {
 } from "@/features/timer/durations";
 import { GlassPanel } from "@/features/timer/GlassPanel";
 import type { SessionStatus } from "@/features/timer/session";
+import { useCompletionFeedback } from "@/features/timer/useCompletionFeedback";
 import { useTimerSession } from "@/features/timer/useTimerSession";
 
 // UI copy uses the CONTEXT.md session vocabulary verbatim; only Completed
@@ -29,13 +29,12 @@ export default function TimerScreen() {
   const session = useTimerSession({ onCompleted: playCompletionFeedback });
 
   const isRunning = session.status === "Running";
-  const canStop = isRunning || session.status === "Paused";
 
   return (
     <>
       <Stack.Screen
         options={{
-          title: "Aura",
+          title: "Lumina Flow",
           headerShadowVisible: false,
           headerStyle: { backgroundColor: theme.colors.background },
           headerTintColor: theme.colors.primary,
@@ -115,7 +114,7 @@ export default function TimerScreen() {
             icon="stop"
             label="Stop"
             onPress={session.stop}
-            disabled={!canStop}
+            disabled={!session.isActive}
           />
         </View>
       </ScrollView>
@@ -138,11 +137,12 @@ const styles = StyleSheet.create((theme) => ({
     paddingVertical: theme.spacing.sectionGap,
     gap: theme.spacing.sectionGap,
   },
+  // DESIGN.md > Typography > Hierarchy: a "wide-tracked uppercase Label".
   status: {
-    fontFamily: theme.typography.bodyLg.fontFamily,
+    fontFamily: theme.typography.labelMd.fontFamily,
     fontSize: theme.typography.bodyLg.fontSize,
     lineHeight: theme.typography.bodyLg.lineHeight,
-    letterSpacing: 4,
+    letterSpacing: theme.typography.labelMd.letterSpacing * 2,
     textTransform: "uppercase",
     color: theme.colors.tertiary,
   },
@@ -191,7 +191,7 @@ const styles = StyleSheet.create((theme) => ({
     fontFamily: theme.typography.labelMd.fontFamily,
     fontSize: theme.typography.labelMd.fontSize,
     lineHeight: theme.typography.labelMd.lineHeight,
-    letterSpacing: 3,
+    letterSpacing: theme.typography.labelMd.letterSpacing * 2,
     textTransform: "uppercase",
     color: theme.colors.onSurfaceVariant,
   },
