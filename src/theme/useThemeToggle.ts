@@ -1,11 +1,11 @@
 import { useCallback, useState } from "react";
-import { UnistylesRuntime } from "react-native-unistyles";
 import {
   getPersistedThemeOverride,
   THEME_OVERRIDE_KEY,
   type ThemeOverride,
   themeStorage,
 } from "./storage";
+import { getThemeRuntime } from "./ThemeRuntime";
 
 // "system" here is the domain term Adaptive mode; "light"/"dark" are a
 // Manual override (see CONTEXT.md). The cycle always returns to "system" so
@@ -27,14 +27,15 @@ export function useThemeToggle() {
 
   const cycle = useCallback(() => {
     const next = nextMode[mode];
+    const runtime = getThemeRuntime();
 
     if (next === "system") {
       themeStorage.remove(THEME_OVERRIDE_KEY);
-      UnistylesRuntime.setAdaptiveThemes(true);
+      runtime.setAdaptiveMode(true);
     } else {
       themeStorage.set(THEME_OVERRIDE_KEY, next);
-      UnistylesRuntime.setAdaptiveThemes(false);
-      UnistylesRuntime.setTheme(next);
+      runtime.setAdaptiveMode(false);
+      runtime.setTheme(next);
     }
 
     setMode(next);
