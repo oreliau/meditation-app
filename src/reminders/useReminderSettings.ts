@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { ensureNotificationPermission } from "./permission";
 import { reminders } from "./reminderRegistry";
 import {
@@ -29,35 +29,26 @@ export function useReminderSettings(): ReminderSettings {
 
   // One flow for every reminder: just-in-time permission, then persist and
   // schedule (or cancel).
-  const setEnabled = useCallback(
-    async (reminder: ReminderId, value: boolean) => {
-      if (!value) {
-        setReminderEnabled(reminder, false);
-        setEnabledState((s) => ({ ...s, [reminder]: false }));
-        setPermissionDenied(false);
-        await reminders[reminder].cancel();
-        return;
-      }
-      const granted = await ensureNotificationPermission();
-      setPermissionDenied(!granted);
-      if (!granted) {
-        return;
-      }
-      setReminderEnabled(reminder, true);
-      setEnabledState((s) => ({ ...s, [reminder]: true }));
-      await reminders[reminder].schedule();
-    },
-    [],
-  );
+  async function setEnabled(reminder: ReminderId, value: boolean) {
+    if (!value) {
+      setReminderEnabled(reminder, false);
+      setEnabledState((s) => ({ ...s, [reminder]: false }));
+      setPermissionDenied(false);
+      await reminders[reminder].cancel();
+      return;
+    }
+    const granted = await ensureNotificationPermission();
+    setPermissionDenied(!granted);
+    if (!granted) {
+      return;
+    }
+    setReminderEnabled(reminder, true);
+    setEnabledState((s) => ({ ...s, [reminder]: true }));
+    await reminders[reminder].schedule();
+  }
 
-  const setMorningEnabled = useCallback(
-    (value: boolean) => setEnabled("morning", value),
-    [setEnabled],
-  );
-  const setEveningEnabled = useCallback(
-    (value: boolean) => setEnabled("evening", value),
-    [setEnabled],
-  );
+  const setMorningEnabled = (value: boolean) => setEnabled("morning", value);
+  const setEveningEnabled = (value: boolean) => setEnabled("evening", value);
 
   return {
     morningEnabled: enabled.morning,
