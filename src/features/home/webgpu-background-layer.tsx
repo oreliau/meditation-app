@@ -58,7 +58,8 @@ export default function WebGpuBackgroundLayer({
     async function initialize() {
       try {
         if (!("gpu" in navigator) || !navigator.gpu) {
-          throw new Error("WebGPU is unavailable");
+          fail();
+          return;
         }
 
         const adapter = await navigator.gpu.requestAdapter({
@@ -66,7 +67,7 @@ export default function WebGpuBackgroundLayer({
         });
         if (!adapter || cancelled) {
           if (!cancelled) {
-            throw new Error("No WebGPU adapter is available");
+            fail();
           }
           return;
         }
@@ -81,7 +82,8 @@ export default function WebGpuBackgroundLayer({
 
         context = canvasRef.current?.getContext("webgpu") ?? undefined;
         if (!context) {
-          throw new Error("The WebGPU canvas could not be initialized");
+          fail();
+          return;
         }
 
         const canvas = context.canvas as HTMLCanvasElement;
@@ -98,9 +100,8 @@ export default function WebGpuBackgroundLayer({
           (message) => message.type === "error",
         );
         if (compilationErrors.length > 0) {
-          throw new Error(
-            `Background shader compilation failed: ${compilationErrors.map((message) => message.message).join("; ")}`,
-          );
+          fail();
+          return;
         }
 
         const pipeline = await device.createRenderPipelineAsync({

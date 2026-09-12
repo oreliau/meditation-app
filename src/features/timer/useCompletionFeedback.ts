@@ -4,7 +4,7 @@ import {
   setAudioModeAsync,
 } from "expo-audio";
 import * as Haptics from "expo-haptics";
-import { useCallback, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 // PLACEHOLDER tone (ADR-0003): a generated 0.7 s sine "ding", not a designed
 // bell. Swap the asset here when the real sound is specified.
@@ -35,7 +35,7 @@ export function useCompletionFeedback(): () => void {
     };
   }, []);
 
-  return useCallback(() => {
+  return () => {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(
       () => {
         // Haptics are best-effort: unsupported devices/browsers stay silent.
@@ -54,5 +54,5 @@ export function useCompletionFeedback(): () => void {
         // Same for audio: a failed seek/play must never break the session.
       },
     );
-  }, []);
+  };
 }

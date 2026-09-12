@@ -8,11 +8,17 @@ LABEL com.docker.sandboxes="templates" \
 
 USER root
 
-RUN apt-get update && curl -fsSL https://deb.nodesource.com/setup_24.x | bash - \
+ARG NODESOURCE_SETUP_SHA256=6e3d580f5bd7ccf2aa1e8df8d35c60d78e873c3ff8beb282c9bebd914904ad72
+
+RUN curl -fsSL https://deb.nodesource.com/setup_24.x -o /tmp/nodesource-setup.sh \
+	&& echo "${NODESOURCE_SETUP_SHA256}  /tmp/nodesource-setup.sh" | sha256sum --check --strict \
+	&& bash /tmp/nodesource-setup.sh \
+	&& rm /tmp/nodesource-setup.sh \
+	&& apt-get update \
 	&& apt-get install -y nodejs \
 	&& rm -rf /var/lib/apt/lists/*
 
-RUN npm install -g corepack \
+RUN npm install -g corepack@0.36.0 \
 	&& corepack enable pnpm
 
 RUN mkdir -p /home/agent/.codex \
