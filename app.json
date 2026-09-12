@@ -50,11 +50,12 @@
       "expo-image",
       "expo-audio",
       "expo-asset",
+      "expo-status-bar",
       "react-native-webgpu"
     ],
     "experiments": {
-      "typedRoutes": true,
-      "reactCompiler": true
+      "reactCompiler": true,
+      "typedRoutes": true
     }
   }
 }
