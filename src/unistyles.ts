@@ -2,6 +2,8 @@ import { StyleSheet } from "react-native-unistyles";
 import { breakpoints } from "./theme/breakpoints";
 import { appThemes } from "./theme/index";
 import { getPersistedThemeOverride } from "./theme/storage";
+import { setThemeRuntime } from "./theme/ThemeRuntime";
+import { createUnistylesAdapter } from "./theme/UnistylesAdapter";
 
 type AppThemes = typeof appThemes;
 type AppBreakpoints = typeof breakpoints;
@@ -23,3 +25,6 @@ StyleSheet.configure({
     ? { initialTheme: persistedOverride }
     : { adaptiveThemes: true },
 });
+
+// Initialize the theme runtime adapter (decouples domain logic from unistyles)
+setThemeRuntime(createUnistylesAdapter());
