@@ -20,7 +20,8 @@ export function useCompletionFeedback(): () => void {
   // constructs an HTMLAudioElement, which doesn't exist while Expo Router
   // prerenders this route server-side. Effects never run there.
   useEffect(() => {
-    // ADR-0003: the chime must survive the iOS silent switch.
+    // A meditation is typically run with the ringer muted; without this the
+    // chime is silently swallowed by the iOS silent switch (ADR-0003).
     setAudioModeAsync({ playsInSilentMode: true }).catch(() => {
       // Best-effort; unsupported platforms ignore audio mode.
     });
