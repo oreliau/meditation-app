@@ -1,6 +1,7 @@
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
+import { SessionCompletionFeedback } from "@/features/timer/SessionCompletionFeedback";
 import { useLoadFonts } from "@/theme/useLoadFonts";
 
 SplashScreen.preventAutoHideAsync();
@@ -18,5 +19,10 @@ export default function RootLayout() {
     return null;
   }
 
-  return <Stack />;
+  return (
+    <>
+      <Stack />
+      <SessionCompletionFeedback />
+    </>
+  );
 }

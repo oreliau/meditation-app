@@ -47,7 +47,9 @@
           ]
         }
       ],
-      "expo-image"
+      "expo-image",
+      "expo-audio",
+      "expo-asset"
     ],
     "experiments": {
       "typedRoutes": true,
