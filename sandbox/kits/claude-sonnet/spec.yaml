@@ -26,6 +26,7 @@ permissions:
       - cdp.exp.host
       - reactnative.directory
       - deb.nodesource.com
+      - cdp.expo.dev
 
 sandbox:
   command:

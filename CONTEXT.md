@@ -45,3 +45,17 @@ The session state after the remaining time reached zero on its own, without bein
 **Restart**:
 Ending the current session early and immediately beginning a new one at the full configured duration.
 _Avoid_: Reset (Restart both ends and begins a session, not just zeroes a clock)
+
+### Daily Reminders
+
+**Daily stats**:
+The aggregate count and total duration of Sessions Completed on a given device-local calendar day. An aggregate only — not a per-session history or log.
+_Avoid_: History, log, session log (those imply a per-session record, which this deliberately is not)
+
+**Morning presence reminder**:
+The 8am local notification carrying a rotating, on-device-selected motivational sentence about presence. "On-device" here means no network call and no real AI/LLM inference — content comes from a bundled curated set, not generation.
+_Avoid_: AI reminder, AI notification (no LLM is involved)
+
+**Evening summary**:
+The 6pm local notification reflecting that day's Daily stats in a reflective, personalized tone, or a generic gentle nudge on a day with no Daily stats.
+_Avoid_: Daily summary (reserve "Daily stats" for the underlying data, "Evening summary" for the notification presenting it)
