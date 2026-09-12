@@ -1,5 +1,6 @@
 import { UnistylesRuntime } from "react-native-unistyles";
 import type { ThemeRuntime } from "./ThemeRuntime";
+import type { ThemeName } from "./types";
 
 export function createUnistylesAdapter(): ThemeRuntime {
   return {
@@ -7,7 +8,7 @@ export function createUnistylesAdapter(): ThemeRuntime {
       UnistylesRuntime.setAdaptiveThemes(enabled);
     },
 
-    setTheme(name: "light" | "dark"): void {
+    setTheme(name: ThemeName): void {
       UnistylesRuntime.setTheme(name);
     },
   };

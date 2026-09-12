@@ -1,9 +1,8 @@
-import { renderHook, act } from "@testing-library/react";
-import { useThemeToggle } from "../useThemeToggle";
-import { setThemeRuntime } from "../ThemeRuntime";
+import { act, renderHook } from "@testing-library/react";
 import type { ThemeRuntime } from "../ThemeRuntime";
+import { setThemeRuntime } from "../ThemeRuntime";
+import { useThemeToggle } from "../useThemeToggle";
 
-// Mock implementation of ThemeRuntime for testing
 const createMockRuntime = () => {
   const calls: Array<{ method: string; args: unknown[] }> = [];
 
@@ -20,16 +19,14 @@ const createMockRuntime = () => {
 };
 
 describe("useThemeToggle", () => {
+  let mockRuntime: ReturnType<typeof createMockRuntime>;
+
   beforeEach(() => {
-    // Initialize with mock runtime before each test
-    const { runtime } = createMockRuntime();
-    setThemeRuntime(runtime);
+    mockRuntime = createMockRuntime();
+    setThemeRuntime(mockRuntime.runtime);
   });
 
   it("cycles through theme modes: system -> light -> dark -> system", () => {
-    const { runtime, calls } = createMockRuntime();
-    setThemeRuntime(runtime);
-
     const { result } = renderHook(() => useThemeToggle());
 
     expect(result.current.mode).toBe("system");
@@ -39,11 +36,11 @@ describe("useThemeToggle", () => {
       result.current.cycle();
     });
     expect(result.current.mode).toBe("light");
-    expect(calls).toContainEqual({
+    expect(mockRuntime.calls).toContainEqual({
       method: "setAdaptiveMode",
       args: [false],
     });
-    expect(calls).toContainEqual({
+    expect(mockRuntime.calls).toContainEqual({
       method: "setTheme",
       args: ["light"],
     });
@@ -59,19 +56,13 @@ describe("useThemeToggle", () => {
       result.current.cycle();
     });
     expect(result.current.mode).toBe("system");
-    expect(calls).toContainEqual({
+    expect(mockRuntime.calls).toContainEqual({
       method: "setAdaptiveMode",
       args: [true],
     });
   });
 
   it("does not require UnistylesRuntime to test", () => {
-    // This test runs without importing UnistylesRuntime at all,
-    // demonstrating the decoupling benefit. Before the refactor,
-    // testing this hook was coupled to the react-native-unistyles library.
-    const { runtime } = createMockRuntime();
-    setThemeRuntime(runtime);
-
     const { result } = renderHook(() => useThemeToggle());
     expect(result.current.mode).toBe("system");
 
