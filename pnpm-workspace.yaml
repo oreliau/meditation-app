@@ -1,9 +1,28 @@
+minimumReleaseAge: 10080
+trustPolicy: no-downgrade
+trustPolicyExclude:
+  - semver@6.3.1
+  - ua-parser-js@0.7.41
+  - ua-parser-js@1.0.41
 minimumReleaseAgeExclude:
+  - '@biomejs/biome@2.5.13'
+  - '@biomejs/cli-darwin-arm64@2.5.13'
+  - '@biomejs/cli-darwin-x64@2.5.13'
+  - '@biomejs/cli-linux-arm64-musl@2.5.13'
+  - '@biomejs/cli-linux-arm64@2.5.13'
+  - '@biomejs/cli-linux-x64-musl@2.5.13'
+  - '@biomejs/cli-linux-x64@2.5.13'
+  - '@biomejs/cli-win32-arm64@2.5.13'
+  - '@biomejs/cli-win32-x64@2.5.13'
+  - '@expo/metro-file-map@57.0.3'
   - '@expo/cli@57.0.24'
   - '@expo/fingerprint@0.20.13'
   - '@expo/prebuild-config@57.0.16'
   - '@expo/ui@57.0.18'
+  - babel-preset-expo@57.0.11
+  - expo-application@57.0.3
   - expo-asset@57.0.17
+  - expo-audio@57.0.5
   - expo-constants@57.0.18
   - expo-dev-client@57.0.19
   - expo-dev-launcher@57.0.20
@@ -11,6 +30,7 @@ minimumReleaseAgeExclude:
   - expo-file-system@57.0.7
   - expo-font@57.0.4
   - expo-glass-effect@57.0.3
+  - expo-haptics@57.0.3
   - expo-image@57.0.5
   - expo-json-utils@57.0.2
   - expo-keep-awake@57.0.2
@@ -18,6 +38,8 @@ minimumReleaseAgeExclude:
   - expo-manifests@57.0.2
   - expo-modules-autolinking@57.0.13
   - expo-modules-core@57.0.18
+  - expo-modules-jsi@57.1.0
+  - expo-notifications@57.0.18
   - expo-router@57.0.21
   - expo-splash-screen@57.0.9
   - expo-symbols@57.0.3
@@ -25,3 +47,8 @@ minimumReleaseAgeExclude:
   - expo-updates-interface@57.0.2
   - expo-web-browser@57.0.3
   - expo@57.0.22
+  - lint-staged@17.5.1
+  - react-is@19.3.0
+  - react-native-webgpu@0.10.0
+  - react-test-renderer@19.3.0
+  - scheduler@0.28.0
