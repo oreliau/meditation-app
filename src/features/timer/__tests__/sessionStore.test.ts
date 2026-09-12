@@ -117,7 +117,7 @@ describe("createSessionStore", () => {
     expect(onCompleted).toHaveBeenCalledTimes(1);
   });
 
-  it("keeps ticking and completes even with no subscribers (screen unmounted)", () => {
+  it("preserves an active Session when the Timer tab screen unmounts", () => {
     const onCompleted = jest.fn();
     const store = createSessionStore();
     const unsubscribe = store.subscribe(jest.fn());
