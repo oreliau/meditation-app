@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Aura - Meditation Timer</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Playfair+Display:ital,wght@0,500;0,600;1,500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#332a1a",
+                        "surface-container-high": "#eae8e4",
+                        "soft-amber": "#E9A85D",
+                        "on-primary-fixed": "#390b00",
+                        "surface-variant": "#e4e2de",
+                        "on-primary-container": "#541400",
+                        "inverse-primary": "#ffb59e",
+                        "surface-container-low": "#f5f3ef",
+                        "surface-container": "#efeeea",
+                        "on-surface": "#1b1c1a",
+                        "primary-fixed-dim": "#ffb59e",
+                        "error": "#ba1a1a",
+                        "secondary": "#85530d",
+                        "tertiary-container": "#9f907b",
+                        "secondary-fixed": "#ffddbb",
+                        "secondary-fixed-dim": "#fdb96c",
+                        "outline-variant": "#dbc1b9",
+                        "outline": "#88726c",
+                        "on-tertiary": "#ffffff",
+                        "background": "#fbf9f5",
+                        "tertiary-fixed": "#f2e0c8",
+                        "cream-surface": "#FFFDF9",
+                        "on-error-container": "#93000a",
+                        "surface-tint": "#99462a",
+                        "surface-dim": "#dbdad6",
+                        "terracotta": "#D97757",
+                        "surface": "#fbf9f5",
+                        "on-secondary-container": "#774800",
+                        "error-container": "#ffdad6",
+                        "inverse-on-surface": "#f2f0ed",
+                        "on-primary-fixed-variant": "#7a2f15",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary": "#695d4a",
+                        "primary-container": "#d97757",
+                        "on-tertiary-fixed-variant": "#504534",
+                        "surface-container-highest": "#e4e2de",
+                        "on-secondary-fixed": "#2b1700",
+                        "on-error": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "on-background": "#1b1c1a",
+                        "tertiary-fixed-dim": "#d5c4ad",
+                        "on-secondary": "#ffffff",
+                        "on-surface-variant": "#55433d",
+                        "primary": "#99462a",
+                        "on-tertiary-fixed": "#231a0c",
+                        "secondary-container": "#fdb96c",
+                        "earth-container": "#F5F0E6",
+                        "inverse-surface": "#30312e",
+                        "on-secondary-fixed-variant": "#673d00",
+                        "primary-fixed": "#ffdbd0",
+                        "earth-on-surface": "#433D35",
+                        "surface-bright": "#fbf9f5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding-desktop": "64px",
+                        "gutter": "16px",
+                        "section-gap": "48px",
+                        "unit": "8px",
+                        "container-padding-mobile": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Playfair Display"],
+                        "headline-md-mobile": ["Playfair Display"],
+                        "title-lg": ["Inter"],
+                        "display-lg-mobile": ["Playfair Display"],
+                        "caption": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "display-lg": ["Playfair Display"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["32px", { "lineHeight": "40px", "fontWeight": "500" }],
+                        "headline-md-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "500" }],
+                        "title-lg": ["20px", { "lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "caption": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .breathing-circle {
+            animation: breathe 8s infinite ease-in-out;
+        }
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.4); opacity: 0.4; }
+        }
+        
+        /* Background subtle animated gradient to replace shader if absent */
+        .ambient-bg {
+            background: linear-gradient(120deg, #fbf9f5 0%, #f5f3ef 50%, #f2e0c8 100%);
+            background-size: 200% 200%;
+            animation: bgShift 15s ease infinite;
+        }
+        @keyframes bgShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md h-screen w-screen overflow-hidden flex">
+<!-- Ambient Background Layer -->
+<div class="absolute inset-0 z-0 ambient-bg"></div>
+<!-- JSON: SideNavBar (Semantic Shell) -->
+<nav class="hidden lg:flex flex-col h-screen p-6 gap-8 border-r border-outline-variant/30 bg-earth-container dark:bg-surface-container-low/50 backdrop-blur-xl shadow-xl docked left-0 w-64 fixed z-20">
+<!-- Header -->
+<div class="flex flex-col items-center gap-2 mt-4">
+<img alt="Aura brand icon" class="w-12 h-12 rounded-full object-cover shadow-sm mb-2" data-alt="A minimalist, stylized abstract lotus flower or sunburst icon representing inner peace and serenity. Designed in warm terracotta tones on a clean, soft cream background, reflecting a nurturing and organic sanctuary aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsw97BeSGZ2qs3Ju7TUXWy5HMFyAXn2K8rMzeiP-xvWNbj0uxF9JBqp1ajGEUW-ldq0o2VROBZADqW_A4bx__JI3kpTEf8jRvZTEDwRL_5uhYSceqpJ0s1RltTyl5NVonKygHwasVyG6nc95cXsh-7eBUPhuU0OeOswRrNL74PYp2Q1bTL2872zX9mZQ4nF9cPvAeYpYizZwkkbpibcqCQ5saPItwQ3oWIvL0sZs6i16qycp-FW8f9"/>
+<h1 class="font-headline-md text-headline-md text-primary dark:text-primary-fixed">Aura</h1>
+<p class="font-caption text-caption text-on-surface-variant">Inner Peace</p>
+</div>
+<!-- Main Navigation Links -->
+<ul class="flex flex-col gap-2 mt-8 flex-1">
+<li>
+<a class="flex items-center gap-4 text-tertiary dark:text-tertiary-fixed-dim px-4 py-3 hover:bg-terracotta/5 hover:text-terracotta transition-all duration-200 rounded-xl scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="spa">spa</span>
+<span class="font-label-md text-label-md">Home</span>
+</a>
+</li>
+<li>
+<!-- ACTIVE STATE: Meditate -->
+<a class="flex items-center gap-4 bg-terracotta/10 text-terracotta dark:text-soft-amber rounded-xl px-4 py-3 font-semibold hover:bg-terracotta/5 hover:text-terracotta transition-all duration-200 scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="self_improvement" style="font-variation-settings: 'FILL' 1;">self_improvement</span>
+<span class="font-label-md text-label-md">Meditate</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-4 text-tertiary dark:text-tertiary-fixed-dim px-4 py-3 hover:bg-terracotta/5 hover:text-terracotta transition-all duration-200 rounded-xl scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="bedtime">bedtime</span>
+<span class="font-label-md text-label-md">Sleep</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-4 text-tertiary dark:text-tertiary-fixed-dim px-4 py-3 hover:bg-terracotta/5 hover:text-terracotta transition-all duration-200 rounded-xl scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</li>
+</ul>
+<!-- Footer Actions -->
+<div class="mt-auto flex flex-col gap-4">
+<button class="w-full bg-terracotta text-on-primary rounded-full py-3 font-label-md text-label-md hover:bg-primary transition-colors shadow-sm mb-4">
+                Go Premium
+            </button>
+<ul class="flex flex-col gap-2">
+<li>
+<a class="flex items-center gap-4 text-tertiary dark:text-tertiary-fixed-dim px-4 py-2 hover:text-terracotta transition-colors text-sm" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="help">help</span>
+<span>Help</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-4 text-tertiary dark:text-tertiary-fixed-dim px-4 py-2 hover:text-terracotta transition-colors text-sm" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="policy">policy</span>
+<span>Privacy</span>
+</a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 lg:ml-64 relative z-10 flex flex-col items-center justify-center p-container-padding-desktop">
+<!-- Breathing Phase Indicator -->
+<div class="mb-16 text-center animate-pulse">
+<h2 class="font-headline-md text-headline-md text-primary tracking-widest uppercase">INHALE</h2>
+</div>
+<!-- Central Timer & Breathing Circle -->
+<div class="relative flex items-center justify-center w-80 h-80 mb-20">
+<!-- Animated Circle -->
+<div class="absolute inset-0 rounded-full bg-tertiary-fixed border border-terracotta/20 breathing-circle shadow-[0_0_60px_rgba(217,119,87,0.15)]"></div>
+<!-- Timer Text -->
+<div class="relative z-10 flex flex-col items-center justify-center bg-surface-container-lowest/40 backdrop-blur-sm rounded-full w-48 h-48 shadow-sm">
+<span class="font-display-lg text-display-lg text-on-surface tabular-nums">12:00</span>
+<span class="font-caption text-caption text-on-surface-variant mt-2">Remaining</span>
+</div>
+</div>
+<!-- Controls Container -->
+<div class="flex items-center gap-12 bg-surface-container-low/60 backdrop-blur-md px-12 py-6 rounded-[2rem] shadow-[0_10px_40px_rgba(105,93,74,0.05)]">
+<!-- Reset Button -->
+<button class="flex flex-col items-center gap-2 group text-on-surface-variant hover:text-terracotta transition-colors">
+<div class="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center group-hover:border-terracotta group-hover:bg-terracotta/5 transition-all">
+<span class="material-symbols-outlined text-[24px]" data-icon="restart_alt">restart_alt</span>
+</div>
+<span class="font-caption text-caption">Reset</span>
+</button>
+<!-- Pause/Play Button (Primary Focus) -->
+<button class="flex flex-col items-center gap-2 group text-on-primary">
+<div class="w-20 h-20 rounded-full bg-terracotta flex items-center justify-center shadow-md group-hover:bg-primary transition-colors transform group-active:scale-95 duration-200">
+<span class="material-symbols-outlined text-[32px]" data-icon="pause" style="font-variation-settings: 'FILL' 1;">pause</span>
+</div>
+</button>
+<!-- Volume Button -->
+<button class="flex flex-col items-center gap-2 group text-on-surface-variant hover:text-terracotta transition-colors">
+<div class="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center group-hover:border-terracotta group-hover:bg-terracotta/5 transition-all">
+<span class="material-symbols-outlined text-[24px]" data-icon="volume_up">volume_up</span>
+</div>
+<span class="font-caption text-caption">Sound</span>
+</button>
+</div>
+</main>
+</body></html>

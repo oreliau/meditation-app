@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Aura - Discovery Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary": "#352072",
+                        "on-secondary-fixed-variant": "#4c388a",
+                        "on-primary-fixed-variant": "#42436b",
+                        "on-primary": "#2b2d53",
+                        "outline": "#918f99",
+                        "tertiary-container": "#122222",
+                        "on-background": "#e3e0f1",
+                        "surface-bright": "#383845",
+                        "surface-container-low": "#1b1a26",
+                        "primary-fixed-dim": "#c2c2f2",
+                        "surface-dim": "#12121d",
+                        "on-tertiary": "#233333",
+                        "tertiary-fixed": "#d4e6e5",
+                        "on-secondary-fixed": "#20015d",
+                        "surface-container": "#1f1e2a",
+                        "secondary-fixed": "#e8deff",
+                        "secondary": "#cdbdff",
+                        "on-secondary-container": "#bda8ff",
+                        "error-container": "#93000a",
+                        "inverse-on-surface": "#302f3b",
+                        "inverse-surface": "#e3e0f1",
+                        "tertiary": "#b8cac9",
+                        "on-tertiary-container": "#798a8a",
+                        "background": "#12121d",
+                        "surface-variant": "#343440",
+                        "on-error": "#690005",
+                        "on-tertiary-fixed": "#0e1e1e",
+                        "surface": "#12121d",
+                        "primary-fixed": "#e1e0ff",
+                        "inverse-primary": "#5a5b84",
+                        "surface-tint": "#c2c2f2",
+                        "on-primary-fixed": "#16173d",
+                        "on-surface": "#e3e0f1",
+                        "tertiary-fixed-dim": "#b8cac9",
+                        "secondary-container": "#4c388a",
+                        "error": "#ffb4ab",
+                        "primary-container": "#1a1b41",
+                        "secondary-fixed-dim": "#cdbdff",
+                        "surface-container-high": "#292935",
+                        "primary": "#c2c2f2",
+                        "outline-variant": "#47464e",
+                        "on-surface-variant": "#c8c5cf",
+                        "surface-container-lowest": "#0d0d18",
+                        "surface-container-highest": "#343440",
+                        "on-tertiary-fixed-variant": "#3a4a49",
+                        "on-error-container": "#ffdad6",
+                        "on-primary-container": "#8283af"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding-mobile": "24px",
+                        "section-gap": "48px",
+                        "unit": "8px",
+                        "gutter": "16px",
+                        "container-padding-desktop": "64px"
+                    },
+                    "fontFamily": {
+                        "headline-md-mobile": ["Playfair Display"],
+                        "body-md": ["Inter"],
+                        "caption": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "display-lg-mobile": ["Playfair Display"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Playfair Display"],
+                        "display-lg": ["Playfair Display"]
+                    },
+                    "fontSize": {
+                        "headline-md-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "caption": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "title-lg": ["20px", { "lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-md": ["32px", { "lineHeight": "40px", "fontWeight": "500" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .glass-panel {
+            background: rgba(186, 165, 255, 0.05);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glow-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle at 50% 0%, rgba(76, 56, 138, 0.15) 0%, rgba(18, 18, 29, 1) 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen overflow-x-hidden pb-[120px]">
+<div class="glow-bg"></div>
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 backdrop-blur-xl bg-surface/5 border-b border-white/10 transition-all duration-500 ease-in-out md:hidden">
+<div class="flex justify-between items-center px-container-padding-mobile py-4">
+<button class="text-primary dark:text-primary-fixed-dim hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined">spa</span>
+</button>
+<h1 class="font-headline-md-mobile text-headline-md-mobile tracking-widest text-primary dark:text-primary-fixed-dim">Aura</h1>
+<button class="text-primary dark:text-primary-fixed-dim hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+</header>
+<!-- Desktop Nav (Hidden on mobile) -->
+<header class="hidden md:flex fixed top-0 w-full z-50 backdrop-blur-xl bg-surface/5 border-b border-white/10 px-container-padding-desktop py-6 justify-between items-center transition-all duration-500 ease-in-out">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim">spa</span>
+<h1 class="font-headline-md text-headline-md tracking-widest text-primary dark:text-primary-fixed-dim">Aura</h1>
+</div>
+<nav class="flex gap-8">
+<a class="font-label-md text-label-md text-primary hover:opacity-80 transition-opacity flex items-center gap-2" href="#"><span class="material-symbols-outlined">explore</span> Explore</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:opacity-80 transition-opacity flex items-center gap-2" href="#"><span class="material-symbols-outlined">self_improvement</span> Sessions</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:opacity-80 transition-opacity flex items-center gap-2" href="#"><span class="material-symbols-outlined">person</span> Profile</a>
+</nav>
+<button class="text-primary dark:text-primary-fixed-dim hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</header>
+<main class="pt-[100px] md:pt-[120px] px-container-padding-mobile md:px-container-padding-desktop max-w-[1200px] mx-auto">
+<!-- Hero: Session of the Day -->
+<section class="mb-section-gap">
+<h2 class="font-title-lg text-title-lg text-on-surface-variant mb-6 md:mb-8">Session of the Day</h2>
+<div class="relative w-full h-[400px] md:h-[500px] rounded-[32px] overflow-hidden group cursor-pointer">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" data-alt="A serene, ethereal landscape at dawn. Soft, misty indigo and lavender light bathes a still, glassy lake surrounded by silhouettes of dark pines. High-end fine art photography style with deep, atmospheric dark mode moodiness. Delicate light mode reflections on the water. Professional, sharp, cinematic composition." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqBSqV1CEWLAWOMnLg84JTzdvcdD7FwBElISgM8dcGwczM_rpnonTigzDyL0Xk9ZMTWcDvJ-pv_0rRwFevN_cZS_pskBpDv2LJed339jSR9aMAlDPq0GU4tN-TJ-p-WhAVH0p1J9gS0aKujICQBU2B_6F8aRFx99T5lmPnO3Ea0WM22G3Qg24rM4uPiIqtJIYlG9q9JpT9jLj5y3GthuNnvG7G25BeC9XCbz8mHs8HkXHvYqZbYF_2"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low/90 via-surface-container-low/40 to-transparent"></div>
+</div>
+<div class="absolute inset-0 z-10 flex flex-col justify-end p-8 md:p-12">
+<div class="flex items-center gap-3 mb-4">
+<span class="glass-panel px-4 py-1.5 rounded-full font-label-md text-label-md text-primary-fixed-dim border border-primary-fixed-dim/30">Guided Meditation</span>
+<span class="font-label-md text-label-md text-on-surface-variant">15 min</span>
+</div>
+<h3 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface mb-2">Morning Clarity</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md mb-8">Begin your day with purpose. Clear the mental fog and set a calm, focused intention for the hours ahead.</p>
+<button class="self-start glass-panel hover:bg-white/10 transition-colors duration-300 rounded-full p-4 flex items-center gap-3 border border-primary-fixed-dim/50 group/btn">
+<div class="bg-primary-fixed-dim text-surface-container-low rounded-full p-2 group-hover/btn:scale-110 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</div>
+<span class="font-label-md text-label-md pr-4 text-on-surface">Begin Session</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Categories Section -->
+<section class="mb-section-gap">
+<h2 class="font-title-lg text-title-lg text-on-surface-variant mb-6">Explore Journeys</h2>
+<div class="flex overflow-x-auto hide-scrollbar gap-6 pb-8 -mx-container-padding-mobile px-container-padding-mobile md:mx-0 md:px-0">
+<!-- Card 1 -->
+<div class="flex-none w-[280px] h-[360px] glass-panel rounded-2xl overflow-hidden relative group cursor-pointer p-4 flex flex-col">
+<div class="w-full h-[200px] rounded-xl overflow-hidden relative mb-4">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Abstract, macro photography of soft, flowing silk fabric in deep indigo and dark lavender tones. Gentle, undulating curves reminiscent of deep sleep and relaxation. Elegant, minimalist aesthetic with subtle edge lighting emphasizing the texture against a dark background. Very serene and premium feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqxYrzjnq9f_ZEIo6AgBKZvFqtDjAtNflfImW6bv2N7rOoLsnLFn0W_JuXemLfjB_5Ci5fEgitYLi81QTSmrJeNh6diXNq6y3QmZ2QzznXCdUwy8iCYQhxh8mLugNOa4btk7VpUEs7tpzbRzvzv7nbgNlg4K5hkmC4vKqYJP4ZDXAE6pqegMVK-UxtXLNIakPsLpX5nbF_ABghMBRhq0H9SN3Q_Q5HiY-EvUQAdT1tGt8ACaWGt_U9"/>
+<div class="absolute inset-0 bg-black/20"></div>
+</div>
+<div class="mt-auto px-2 pb-2">
+<h4 class="font-headline-md-mobile text-headline-md-mobile text-on-surface mb-1">Sommeil</h4>
+<p class="font-caption text-caption text-on-surface-variant">Deep rest &amp; recovery</p>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="flex-none w-[280px] h-[360px] glass-panel rounded-2xl overflow-hidden relative group cursor-pointer p-4 flex flex-col">
+<div class="w-full h-[200px] rounded-xl overflow-hidden relative mb-4">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Minimalist abstract representation of a quiet mind. Soft, blurred light leaks in muted teal and pale mint mist against a deep, dark tertiary container background. Slow, fluid motion implied in the still image. Calming, spacious, and highly atmospheric. High-end digital art style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwp2F4ugVKfM6USNpFaYheLzaarpFJ8DVrcGVhzbTHUfHzyiEVFU_RLlObllm0gQN1o3eB3N-nFto7MxlC_E4QYwbrWkFkPwaThRQsFAspsJsXRbHqGiePDJ8EkKNsomIBy2fIG03tECy7pd97yfTcEdA_XlF8UEU9dmXJhcpyv52jX48W54JfRbydUPHexgtdjYxt7ptxJvZaMTyyeNRc-D2UqQjiut3_yXyDpCnWiejrQuCyA2lF"/>
+<div class="absolute inset-0 bg-black/20"></div>
+</div>
+<div class="mt-auto px-2 pb-2">
+<h4 class="font-headline-md-mobile text-headline-md-mobile text-on-surface mb-1">Stress</h4>
+<p class="font-caption text-caption text-on-surface-variant">Release tension</p>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="flex-none w-[280px] h-[360px] glass-panel rounded-2xl overflow-hidden relative group cursor-pointer p-4 flex flex-col">
+<div class="w-full h-[200px] rounded-xl overflow-hidden relative mb-4">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A macro shot of a single drop of water resting on a dark, smooth river stone. The water droplet reflects a sharp, focused point of warm light. The background is a deeply out-of-focus, dark indigo blur. Exudes concentration, clarity, and zen minimalism." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAI888-qAXjza7zBTdKkOp70XYVTgWAvNMjYII6SsJPIDWj0W1Z31d0jZ2YgKbPGJBlHbuAs_zkLaypJnzXgyCZVZ6J03NU8utnlIZj3AC0msgEmbj4EKrlSreSppq7XT1BgN2DiZEZN8iQQkPjtHmtXBfkOiEgd3Rxu1eLNnIItHv7jeeboRVLlfXx5_RtcdYlSjECf6xB_D15Qr8tV5NRr3HKUaMfIt0mnoY6Ip9nxkV7EuRZ6fW"/>
+<div class="absolute inset-0 bg-black/20"></div>
+</div>
+<div class="mt-auto px-2 pb-2">
+<h4 class="font-headline-md-mobile text-headline-md-mobile text-on-surface mb-1">Focus</h4>
+<p class="font-caption text-caption text-on-surface-variant">Sharpen the mind</p>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="flex-none w-[280px] h-[360px] glass-panel rounded-2xl overflow-hidden relative group cursor-pointer p-4 flex flex-col">
+<div class="w-full h-[200px] rounded-xl overflow-hidden relative mb-4">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Ethereal, glowing abstract rings of light floating in a vast, dark space. The light rings are a soft, pale lavender. They convey a sense of breathing, expansion, and contraction. Sophisticated 3D rendering style, perfectly suited for a dark mode meditation interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtNcg30__ReDNySecA-GZ1ftSS9nU-04oWWT3Z0_KOFMXWZc1aM4zniFjJPmVNgu777krT7dkXK8SXjhYOTJ8WLtJEZoZPARFZl2c-ljFdiKGsfQv7Ce3TEoypYUEXuDa843w3t0bLTpw8IrOAwVHJpQz9TIXI0BLXEjMNs6GIFI3VP0zkhb_F2Ls8UYLh7Msfbb6kxy2LrJb7PSr3hBsK01X6fkAcNs3nYJNP8hA1DEXX6Cwr_i_D"/>
+<div class="absolute inset-0 bg-black/20"></div>
+</div>
+<div class="mt-auto px-2 pb-2">
+<h4 class="font-headline-md-mobile text-headline-md-mobile text-on-surface mb-1">Breathe</h4>
+<p class="font-caption text-caption text-on-surface-variant">Find your rhythm</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-8 left-1/2 -translate-x-1/2 w-[calc(100%-48px)] rounded-full max-w-md backdrop-blur-2xl bg-surface-container-low/30 z-50 flex justify-around items-center p-2 shadow-2xl border border-white/20">
+<a class="flex items-center justify-center text-on-surface-variant/60 p-4 hover:text-primary transition-colors duration-300" href="#">
+<span class="material-symbols-outlined">self_improvement</span>
+</a>
+<a class="flex items-center justify-center bg-secondary-container/40 text-secondary-fixed-dim rounded-full p-4 ring-1 ring-white/30 scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">explore</span>
+</a>
+<a class="flex items-center justify-center text-on-surface-variant/60 p-4 hover:text-primary transition-colors duration-300" href="#">
+<span class="material-symbols-outlined">person</span>
+</a>
+</nav>
+</body></html>

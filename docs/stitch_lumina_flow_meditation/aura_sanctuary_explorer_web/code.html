@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Aura Sanctuary - Explore</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Playfair+Display:ital,wght@0,500;0,600;1,500&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration (Provided) -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-container": "#332a1a",
+                    "surface-container-high": "#eae8e4",
+                    "soft-amber": "#E9A85D",
+                    "on-primary-fixed": "#390b00",
+                    "surface-variant": "#e4e2de",
+                    "on-primary-container": "#541400",
+                    "inverse-primary": "#ffb59e",
+                    "surface-container-low": "#f5f3ef",
+                    "surface-container": "#efeeea",
+                    "on-surface": "#1b1c1a",
+                    "primary-fixed-dim": "#ffb59e",
+                    "error": "#ba1a1a",
+                    "secondary": "#85530d",
+                    "tertiary-container": "#9f907b",
+                    "secondary-fixed": "#ffddbb",
+                    "secondary-fixed-dim": "#fdb96c",
+                    "outline-variant": "#dbc1b9",
+                    "outline": "#88726c",
+                    "on-tertiary": "#ffffff",
+                    "background": "#fbf9f5",
+                    "tertiary-fixed": "#f2e0c8",
+                    "cream-surface": "#FFFDF9",
+                    "on-error-container": "#93000a",
+                    "surface-tint": "#99462a",
+                    "surface-dim": "#dbdad6",
+                    "terracotta": "#D97757",
+                    "surface": "#fbf9f5",
+                    "on-secondary-container": "#774800",
+                    "error-container": "#ffdad6",
+                    "inverse-on-surface": "#f2f0ed",
+                    "on-primary-fixed-variant": "#7a2f15",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary": "#695d4a",
+                    "primary-container": "#d97757",
+                    "on-tertiary-fixed-variant": "#504534",
+                    "surface-container-highest": "#e4e2de",
+                    "on-secondary-fixed": "#2b1700",
+                    "on-error": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "on-background": "#1b1c1a",
+                    "tertiary-fixed-dim": "#d5c4ad",
+                    "on-secondary": "#ffffff",
+                    "on-surface-variant": "#55433d",
+                    "primary": "#99462a",
+                    "on-tertiary-fixed": "#231a0c",
+                    "secondary-container": "#fdb96c",
+                    "earth-container": "#F5F0E6",
+                    "inverse-surface": "#30312e",
+                    "on-secondary-fixed-variant": "#673d00",
+                    "primary-fixed": "#ffdbd0",
+                    "earth-on-surface": "#433D35",
+                    "surface-bright": "#fbf9f5"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-padding-desktop": "64px",
+                    "gutter": "16px",
+                    "section-gap": "48px",
+                    "unit": "8px",
+                    "container-padding-mobile": "24px"
+            },
+            "fontFamily": {
+                    "headline-md": [
+                            "Playfair Display"
+                    ],
+                    "headline-md-mobile": [
+                            "Playfair Display"
+                    ],
+                    "title-lg": [
+                            "Inter"
+                    ],
+                    "display-lg-mobile": [
+                            "Playfair Display"
+                    ],
+                    "caption": [
+                            "Inter"
+                    ],
+                    "body-lg": [
+                            "Inter"
+                    ],
+                    "label-md": [
+                            "Inter"
+                    ],
+                    "display-lg": [
+                            "Playfair Display"
+                    ],
+                    "body-md": [
+                            "Inter"
+                    ]
+            },
+            "fontSize": {
+                    "headline-md": [
+                            "32px",
+                            {
+                                    "lineHeight": "40px",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "headline-md-mobile": [
+                            "24px",
+                            {
+                                    "lineHeight": "32px",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "title-lg": [
+                            "20px",
+                            {
+                                    "lineHeight": "28px",
+                                    "letterSpacing": "0.01em",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "display-lg-mobile": [
+                            "32px",
+                            {
+                                    "lineHeight": "40px",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "caption": [
+                            "12px",
+                            {
+                                    "lineHeight": "16px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "body-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "28px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "label-md": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "display-lg": [
+                            "48px",
+                            {
+                                    "lineHeight": "56px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "400"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md text-body-md antialiased overflow-x-hidden min-h-screen flex selection:bg-soft-amber/30">
+<!-- SIDE NAVIGATION BAR -->
+<!-- Name: SideNavBar, Active Tab: Home (closest to "Explore") -->
+<nav class="bg-earth-container dark:bg-surface-container-low font-headline-md text-headline-md font-label-md text-label-md docked left-0 h-full w-64 fixed bg-earth-container/50 dark:bg-surface-container-low/50 backdrop-blur-xl shadow-xl hidden lg:flex flex-col p-6 gap-8 border-r border-outline-variant/30 z-50">
+<!-- Header -->
+<div class="flex items-center gap-3 mt-4">
+<div class="w-10 h-10 rounded-full bg-soft-amber flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">spa</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md text-primary dark:text-primary-fixed m-0 leading-tight">Aura</h1>
+<p class="font-caption text-caption text-on-surface-variant m-0">Inner Peace</p>
+</div>
+</div>
+<!-- Main Navigation Links -->
+<div class="flex-1 flex flex-col gap-2 mt-4">
+<!-- Active Tab: Home -->
+<a class="flex items-center gap-4 bg-terracotta/10 text-terracotta dark:text-soft-amber rounded-xl px-4 py-3 font-semibold scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="spa" data-weight="fill" style="font-variation-settings: 'FILL' 1;">spa</span>
+<span class="font-label-md text-label-md">Home</span>
+</a>
+<a class="flex items-center gap-4 text-tertiary dark:text-tertiary-fixed-dim px-4 py-3 hover:bg-terracotta/5 hover:text-terracotta transition-all duration-200 scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="self_improvement">self_improvement</span>
+<span class="font-label-md text-label-md">Meditate</span>
+</a>
+<a class="flex items-center gap-4 text-tertiary dark:text-tertiary-fixed-dim px-4 py-3 hover:bg-terracotta/5 hover:text-terracotta transition-all duration-200 scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="bedtime">bedtime</span>
+<span class="font-label-md text-label-md">Sleep</span>
+</a>
+<a class="flex items-center gap-4 text-tertiary dark:text-tertiary-fixed-dim px-4 py-3 hover:bg-terracotta/5 hover:text-terracotta transition-all duration-200 scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</div>
+<!-- CTA & Footer Links -->
+<div class="flex flex-col gap-4 mt-auto">
+<button class="w-full bg-terracotta text-white rounded-full py-3 px-6 font-label-md text-label-md hover:bg-surface-tint transition-colors shadow-sm">
+                Go Premium
+            </button>
+<div class="h-px bg-outline-variant/30 w-full my-2"></div>
+<a class="flex items-center gap-4 text-tertiary dark:text-tertiary-fixed-dim px-4 py-2 hover:bg-terracotta/5 hover:text-terracotta transition-all duration-200 scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-label-md text-label-md">Help</span>
+</a>
+<a class="flex items-center gap-4 text-tertiary dark:text-tertiary-fixed-dim px-4 py-2 hover:bg-terracotta/5 hover:text-terracotta transition-all duration-200 scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="policy">policy</span>
+<span class="font-label-md text-label-md">Privacy</span>
+</a>
+</div>
+</nav>
+<!-- MAIN CONTENT CANVAS -->
+<main class="flex-1 lg:ml-64 px-container-padding-mobile lg:px-container-padding-desktop py-12 flex flex-col gap-section-gap relative min-h-screen">
+<!-- Top App Bar (Mobile Only - since SideNav is hidden on mobile) -->
+<header class="lg:hidden flex justify-between items-center w-full mb-8 sticky top-0 bg-background/80 backdrop-blur-md z-40 py-4 shadow-sm border-b-0">
+<h1 class="font-headline-md-mobile text-headline-md-mobile text-terracotta italic m-0">Aura</h1>
+<button class="text-primary p-2">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</header>
+<!-- Welcome Message -->
+<section class="max-w-[1200px] w-full mx-auto">
+<h2 class="font-display-lg-mobile lg:font-display-lg text-display-lg-mobile lg:text-display-lg text-on-surface mb-2">Good morning, Explorer.</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">Find your center today with a selection of journeys curated for clarity and calm.</p>
+</section>
+<!-- Hero Section: Session of the Day -->
+<section class="max-w-[1200px] w-full mx-auto">
+<div class="relative w-full rounded-xl overflow-hidden shadow-[0_20px_60px_-15px_rgba(217,119,87,0.15)] group h-[400px] lg:h-[500px] flex items-end p-8 lg:p-12">
+<!-- Blurred Nature Background -->
+<div class="absolute inset-0 z-0">
+<img alt="Morning Clarity Background" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A tranquil, sun-drenched misty forest scene at dawn. Warm golden light filters through tall trees, casting soft shadows on a lush, dew-covered mossy floor. The style is warm minimal sanctuary photography, high quality, soft focus background, evoking a sense of deep peace and breathing space." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBplcp9ht_LV00EcLymv9E3xp4CemkAXZpKxcz8WAo-Z7t57XeziAl_WtCHmlq-S0NPKd-s9wQuaA2v07T1o3QG21dv8K7DdOAjtZjTh1uXL0IcZ7RpqEhJNoIVzQDoWBmB9aMZ8TYBfJBBtg_WMzHDA_1Z0Eo5u2AH6dvL3Bou4xefowa-Qiq26I7PXJBWhY-txjkl83ViNpg0VpkRV00jHf8hMCTmnW_c2N7DOCquKpAHQ_rNoPks"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low/90 via-surface-container-low/30 to-transparent"></div>
+</div>
+<!-- Content overlay -->
+<div class="relative z-10 w-full flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+<div class="max-w-xl">
+<span class="inline-block bg-terracotta/10 text-terracotta font-label-md text-label-md px-4 py-1.5 rounded-full mb-4 backdrop-blur-sm">Session of the Day</span>
+<h3 class="font-headline-md-mobile lg:font-headline-md text-headline-md-mobile lg:text-headline-md text-on-surface mb-3">Morning Clarity</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2 lg:line-clamp-none">A gentle 10-minute guided breathwork practice to clear the mental fog and set a grounded intention for the day ahead.</p>
+</div>
+<button class="shrink-0 w-16 h-16 lg:w-20 lg:h-20 rounded-full bg-terracotta text-white flex items-center justify-center hover:bg-surface-tint transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 group/play">
+<span class="material-symbols-outlined text-3xl lg:text-4xl translate-x-0.5 group-hover/play:translate-x-1 transition-transform" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Explore Journeys Grid -->
+<section class="max-w-[1200px] w-full mx-auto">
+<div class="flex justify-between items-end mb-8">
+<h3 class="font-headline-md-mobile lg:font-headline-md text-headline-md-mobile lg:text-headline-md text-on-surface">Explore Journeys</h3>
+<a class="font-label-md text-label-md text-terracotta hover:text-surface-tint transition-colors underline-offset-4 hover:underline hidden sm:block" href="#">View all</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter lg:gap-8">
+<!-- Category 1: Sleep -->
+<a class="group block relative rounded-xl overflow-hidden bg-earth-container aspect-[4/5] hover:-translate-y-2 transition-all duration-500 shadow-sm hover:shadow-[0_20px_40px_-15px_rgba(217,119,87,0.1)]" href="#">
+<img alt="Sleep Category" class="absolute inset-0 w-full h-full object-cover rounded-xl transition-transform duration-700 group-hover:scale-105" data-alt="A serene minimal bedroom scene bathed in soft, cool moonlight mixed with warm ambient bedside lamp glow. Crisp white linen sheets gently rumpled, a smooth ceramic vase on a wooden nightstand. Sanctuary aesthetic, peaceful, high-end lifestyle photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkBLhfM1TlfqBa9fIewKHJq6FUZ6lS7Fif7SpqyqIpPq5cLWTp_wIVNQQTj3lYOfFn-kAo9mC9gh-c9g9-u8b_I2IHOdTFSG_jOFM_rT32t1jSsd3LMlg4YNXCvJvrKRDktR0-_QanMr2jKEj82GTtScy_VpZT1CwqSTayYef7qrggTMpURQaofqtVVk7alshh5g1H4qXxbCOGnflNwfhJXVXcbXC-UgQU4qBngxRHnl8qUOLCJtNz"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/80 via-transparent to-transparent rounded-xl"></div>
+<div class="absolute bottom-0 left-0 p-6 w-full text-white">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-soft-amber" style="font-variation-settings: 'FILL' 1;">bedtime</span>
+<span class="font-caption text-caption text-white/80 uppercase tracking-wider">Deep Rest</span>
+</div>
+<h4 class="font-title-lg text-title-lg mb-1">Sleep &amp; Unwind</h4>
+<p class="font-body-md text-body-md text-white/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-4 group-hover:translate-y-0">Drift off naturally with soundscapes and stories.</p>
+</div>
+</a>
+<!-- Category 2: Stress -->
+<a class="group block relative rounded-xl overflow-hidden bg-earth-container aspect-[4/5] hover:-translate-y-2 transition-all duration-500 shadow-sm hover:shadow-[0_20px_40px_-15px_rgba(217,119,87,0.1)]" href="#">
+<img alt="Stress Relief Category" class="absolute inset-0 w-full h-full object-cover rounded-xl transition-transform duration-700 group-hover:scale-105" data-alt="Smooth river stones resting perfectly balanced on soft, raked white sand in a zen garden setting. Warm, diffused sunlight creating long gentle shadows. Organic softness, tactile serenity, warm minimalist sanctuary visual style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6MSWid1EKvSYmM46ycqmMIvi9p2o0vQREru4QnQ9vgo0LOZoQaPPj88Lcc7SgMUPgIsq3teqnWygOh_QJLjOxyjg7xnso_5N-JT_K89CyB1rAdq3KKjcMg9vsXK0VQlitq8avAKvq_EeyULOajwxfafpR0f_rJgCacq4pZymiEMrpG4FLfgXBCAi8pNPQWC7cWSdIUjsasfj9EmtdMBJ4y6OwoJ0ZOzsNvzQ4lNQYPV3Osxz67LY1"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/80 via-transparent to-transparent rounded-xl"></div>
+<div class="absolute bottom-0 left-0 p-6 w-full text-white">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-soft-amber" style="font-variation-settings: 'FILL' 1;">water_drop</span>
+<span class="font-caption text-caption text-white/80 uppercase tracking-wider">Release Tension</span>
+</div>
+<h4 class="font-title-lg text-title-lg mb-1">Anxiety Relief</h4>
+<p class="font-body-md text-body-md text-white/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-4 group-hover:translate-y-0">Tools to ground your nervous system.</p>
+</div>
+</a>
+<!-- Category 3: Focus -->
+<a class="group block relative rounded-xl overflow-hidden bg-earth-container aspect-[4/5] hover:-translate-y-2 transition-all duration-500 shadow-sm hover:shadow-[0_20px_40px_-15px_rgba(217,119,87,0.1)]" href="#">
+<img alt="Focus Category" class="absolute inset-0 w-full h-full object-cover rounded-xl transition-transform duration-700 group-hover:scale-105" data-alt="A clean, minimalist wooden desk bathed in bright, warm morning sunlight. A solitary green plant in a matte terracotta pot next to an open, high-quality linen-bound notebook. Expansive, airy, focus-inspiring aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-YscJLJydEua4AKhbAO6YvBvRd-5hhVucCe0V-zxSVQV3ZBDGT2Ll-zuu9MsvviEIn_RjqzdUC6_q83N-edJGHNLwoIYQQySmp1pYTw3Q5W2sZNpWDyh1XkTOnRjlO_VFGXhIETpYmqz46mBmYxDggnB4hEjDcCKwOSxVzJvjENikDQjZ4WsV9VuZnOE6uiLGCC-VXBnQGHfbm_m5zQZ1Cut07GD_9dYFybQE4KnHzNe2aCwY5EOY"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/80 via-transparent to-transparent rounded-xl"></div>
+<div class="absolute bottom-0 left-0 p-6 w-full text-white">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-soft-amber" style="font-variation-settings: 'FILL' 1;">psychiatry</span>
+<span class="font-caption text-caption text-white/80 uppercase tracking-wider">Mindful Work</span>
+</div>
+<h4 class="font-title-lg text-title-lg mb-1">Deep Focus</h4>
+<p class="font-body-md text-body-md text-white/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-4 group-hover:translate-y-0">Enhance concentration with gentle binaural beats.</p>
+</div>
+</a>
+</div>
+<div class="mt-6 text-center sm:hidden">
+<a class="inline-block border border-terracotta text-terracotta rounded-full py-2 px-6 font-label-md text-label-md hover:bg-terracotta/5 transition-colors" href="#">View all Journeys</a>
+</div>
+</section>
+</main>
+</body></html>

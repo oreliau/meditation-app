@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Aura - Réglages</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary": "#352072",
+                        "on-secondary-fixed-variant": "#4c388a",
+                        "on-primary-fixed-variant": "#42436b",
+                        "on-primary": "#2b2d53",
+                        "outline": "#918f99",
+                        "tertiary-container": "#122222",
+                        "on-background": "#e3e0f1",
+                        "surface-bright": "#383845",
+                        "surface-container-low": "#1b1a26",
+                        "primary-fixed-dim": "#c2c2f2",
+                        "surface-dim": "#12121d",
+                        "on-tertiary": "#233333",
+                        "tertiary-fixed": "#d4e6e5",
+                        "on-secondary-fixed": "#20015d",
+                        "surface-container": "#1f1e2a",
+                        "secondary-fixed": "#e8deff",
+                        "secondary": "#cdbdff",
+                        "on-secondary-container": "#bda8ff",
+                        "error-container": "#93000a",
+                        "inverse-on-surface": "#302f3b",
+                        "inverse-surface": "#e3e0f1",
+                        "tertiary": "#b8cac9",
+                        "on-tertiary-container": "#798a8a",
+                        "background": "#12121d",
+                        "surface-variant": "#343440",
+                        "on-error": "#690005",
+                        "on-tertiary-fixed": "#0e1e1e",
+                        "surface": "#12121d",
+                        "primary-fixed": "#e1e0ff",
+                        "inverse-primary": "#5a5b84",
+                        "surface-tint": "#c2c2f2",
+                        "on-primary-fixed": "#16173d",
+                        "on-surface": "#e3e0f1",
+                        "tertiary-fixed-dim": "#b8cac9",
+                        "secondary-container": "#4c388a",
+                        "error": "#ffb4ab",
+                        "primary-container": "#1a1b41",
+                        "secondary-fixed-dim": "#cdbdff",
+                        "surface-container-high": "#292935",
+                        "primary": "#c2c2f2",
+                        "outline-variant": "#47464e",
+                        "on-surface-variant": "#c8c5cf",
+                        "surface-container-lowest": "#0d0d18",
+                        "surface-container-highest": "#343440",
+                        "on-tertiary-fixed-variant": "#3a4a49",
+                        "on-error-container": "#ffdad6",
+                        "on-primary-container": "#8283af"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding-mobile": "24px",
+                        "section-gap": "48px",
+                        "unit": "8px",
+                        "gutter": "16px",
+                        "container-padding-desktop": "64px"
+                    },
+                    "fontFamily": {
+                        "headline-md-mobile": ["Playfair Display", "serif"],
+                        "body-md": ["Inter", "sans-serif"],
+                        "caption": ["Inter", "sans-serif"],
+                        "title-lg": ["Inter", "sans-serif"],
+                        "label-md": ["Inter", "sans-serif"],
+                        "display-lg-mobile": ["Playfair Display", "serif"],
+                        "body-lg": ["Inter", "sans-serif"],
+                        "headline-md": ["Playfair Display", "serif"],
+                        "display-lg": ["Playfair Display", "serif"]
+                    },
+                    "fontSize": {
+                        "headline-md-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "caption": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "title-lg": ["20px", { "lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-md": ["32px", { "lineHeight": "40px", "fontWeight": "500" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Playfair+Display:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: transparent;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: theme('colors.secondary-container');
+        }
+        .toggle-checkbox:checked + .toggle-label:after {
+            transform: translateX(100%);
+            background-color: theme('colors.secondary-fixed-dim');
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen relative overflow-x-hidden antialiased selection:bg-primary-container selection:text-on-primary-container">
+<div class="fixed inset-0 z-[-1] pointer-events-none overflow-hidden">
+<div class="absolute top-[-20%] left-[-10%] w-[60vw] h-[60vw] bg-primary-container/30 rounded-full blur-[100px] opacity-70 mix-blend-screen"></div>
+<div class="absolute bottom-[-10%] right-[-20%] w-[70vw] h-[70vw] bg-secondary-container/20 rounded-full blur-[120px] opacity-60 mix-blend-screen"></div>
+</div>
+<header class="fixed top-0 w-full z-50 backdrop-blur-xl bg-surface/5 border-b border-white/10 flex justify-between items-center px-container-padding-mobile py-4 transition-all duration-500 ease-in-out">
+<button aria-label="Menu" class="text-primary dark:text-primary-fixed-dim hover:opacity-80 transition-opacity flex items-center justify-center p-2 rounded-full">
+<span class="material-symbols-outlined">spa</span>
+</button>
+<h1 class="font-headline-md-mobile text-headline-md-mobile dark:font-headline-md dark:text-headline-md tracking-widest text-primary dark:text-primary-fixed-dim select-none">
+            Aura
+        </h1>
+<button aria-label="Notifications" class="text-primary dark:text-primary-fixed-dim hover:opacity-80 transition-opacity flex items-center justify-center p-2 rounded-full">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</header>
+<main class="pt-[100px] pb-[140px] px-container-padding-mobile md:px-container-padding-desktop max-w-[800px] mx-auto flex flex-col gap-section-gap">
+<div class="flex flex-col gap-2 mt-4">
+<h2 class="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg text-on-surface">Réglages</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Personnalisez votre sanctuaire intérieur.</p>
+</div>
+<section class="flex flex-col gap-6">
+<h3 class="font-title-lg text-title-lg text-primary-fixed-dim flex items-center gap-3">
+<span class="material-symbols-outlined">notifications_active</span>
+                Notifications de Pleine Conscience
+            </h3>
+<div class="bg-surface-variant/10 backdrop-blur-2xl rounded-xl ring-1 ring-white/10 p-6 md:p-8 flex flex-col gap-6 shadow-2xl relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+<div class="flex items-center justify-between group">
+<div class="flex flex-col gap-1 pr-4">
+<span class="font-body-lg text-body-lg text-on-surface">Rappels de respiration</span>
+<span class="font-caption text-caption text-on-surface-variant">Invitations douces à s'ancrer dans le présent</span>
+</div>
+<div class="relative inline-block w-12 h-6 align-middle select-none transition duration-200 ease-in flex-shrink-0">
+<input checked="" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 border-surface-container-highest appearance-none cursor-pointer z-10 transition-transform duration-300 ease-in-out" id="toggle1" name="toggle1" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-surface-container-highest cursor-pointer transition-colors duration-300 ease-in-out relative after:content-[''] after:absolute after:top-1 after:left-1 after:w-4 after:h-4 after:bg-outline after:rounded-full after:transition-transform after:duration-300" for="toggle1"></label>
+</div>
+</div>
+<hr class="border-t border-white/5"/>
+<div class="flex items-center justify-between group">
+<div class="flex flex-col gap-1 pr-4">
+<span class="font-body-lg text-body-lg text-on-surface">Citations inspirantes</span>
+<span class="font-caption text-caption text-on-surface-variant">Une pensée positive pour commencer la journée</span>
+</div>
+<div class="relative inline-block w-12 h-6 align-middle select-none transition duration-200 ease-in flex-shrink-0">
+<input class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 border-surface-container-highest appearance-none cursor-pointer z-10 transition-transform duration-300 ease-in-out" id="toggle2" name="toggle2" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-surface-container-highest cursor-pointer transition-colors duration-300 ease-in-out relative after:content-[''] after:absolute after:top-1 after:left-1 after:w-4 after:h-4 after:bg-outline after:rounded-full after:transition-transform after:duration-300" for="toggle2"></label>
+</div>
+</div>
+<hr class="border-t border-white/5"/>
+<div class="flex items-center justify-between group">
+<div class="flex flex-col gap-1 pr-4">
+<span class="font-body-lg text-body-lg text-on-surface">Bilan de fin de journée</span>
+<span class="font-caption text-caption text-on-surface-variant">Réflexion guidée avant le sommeil</span>
+</div>
+<div class="relative inline-block w-12 h-6 align-middle select-none transition duration-200 ease-in flex-shrink-0">
+<input checked="" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 border-surface-container-highest appearance-none cursor-pointer z-10 transition-transform duration-300 ease-in-out" id="toggle3" name="toggle3" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-surface-container-highest cursor-pointer transition-colors duration-300 ease-in-out relative after:content-[''] after:absolute after:top-1 after:left-1 after:w-4 after:h-4 after:bg-outline after:rounded-full after:transition-transform after:duration-300" for="toggle3"></label>
+</div>
+</div>
+</div>
+</section>
+<section class="flex flex-col gap-6">
+<h3 class="font-title-lg text-title-lg text-secondary-fixed-dim flex items-center gap-3">
+<span class="material-symbols-outlined">schedule</span>
+                Alarmes de Session
+            </h3>
+<div class="bg-surface-variant/10 backdrop-blur-2xl rounded-xl ring-1 ring-white/10 p-6 md:p-8 flex flex-col gap-6 shadow-2xl relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+<div class="flex items-center justify-between group">
+<div class="flex items-center gap-4">
+<div class="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg text-secondary-fixed-dim font-light tracking-tight">
+                            07:00
+                        </div>
+<div class="flex flex-col gap-1">
+<span class="font-body-lg text-body-lg text-on-surface">Méditation Matinale</span>
+<span class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1 opacity-80">
+<span class="material-symbols-outlined text-[16px]">sync</span> Lundi - Vendredi
+                            </span>
+</div>
+</div>
+<div class="relative inline-block w-12 h-6 align-middle select-none transition duration-200 ease-in flex-shrink-0">
+<input checked="" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 border-surface-container-highest appearance-none cursor-pointer z-10 transition-transform duration-300 ease-in-out" id="alarm1" name="alarm1" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-surface-container-highest cursor-pointer transition-colors duration-300 ease-in-out relative after:content-[''] after:absolute after:top-1 after:left-1 after:w-4 after:h-4 after:bg-outline after:rounded-full after:transition-transform after:duration-300" for="alarm1"></label>
+</div>
+</div>
+<hr class="border-t border-white/5"/>
+<div class="flex items-center justify-between group opacity-60 hover:opacity-100 transition-opacity duration-300">
+<div class="flex items-center gap-4">
+<div class="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg text-on-surface-variant font-light tracking-tight">
+                            12:30
+                        </div>
+<div class="flex flex-col gap-1">
+<span class="font-body-lg text-body-lg text-on-surface">Pause Respiration</span>
+<span class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1 opacity-80">
+<span class="material-symbols-outlined text-[16px]">sync</span> Tous les jours
+                            </span>
+</div>
+</div>
+<div class="relative inline-block w-12 h-6 align-middle select-none transition duration-200 ease-in flex-shrink-0">
+<input class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 border-surface-container-highest appearance-none cursor-pointer z-10 transition-transform duration-300 ease-in-out" id="alarm2" name="alarm2" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-surface-container-highest cursor-pointer transition-colors duration-300 ease-in-out relative after:content-[''] after:absolute after:top-1 after:left-1 after:w-4 after:h-4 after:bg-outline after:rounded-full after:transition-transform after:duration-300" for="alarm2"></label>
+</div>
+</div>
+<hr class="border-t border-white/5"/>
+<div class="flex items-center justify-between group">
+<div class="flex items-center gap-4">
+<div class="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg text-secondary-fixed-dim font-light tracking-tight">
+                            21:00
+                        </div>
+<div class="flex flex-col gap-1">
+<span class="font-body-lg text-body-lg text-on-surface">Sommeil Profond</span>
+<span class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1 opacity-80">
+<span class="material-symbols-outlined text-[16px]">sync</span> Tous les jours
+                            </span>
+</div>
+</div>
+<div class="relative inline-block w-12 h-6 align-middle select-none transition duration-200 ease-in flex-shrink-0">
+<input checked="" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 border-surface-container-highest appearance-none cursor-pointer z-10 transition-transform duration-300 ease-in-out" id="alarm3" name="alarm3" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-surface-container-highest cursor-pointer transition-colors duration-300 ease-in-out relative after:content-[''] after:absolute after:top-1 after:left-1 after:w-4 after:h-4 after:bg-outline after:rounded-full after:transition-transform after:duration-300" for="alarm3"></label>
+</div>
+</div>
+<button class="mt-4 w-full py-4 flex items-center justify-center gap-2 rounded-lg bg-surface-variant/20 hover:bg-surface-variant/40 transition-colors duration-300 border border-white/5 font-label-md text-label-md text-primary-fixed-dim group">
+<span class="material-symbols-outlined text-[20px] transition-transform duration-300 group-hover:rotate-90">add</span>
+                    Ajouter une alarme
+                </button>
+</div>
+</section>
+</main>
+<nav class="fixed bottom-8 left-1/2 -translate-x-1/2 w-[calc(100%-48px)] rounded-full max-w-md backdrop-blur-2xl border border-white/20 bg-surface-container-low/30 shadow-2xl flex justify-around items-center p-2 z-50 transition-all duration-500 ease-in-out">
+<button aria-label="Home" class="flex items-center justify-center text-on-surface-variant/60 p-4 hover:text-primary transition-colors duration-300">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">self_improvement</span>
+</button>
+<button aria-label="Explore" class="flex items-center justify-center text-on-surface-variant/60 p-4 hover:text-primary transition-colors duration-300">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">explore</span>
+</button>
+<button aria-label="Profile" class="flex items-center justify-center bg-secondary-container/40 text-secondary-fixed-dim rounded-full p-4 ring-1 ring-white/30 scale-90 transition-transform duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+</button>
+</nav>
+</body></html>

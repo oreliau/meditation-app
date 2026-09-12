@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Aura - Meditation Timer</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Playfair+Display:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary": "#352072",
+                      "on-secondary-fixed-variant": "#4c388a",
+                      "on-primary-fixed-variant": "#42436b",
+                      "on-primary": "#2b2d53",
+                      "outline": "#918f99",
+                      "tertiary-container": "#122222",
+                      "on-background": "#e3e0f1",
+                      "surface-bright": "#383845",
+                      "surface-container-low": "#1b1a26",
+                      "primary-fixed-dim": "#c2c2f2",
+                      "surface-dim": "#12121d",
+                      "on-tertiary": "#233333",
+                      "tertiary-fixed": "#d4e6e5",
+                      "on-secondary-fixed": "#20015d",
+                      "surface-container": "#1f1e2a",
+                      "secondary-fixed": "#e8deff",
+                      "secondary": "#cdbdff",
+                      "on-secondary-container": "#bda8ff",
+                      "error-container": "#93000a",
+                      "inverse-on-surface": "#302f3b",
+                      "inverse-surface": "#e3e0f1",
+                      "tertiary": "#b8cac9",
+                      "on-tertiary-container": "#798a8a",
+                      "background": "#12121d",
+                      "surface-variant": "#343440",
+                      "on-error": "#690005",
+                      "on-tertiary-fixed": "#0e1e1e",
+                      "surface": "#12121d",
+                      "primary-fixed": "#e1e0ff",
+                      "inverse-primary": "#5a5b84",
+                      "surface-tint": "#c2c2f2",
+                      "on-primary-fixed": "#16173d",
+                      "on-surface": "#e3e0f1",
+                      "tertiary-fixed-dim": "#b8cac9",
+                      "secondary-container": "#4c388a",
+                      "error": "#ffb4ab",
+                      "primary-container": "#1a1b41",
+                      "secondary-fixed-dim": "#cdbdff",
+                      "surface-container-high": "#292935",
+                      "primary": "#c2c2f2",
+                      "outline-variant": "#47464e",
+                      "on-surface-variant": "#c8c5cf",
+                      "surface-container-lowest": "#0d0d18",
+                      "surface-container-highest": "#343440",
+                      "on-tertiary-fixed-variant": "#3a4a49",
+                      "on-error-container": "#ffdad6",
+                      "on-primary-container": "#8283af"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "container-padding-mobile": "24px",
+                      "section-gap": "48px",
+                      "unit": "8px",
+                      "gutter": "16px",
+                      "container-padding-desktop": "64px"
+              },
+              "fontFamily": {
+                      "headline-md-mobile": [
+                              "Playfair Display"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "caption": [
+                              "Inter"
+                      ],
+                      "title-lg": [
+                              "Inter"
+                      ],
+                      "label-md": [
+                              "Inter"
+                      ],
+                      "display-lg-mobile": [
+                              "Playfair Display"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Playfair Display"
+                      ],
+                      "display-lg": [
+                              "Playfair Display"
+                      ]
+              },
+              "fontSize": {
+                      "headline-md-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "caption": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "title-lg": [
+                              "20px",
+                              {
+                                      "lineHeight": "28px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg-mobile": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        .glass-panel {
+            background: rgba(186, 165, 255, 0.05); /* Lavender hint */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); opacity: 0.5; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+            100% { transform: scale(0.95); opacity: 0.5; }
+        }
+        .progress-ring {
+            animation: pulse-ring 4s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+            0%, 100% { opacity: 0.3; transform: scale(0.98); }
+            50% { opacity: 1; transform: scale(1.02); }
+        }
+        .breathe-text {
+            animation: breathe 8s ease-in-out infinite;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface min-h-screen overflow-hidden selection:bg-primary-container selection:text-on-primary-container">
+<!-- Background Immersive Layer -->
+<div class="fixed inset-0 z-0">
+<!-- STITCH_SHADER_START:ANIMATION_2 class="absolute inset-0 w-full h-full opacity-60 mix-blend-screen" -->
+<div class="absolute inset-0 w-full h-full opacity-60 mix-blend-screen" style="display:block;">
+<canvas id="shader-canvas-ANIMATION_2" style="display:block;width:100%;height:100%"></canvas>
+<script>
+(function() {
+  const canvas = document.getElementById('shader-canvas-ANIMATION_2');
+
+  // Sync the WebGL drawing-buffer size with the CSS-driven layout size.
+  // This fires on initial layout and whenever the element is resized.
+  function syncSize() {
+    const w = canvas.clientWidth  || 1280;
+    const h = canvas.clientHeight || 720;
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width  = w;
+      canvas.height = h;
+    }
+  }
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(syncSize).observe(canvas);
+  }
+  syncSize();
+
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) return;
+  const vs = `attribute vec2 a_position;
+varying vec2 v_texCoord;
+void main() {
+  v_texCoord = a_position * 0.5 + 0.5;
+  gl_Position = vec4(a_position, 0.0, 1.0);
+}`;
+  const fs = `precision highp float;
+uniform float u_time;
+uniform vec2 u_resolution;
+
+varying vec2 v_texCoord;
+
+void main() {
+    vec2 uv = v_texCoord;
+    
+    // Create a fluid, breathing motion
+    float breathe = sin(u_time * 0.5) * 0.5 + 0.5;
+    
+    // Layered noise-like gradients
+    float color1 = sin(uv.x * 3.0 + u_time * 0.2) * cos(uv.y * 2.0 + u_time * 0.3);
+    float color2 = sin(uv.y * 4.0 - u_time * 0.1) * cos(uv.x * 5.0 + u_time * 0.4);
+    
+    // Deep meditation colors (Indigo to Lavender)
+    vec3 col1 = vec3(0.10, 0.11, 0.25); // #1A1B41
+    vec3 col2 = vec3(0.73, 0.65, 1.00); // #BAA5FF
+    vec3 col3 = vec3(0.88, 0.95, 0.95); // #E0F2F1
+    
+    vec3 finalCol = mix(col1, col2, color1 * 0.5 + 0.5);
+    finalCol = mix(finalCol, col3, color2 * 0.3 * breathe);
+    
+    gl_FragColor = vec4(finalCol, 1.0);
+}`;
+  function cs(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, cs(gl.VERTEX_SHADER, vs));
+  gl.attachShader(prog, cs(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const pos = gl.getAttribLocation(prog, 'a_position');
+  gl.enableVertexAttribArray(pos);
+  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+  const uTime = gl.getUniformLocation(prog, 'u_time');
+  const uRes = gl.getUniformLocation(prog, 'u_resolution');
+  const uMouse = gl.getUniformLocation(prog, 'u_mouse');
+
+  // u_mouse is in pixel coordinates matching u_resolution (ShaderToy convention).
+  // Shaders that need normalized coords should use: u_mouse / u_resolution.
+  let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+  window.addEventListener('mousemove', (event) => {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width && rect.height) {
+      const nx = (event.clientX - rect.left) / rect.width;
+      const ny = 1.0 - (event.clientY - rect.top) / rect.height;
+      mouse.x = nx * canvas.width;
+      mouse.y = ny * canvas.height;
+    }
+  });
+
+  function render(t) {
+    if (typeof ResizeObserver === 'undefined') syncSize();
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    if (uTime) gl.uniform1f(uTime, t * 0.001);
+    if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
+    if (uMouse) gl.uniform2f(uMouse, mouse.x, mouse.y);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    requestAnimationFrame(render);
+  }
+  render(0);
+})();
+</script>
+</div>
+<!-- STITCH_SHADER_END:ANIMATION_2 -->
+<!-- Fallback Gradient/Overlay -->
+<div class="absolute inset-0 bg-gradient-to-b from-surface-dim/80 via-background/90 to-surface-container-lowest/90 pointer-events-none"></div>
+</div>
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 backdrop-blur-xl bg-surface/5 border-b border-white/10 flex justify-between items-center px-container-padding-mobile py-4 transition-all duration-500 ease-in-out">
+<button class="text-primary dark:text-primary-fixed-dim hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined" data-icon="spa" data-weight="fill" style="font-variation-settings: 'FILL' 1;">spa</span>
+</button>
+<div class="font-headline-md-mobile text-headline-md-mobile md:font-headline-md md:text-headline-md tracking-widest text-primary dark:text-primary-fixed-dim">Aura</div>
+<button class="text-on-surface-variant hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="relative z-10 flex flex-col items-center justify-center min-h-screen px-container-padding-mobile pb-32 pt-24">
+<!-- Breathing Prompt -->
+<div class="mb-12 font-body-lg text-body-lg text-tertiary-fixed tracking-widest uppercase breathe-text" id="breathePrompt">
+            Inhale
+        </div>
+<!-- Timer Circle -->
+<div class="relative w-72 h-72 md:w-96 md:h-96 flex items-center justify-center">
+<!-- Decorative Outer Rings -->
+<div class="absolute inset-0 rounded-full border border-tertiary-fixed/20 progress-ring"></div>
+<div class="absolute inset-4 rounded-full border border-tertiary/10"></div>
+<!-- Core Timer Display -->
+<div class="glass-panel w-full h-full rounded-full flex flex-col items-center justify-center shadow-[0_0_40px_rgba(186,165,255,0.1)] relative overflow-hidden">
+<span class="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg text-primary-fixed tracking-tight">12:00</span>
+<span class="font-label-md text-label-md text-on-surface-variant mt-2 uppercase tracking-widest">Remaining</span>
+<!-- Subtle internal progress indicator (decorative) -->
+<svg class="absolute inset-0 w-full h-full -rotate-90 pointer-events-none" viewbox="0 0 100 100">
+<circle class="text-primary/30" cx="50" cy="50" fill="none" r="48" stroke="currentColor" stroke-dasharray="301" stroke-dashoffset="60" stroke-width="0.5"></circle>
+</svg>
+</div>
+</div>
+<!-- Controls -->
+<div class="mt-16 flex items-center gap-8">
+<button class="glass-panel w-16 h-16 rounded-full flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors duration-300">
+<span class="material-symbols-outlined text-2xl" data-icon="restart_alt">restart_alt</span>
+</button>
+<button class="glass-panel w-20 h-20 rounded-full flex items-center justify-center text-primary-fixed ring-1 ring-white/20 hover:bg-secondary-container/20 transition-all duration-300 hover:scale-105 shadow-[0_0_30px_rgba(186,165,255,0.15)]">
+<span class="material-symbols-outlined text-3xl" data-icon="pause" data-weight="fill" style="font-variation-settings: 'FILL' 1;">pause</span>
+</button>
+<button class="glass-panel w-16 h-16 rounded-full flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors duration-300">
+<span class="material-symbols-outlined text-2xl" data-icon="volume_up">volume_up</span>
+</button>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-8 left-1/2 -translate-x-1/2 w-[calc(100%-48px)] rounded-full max-w-md backdrop-blur-2xl border border-white/20 bg-surface-container-low/30 shadow-2xl flex justify-around items-center p-2 z-50">
+<a class="flex items-center justify-center bg-secondary-container/40 text-secondary-fixed-dim rounded-full p-4 ring-1 ring-white/30 Active: scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="self_improvement" data-weight="fill" style="font-variation-settings: 'FILL' 1;">self_improvement</span>
+</a>
+<a class="flex items-center justify-center text-on-surface-variant/60 p-4 hover:text-primary transition-colors duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+</a>
+<a class="flex items-center justify-center text-on-surface-variant/60 p-4 hover:text-primary transition-colors duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+</a>
+</nav>
+<script>
+        // Simple breathing prompt logic
+        const prompt = document.getElementById('breathePrompt');
+        let isInhale = true;
+        
+        setInterval(() => {
+            isInhale = !isInhale;
+            prompt.style.opacity = '0';
+            setTimeout(() => {
+                prompt.textContent = isInhale ? 'Inhale' : 'Exhale';
+                prompt.style.opacity = '1';
+            }, 500); // Wait for fade out
+        }, 4000); // Syncs roughly with the 8s breathe animation (4s in, 4s out)
+    </script>
+</body></html>

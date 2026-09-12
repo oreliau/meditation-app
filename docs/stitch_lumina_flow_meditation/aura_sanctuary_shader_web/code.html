@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Aura - Sanctuary Space</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-container": "#332a1a",
+                    "surface-container-high": "#eae8e4",
+                    "soft-amber": "#E9A85D",
+                    "on-primary-fixed": "#390b00",
+                    "surface-variant": "#e4e2de",
+                    "on-primary-container": "#541400",
+                    "inverse-primary": "#ffb59e",
+                    "surface-container-low": "#f5f3ef",
+                    "surface-container": "#efeeea",
+                    "on-surface": "#1b1c1a",
+                    "primary-fixed-dim": "#ffb59e",
+                    "error": "#ba1a1a",
+                    "secondary": "#85530d",
+                    "tertiary-container": "#9f907b",
+                    "secondary-fixed": "#ffddbb",
+                    "secondary-fixed-dim": "#fdb96c",
+                    "outline-variant": "#dbc1b9",
+                    "outline": "#88726c",
+                    "on-tertiary": "#ffffff",
+                    "background": "#fbf9f5",
+                    "tertiary-fixed": "#f2e0c8",
+                    "cream-surface": "#FFFDF9",
+                    "on-error-container": "#93000a",
+                    "surface-tint": "#99462a",
+                    "surface-dim": "#dbdad6",
+                    "terracotta": "#D97757",
+                    "surface": "#fbf9f5",
+                    "on-secondary-container": "#774800",
+                    "error-container": "#ffdad6",
+                    "inverse-on-surface": "#f2f0ed",
+                    "on-primary-fixed-variant": "#7a2f15",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary": "#695d4a",
+                    "primary-container": "#d97757",
+                    "on-tertiary-fixed-variant": "#504534",
+                    "surface-container-highest": "#e4e2de",
+                    "on-secondary-fixed": "#2b1700",
+                    "on-error": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "on-background": "#1b1c1a",
+                    "tertiary-fixed-dim": "#d5c4ad",
+                    "on-secondary": "#ffffff",
+                    "on-surface-variant": "#55433d",
+                    "primary": "#99462a",
+                    "on-tertiary-fixed": "#231a0c",
+                    "secondary-container": "#fdb96c",
+                    "earth-container": "#F5F0E6",
+                    "inverse-surface": "#30312e",
+                    "on-secondary-fixed-variant": "#673d00",
+                    "primary-fixed": "#ffdbd0",
+                    "earth-on-surface": "#433D35",
+                    "surface-bright": "#fbf9f5"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-padding-desktop": "64px",
+                    "gutter": "16px",
+                    "section-gap": "48px",
+                    "unit": "8px",
+                    "container-padding-mobile": "24px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Playfair Display"],
+                    "headline-md-mobile": ["Playfair Display"],
+                    "title-lg": ["Inter"],
+                    "display-lg-mobile": ["Playfair Display"],
+                    "caption": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-md": ["Inter"],
+                    "display-lg": ["Playfair Display"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "500"}],
+                    "headline-md-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                    "title-lg": ["20px", {"lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "caption": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        /* Ambient Shader-like CSS Animation to satisfy visual requirements safely */
+        .ambient-canvas {
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(217, 119, 87, 0.4) 0%, transparent 60%),
+                radial-gradient(circle at 80% 80%, rgba(233, 168, 93, 0.4) 0%, transparent 60%),
+                radial-gradient(circle at 50% 50%, rgba(253, 185, 108, 0.3) 0%, transparent 70%),
+                #FFFDF9; /* cream-surface */
+            background-size: 150% 150%;
+            animation: fluidMovement 25s ease-in-out infinite alternate;
+            filter: blur(40px);
+            transform: scale(1.2); /* Hide blurred edges */
+        }
+
+        @keyframes fluidMovement {
+            0% { background-position: 0% 0%; }
+            33% { background-position: 100% 50%; }
+            66% { background-position: 50% 100%; }
+            100% { background-position: 0% 100%; }
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased overflow-hidden flex h-screen">
+<!-- Shared Component: SideNavBar -->
+<aside class="bg-earth-container dark:bg-surface-container-low docked left-0 h-full w-64 fixed bg-earth-container/50 dark:bg-surface-container-low/50 backdrop-blur-xl shadow-xl hidden lg:flex flex-col p-6 gap-8 border-r border-outline-variant/30 z-50">
+<!-- Header -->
+<div class="flex items-center gap-3 px-2">
+<span class="font-headline-md text-headline-md text-primary dark:text-primary-fixed">Aura</span>
+</div>
+<!-- Navigation Links -->
+<nav class="flex flex-col gap-2 flex-grow">
+<a class="flex items-center gap-4 text-tertiary dark:text-tertiary-fixed-dim px-4 py-3 hover:bg-terracotta/5 hover:text-terracotta transition-all duration-200 scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">spa</span>
+<span class="font-label-md text-label-md">Home</span>
+</a>
+<!-- Active State: Meditate (Assuming this expansive screen is a meditation/focus space) -->
+<a class="flex items-center gap-4 bg-terracotta/10 text-terracotta dark:text-soft-amber rounded-xl px-4 py-3 font-semibold scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">self_improvement</span>
+<span class="font-label-md text-label-md">Meditate</span>
+</a>
+<a class="flex items-center gap-4 text-tertiary dark:text-tertiary-fixed-dim px-4 py-3 hover:bg-terracotta/5 hover:text-terracotta transition-all duration-200 scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">bedtime</span>
+<span class="font-label-md text-label-md">Sleep</span>
+</a>
+<a class="flex items-center gap-4 text-tertiary dark:text-tertiary-fixed-dim px-4 py-3 hover:bg-terracotta/5 hover:text-terracotta transition-all duration-200 scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<!-- Footer Links -->
+<div class="mt-auto flex flex-col gap-2 border-t border-outline-variant/20 pt-6">
+<a class="flex items-center gap-4 text-tertiary dark:text-tertiary-fixed-dim px-4 py-3 hover:bg-terracotta/5 hover:text-terracotta transition-all duration-200 scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-md text-label-md">Help</span>
+</a>
+<a class="flex items-center gap-4 text-tertiary dark:text-tertiary-fixed-dim px-4 py-3 hover:bg-terracotta/5 hover:text-terracotta transition-all duration-200 scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">policy</span>
+<span class="font-label-md text-label-md">Privacy</span>
+</a>
+</div>
+</aside>
+<!-- Main Canvas Area -->
+<main class="lg:ml-64 flex-1 h-screen relative overflow-hidden bg-cream-surface">
+<!-- Immersive "Shader" Background -->
+<div class="absolute inset-0 ambient-canvas z-0 pointer-events-none"></div>
+<!-- Very subtle overlay to ensure text readability if needed, acting like a lens -->
+<div class="absolute inset-0 bg-cream-surface/10 backdrop-blur-[2px] z-0 pointer-events-none mix-blend-overlay"></div>
+<!-- Minimal UI Layer -->
+<div class="relative z-10 w-full h-full p-container-padding-desktop flex flex-col">
+<!-- Ghost Button: Back to Dashboard -->
+<button class="flex items-center gap-2 text-on-surface-variant/70 hover:text-soft-amber hover:underline transition-all duration-300 font-label-md text-label-md self-start w-fit group">
+<span class="material-symbols-outlined group-hover:-translate-x-1 transition-transform duration-300">arrow_back</span>
+                Back to Dashboard
+            </button>
+<!-- The rest of the screen is left intentionally blank to feel infinite and expansive -->
+</div>
+</main>
+</body></html>

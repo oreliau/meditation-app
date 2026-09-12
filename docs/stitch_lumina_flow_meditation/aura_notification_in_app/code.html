@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Aura - In-App Notification</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Playfair+Display:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#d5c4ad",
+                        "earth-container": "#F5F0E6",
+                        "outline": "#88726c",
+                        "error": "#ba1a1a",
+                        "primary": "#99462a",
+                        "surface-tint": "#99462a",
+                        "secondary-container": "#fdb96c",
+                        "soft-amber": "#E9A85D",
+                        "on-surface-variant": "#55433d",
+                        "surface-dim": "#dbdad6",
+                        "tertiary": "#695d4a",
+                        "tertiary-container": "#9f907b",
+                        "on-primary-fixed": "#390b00",
+                        "surface-variant": "#e4e2de",
+                        "on-secondary": "#ffffff",
+                        "surface-container-highest": "#e4e2de",
+                        "on-surface": "#1b1c1a",
+                        "surface-container-high": "#eae8e4",
+                        "terracotta": "#D97757",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-fixed": "#231a0c",
+                        "surface-container": "#efeeea",
+                        "surface-container-low": "#f5f3ef",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed-variant": "#673d00",
+                        "on-background": "#1b1c1a",
+                        "on-primary-fixed-variant": "#7a2f15",
+                        "inverse-surface": "#30312e",
+                        "on-secondary-fixed": "#2b1700",
+                        "on-primary": "#ffffff",
+                        "background": "#fbf9f5",
+                        "inverse-on-surface": "#f2f0ed",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#504534",
+                        "outline-variant": "#dbc1b9",
+                        "on-secondary-container": "#774800",
+                        "on-error": "#ffffff",
+                        "surface-bright": "#fbf9f5",
+                        "primary-fixed-dim": "#ffb59e",
+                        "inverse-primary": "#ffb59e",
+                        "error-container": "#ffdad6",
+                        "earth-on-surface": "#433D35",
+                        "secondary": "#85530d",
+                        "secondary-fixed": "#ffddbb",
+                        "primary-fixed": "#ffdbd0",
+                        "secondary-fixed-dim": "#fdb96c",
+                        "surface": "#fbf9f5",
+                        "tertiary-fixed": "#f2e0c8",
+                        "cream-surface": "#FFFDF9",
+                        "primary-container": "#d97757",
+                        "on-tertiary-container": "#332a1a",
+                        "on-primary-container": "#541400"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "section-gap": "48px",
+                        "unit": "8px",
+                        "gutter": "16px",
+                        "container-padding-desktop": "64px",
+                        "container-padding-mobile": "24px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Playfair Display"],
+                        "body-lg": ["Inter"],
+                        "headline-md-mobile": ["Playfair Display"],
+                        "title-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg-mobile": ["Playfair Display"],
+                        "caption": ["Inter"],
+                        "headline-md": ["Playfair Display"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-md-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "500" }],
+                        "title-lg": ["20px", { "lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "caption": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "headline-md": ["32px", { "lineHeight": "40px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background min-h-screen text-on-background antialiased relative">
+<!-- Top Navigation Shell -->
+<header class="fixed top-0 w-full z-50 backdrop-blur-xl bg-surface/5 border-b border-white/10 flex justify-between items-center px-container-padding-mobile py-4 transition-all duration-500 ease-in-out">
+<button class="text-on-surface-variant hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">spa</span>
+</button>
+<h1 class="font-headline-md-mobile text-headline-md-mobile tracking-widest text-primary">Aura</h1>
+<button class="text-on-surface-variant hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</header>
+<!-- Explorer Screen Background Context (Blurred) -->
+<main class="pt-[80px] pb-[100px] px-container-padding-mobile blur-[3px] filter pointer-events-none opacity-60 transition-opacity duration-500">
+<section class="mb-section-gap">
+<h2 class="font-headline-md-mobile text-headline-md-mobile text-on-background mb-gutter">Explorer</h2>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-earth-container rounded-xl p-4 aspect-square flex flex-col items-center justify-center">
+<span class="material-symbols-outlined text-primary text-4xl mb-2">self_improvement</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Méditation</span>
+</div>
+<div class="bg-earth-container rounded-xl p-4 aspect-square flex flex-col items-center justify-center">
+<span class="material-symbols-outlined text-primary text-4xl mb-2">bedtime</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Sommeil</span>
+</div>
+<div class="bg-earth-container rounded-xl p-4 aspect-square flex flex-col items-center justify-center">
+<span class="material-symbols-outlined text-primary text-4xl mb-2">waves</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Respiration</span>
+</div>
+<div class="bg-earth-container rounded-xl p-4 aspect-square flex flex-col items-center justify-center">
+<span class="material-symbols-outlined text-primary text-4xl mb-2">library_music</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Sons Nature</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Shell -->
+<nav class="fixed bottom-8 left-1/2 -translate-x-1/2 w-[calc(100%-48px)] rounded-full max-w-md backdrop-blur-2xl border border-white/20 bg-surface-container-low/30 shadow-2xl flex justify-around items-center p-2 z-50">
+<button class="flex items-center justify-center text-on-surface-variant/60 p-4 hover:text-primary transition-colors duration-300">
+<span class="material-symbols-outlined">self_improvement</span>
+</button>
+<button class="flex items-center justify-center bg-secondary-container/40 text-secondary-fixed-dim rounded-full p-4 ring-1 ring-white/30 Active: scale-90 transition-transform duration-200">
+<span class="material-symbols-outlined">explore</span>
+</button>
+<button class="flex items-center justify-center text-on-surface-variant/60 p-4 hover:text-primary transition-colors duration-300">
+<span class="material-symbols-outlined">person</span>
+</button>
+</nav>
+<!-- Modal Overlay -->
+<div class="fixed inset-0 z-[100] flex items-center justify-center px-6 bg-surface/20 backdrop-blur-sm" id="modal-overlay">
+<!-- Modal Content -->
+<div class="bg-cream-surface/90 backdrop-blur-md border border-white/40 shadow-[0_20px_60px_-15px_rgba(153,70,42,0.1)] rounded-2xl p-8 max-w-sm w-full text-center relative animate-[fade-in-up_0.4s_ease-out]">
+<!-- Close Button (Optional, for realistic UX) -->
+<button class="absolute top-4 right-4 text-on-surface-variant/60 hover:text-on-surface-variant transition-colors" onclick="document.getElementById('modal-overlay').style.display='none'">
+<span class="material-symbols-outlined">close</span>
+</button>
+<!-- Icon -->
+<div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-soft-amber/10 text-soft-amber mb-6">
+<span class="material-symbols-outlined text-[32px]" style="font-variation-settings: 'FILL' 1;">wb_twilight</span>
+</div>
+<!-- Text Content -->
+<h3 class="font-headline-md-mobile text-headline-md-mobile text-on-background mb-3">Moment de Présence</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8 leading-relaxed">
+                Une nouvelle séance de respiration guidée vient d'être publiée pour vous aider à terminer votre journée.
+            </p>
+<!-- Actions -->
+<button class="w-full bg-terracotta text-white font-label-md text-label-md py-4 px-6 rounded-full hover:opacity-90 transition-opacity active:scale-95 shadow-[0_8px_20px_-8px_rgba(217,119,87,0.4)]">
+                Découvrir
+            </button>
+<button class="w-full mt-3 font-label-md text-label-md text-soft-amber hover:underline py-2 transition-all">
+                Plus tard
+            </button>
+</div>
+</div>
+<style>
+        @keyframes fade-in-up {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+    </style>
+</body></html>
