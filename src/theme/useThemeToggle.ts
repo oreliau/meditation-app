@@ -6,7 +6,6 @@ import {
   themeStorage,
 } from "./storage";
 import { getThemeRuntime } from "./ThemeRuntime";
-import type { ThemeName } from "./types";
 
 // "system" here is the domain term Adaptive mode; "light"/"dark" are a
 // Manual override (see CONTEXT.md). The cycle always returns to "system" so
