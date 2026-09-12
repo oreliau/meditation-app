@@ -1,3 +1,4 @@
+pnpm run lint:ci
 npx --yes expo-doctor@latest
 npx --yes react-compiler-healthcheck@latest
 ./node_modules/.bin/expo prebuild --clean --no-install
