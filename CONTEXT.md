@@ -35,6 +35,10 @@ The session state where the remaining time is actively counting down.
 **Paused**:
 The session state where the remaining time is frozen and can be resumed from where it left off.
 
+**Active**:
+A session that is underway — Running or Paused — as opposed to one that hasn't started (Idle) or has already ended (Stopped, Completed). Only an active session can be stopped, and the duration can't be changed while one is active.
+_Avoid_: In progress, live
+
 **Stopped**:
 The session state after ending early, before the remaining time reached zero on its own. Distinct from Completed: no completion feedback plays.
 _Avoid_: Cancelled

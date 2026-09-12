@@ -6,9 +6,8 @@ import {
 import * as Haptics from "expo-haptics";
 import { useCallback, useEffect, useRef } from "react";
 
-// PLACEHOLDER tone: a generated 0.7 s sine "ding", not a designed bell. The
-// real completion sound is deferred to a future ADR — swap the asset there,
-// nothing else here needs to change.
+// PLACEHOLDER tone (ADR-0003): a generated 0.7 s sine "ding", not a designed
+// bell. Swap the asset here when the real sound is specified.
 const completionChime = require("@/assets/sounds/completion-chime-placeholder.wav");
 
 // Haptic pulse + chime for natural completion only. Callers must not invoke
@@ -21,8 +20,7 @@ export function useCompletionFeedback(): () => void {
   // constructs an HTMLAudioElement, which doesn't exist while Expo Router
   // prerenders this route server-side. Effects never run there.
   useEffect(() => {
-    // A meditation is typically run with the ringer muted; without this the
-    // chime is silently swallowed by the iOS silent switch.
+    // ADR-0003: the chime must survive the iOS silent switch.
     setAudioModeAsync({ playsInSilentMode: true }).catch(() => {
       // Best-effort; unsupported platforms ignore audio mode.
     });

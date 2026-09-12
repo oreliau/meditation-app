@@ -6,8 +6,10 @@ module.exports = {
     "**/__tests__/**/*.test.{js,ts,tsx}",
     "**/*.{spec,test}.{js,ts,tsx}",
   ],
+  // Mirrors tsconfig.json `paths`; order matters (assets before the catch-all).
   moduleNameMapper: {
-    "^@/(.*)$": "<rootDir>/$1",
+    "^@/assets/(.*)$": "<rootDir>/assets/$1",
+    "^@/(.*)$": "<rootDir>/src/$1",
   },
   collectCoverageFrom: [
     "app/**/*.{ts,tsx}",

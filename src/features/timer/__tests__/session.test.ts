@@ -2,6 +2,7 @@ import {
   idleSession,
   pause,
   play,
+  progress,
   remainingMs,
   restart,
   restore,
@@ -204,5 +205,30 @@ describe("Restore after relaunch", () => {
     expect(restore(stopped, T0 + DURATION_MS * 2)).toBe(stopped);
     expect(restore(completed, T0 + DURATION_MS * 2)).toBe(completed);
     expect(restore(idleSession, T0 + DURATION_MS * 2)).toBe(idleSession);
+  });
+});
+
+describe("progress (fraction of the session elapsed, for the ring)", () => {
+  it("is empty before a session starts and full once one completes on its own", () => {
+    expect(progress(idleSession, T0, DURATION_MS)).toBe(0);
+
+    const completed = tick(
+      play(idleSession, T0, DURATION_MS),
+      T0 + DURATION_MS,
+    ).session;
+    expect(progress(completed, T0 + DURATION_MS, DURATION_MS)).toBe(1);
+  });
+
+  it("fills with the wall clock while Running and holds while Paused", () => {
+    const running = play(idleSession, T0, DURATION_MS);
+    expect(progress(running, T0 + DURATION_MS / 4, DURATION_MS)).toBe(0.25);
+
+    const paused = pause(running, T0 + DURATION_MS / 2);
+    expect(progress(paused, T0 + DURATION_MS, DURATION_MS)).toBe(0.5);
+  });
+
+  it("empties again after Stop — an early ending is not a filled ring", () => {
+    const stopped = stop(play(idleSession, T0, DURATION_MS));
+    expect(progress(stopped, T0 + 60_000, DURATION_MS)).toBe(0);
   });
 });

@@ -9,9 +9,10 @@ import {
   formatDurationLabel,
 } from "@/features/timer/durations";
 import { GlassPanel } from "@/features/timer/GlassPanel";
+import { ProgressRing } from "@/features/timer/ProgressRing";
 import type { SessionStatus } from "@/features/timer/session";
-import { useCompletionFeedback } from "@/features/timer/useCompletionFeedback";
 import { useTimerSession } from "@/features/timer/useTimerSession";
+import { spacing } from "@/theme/spacing";
 
 // UI copy uses the CONTEXT.md session vocabulary verbatim; only Completed
 // gets a fuller phrase since it's the one state with feedback attached.
@@ -25,8 +26,7 @@ const statusCopy: Record<SessionStatus, string> = {
 
 export default function TimerScreen() {
   const { theme } = useUnistyles();
-  const playCompletionFeedback = useCompletionFeedback();
-  const session = useTimerSession({ onCompleted: playCompletionFeedback });
+  const session = useTimerSession();
 
   const isRunning = session.status === "Running";
 
@@ -51,6 +51,7 @@ export default function TimerScreen() {
       >
         <Text
           style={[
+            styles.label,
             styles.status,
             session.status === "Completed" && styles.statusCompleted,
           ]}
@@ -59,7 +60,7 @@ export default function TimerScreen() {
         </Text>
 
         <View style={styles.ring}>
-          <View style={styles.outerRing} />
+          <ProgressRing size={RING_SIZE} progress={session.progress} />
           <View style={styles.innerRing} />
           <GlassPanel style={styles.dial}>
             <Text
@@ -68,7 +69,7 @@ export default function TimerScreen() {
             >
               {formatClock(session.remainingSeconds)}
             </Text>
-            <Text style={styles.clockCaption}>Remaining</Text>
+            <Text style={[styles.label, styles.clockCaption]}>Remaining</Text>
           </GlassPanel>
         </View>
 
@@ -78,7 +79,7 @@ export default function TimerScreen() {
             !session.canChangeDuration && styles.pickerLocked,
           ]}
         >
-          <Text style={styles.pickerLabel}>Duration</Text>
+          <Text style={styles.label}>Duration</Text>
           <Host matchContents style={styles.pickerHost}>
             <Picker
               appearance="wheel"
@@ -122,7 +123,9 @@ export default function TimerScreen() {
   );
 }
 
-const RING_SIZE = 288;
+// Sized on DESIGN.md's 8px grid (spacing.unit) rather than the 4px Tailwind
+// steps the mockups happen to use; 288 matches the mobile mockup's w-72.
+const RING_SIZE = spacing.unit * 36;
 
 const styles = StyleSheet.create((theme) => ({
   screen: {
@@ -137,13 +140,17 @@ const styles = StyleSheet.create((theme) => ({
     paddingVertical: theme.spacing.sectionGap,
     gap: theme.spacing.sectionGap,
   },
-  // DESIGN.md > Typography > Hierarchy: a "wide-tracked uppercase Label".
-  status: {
+  // DESIGN.md > Typography > Hierarchy: the "wide-tracked uppercase Label",
+  // taken verbatim from the labelMd level.
+  label: {
     fontFamily: theme.typography.labelMd.fontFamily,
-    fontSize: theme.typography.bodyLg.fontSize,
-    lineHeight: theme.typography.bodyLg.lineHeight,
-    letterSpacing: theme.typography.labelMd.letterSpacing * 2,
+    fontSize: theme.typography.labelMd.fontSize,
+    lineHeight: theme.typography.labelMd.lineHeight,
+    letterSpacing: theme.typography.labelMd.letterSpacing,
     textTransform: "uppercase",
+    color: theme.colors.onSurfaceVariant,
+  },
+  status: {
     color: theme.colors.tertiary,
   },
   statusCompleted: {
@@ -154,14 +161,6 @@ const styles = StyleSheet.create((theme) => ({
     height: RING_SIZE,
     alignItems: "center",
     justifyContent: "center",
-  },
-  outerRing: {
-    position: "absolute",
-    inset: 0,
-    borderRadius: theme.radius.full,
-    borderWidth: 1,
-    borderColor: theme.colors.primary,
-    opacity: 0.2,
   },
   innerRing: {
     position: "absolute",
@@ -188,12 +187,6 @@ const styles = StyleSheet.create((theme) => ({
   },
   clockCaption: {
     marginTop: theme.spacing.unit,
-    fontFamily: theme.typography.labelMd.fontFamily,
-    fontSize: theme.typography.labelMd.fontSize,
-    lineHeight: theme.typography.labelMd.lineHeight,
-    letterSpacing: theme.typography.labelMd.letterSpacing * 2,
-    textTransform: "uppercase",
-    color: theme.colors.onSurfaceVariant,
   },
   pickerBlock: {
     alignSelf: "stretch",
@@ -202,14 +195,6 @@ const styles = StyleSheet.create((theme) => ({
   },
   pickerLocked: {
     opacity: 0.4,
-  },
-  pickerLabel: {
-    fontFamily: theme.typography.labelMd.fontFamily,
-    fontSize: theme.typography.labelMd.fontSize,
-    lineHeight: theme.typography.labelMd.lineHeight,
-    letterSpacing: theme.typography.labelMd.letterSpacing,
-    textTransform: "uppercase",
-    color: theme.colors.onSurfaceVariant,
   },
   pickerHost: {
     alignSelf: "stretch",

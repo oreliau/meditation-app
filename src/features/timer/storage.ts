@@ -1,21 +1,16 @@
 import { createMMKV } from "react-native-mmkv";
+import { isStorageAvailable } from "@/storage/isStorageAvailable";
 import { type DurationMinutes, isDurationPreset } from "./durations";
 import type { Session } from "./session";
 
+// Holds the live session and the chosen preset only — no history (ADR-0004).
 export const timerStorage = createMMKV({ id: "aura-timer" });
 
 export const DURATION_MINUTES_KEY = "durationMinutes";
 export const SESSION_KEY = "session";
 
-// Same web-SSR guard as src/theme/storage.ts: MMKV's web backend touches
-// `window.localStorage` lazily and throws when Expo Router prerenders
-// without a DOM. The client bundle re-reads normally.
-function canReadStorage(): boolean {
-  return typeof window !== "undefined";
-}
-
 export function getPersistedDurationMinutes(): DurationMinutes | undefined {
-  if (!canReadStorage()) {
+  if (!isStorageAvailable()) {
     return undefined;
   }
 
@@ -25,11 +20,13 @@ export function getPersistedDurationMinutes(): DurationMinutes | undefined {
 }
 
 export function persistDurationMinutes(minutes: DurationMinutes): void {
-  timerStorage.set(DURATION_MINUTES_KEY, minutes);
+  if (isStorageAvailable()) {
+    timerStorage.set(DURATION_MINUTES_KEY, minutes);
+  }
 }
 
 export function getPersistedSession(): Session | undefined {
-  if (!canReadStorage()) {
+  if (!isStorageAvailable()) {
     return undefined;
   }
 
@@ -47,7 +44,9 @@ export function getPersistedSession(): Session | undefined {
 }
 
 export function persistSession(session: Session): void {
-  timerStorage.set(SESSION_KEY, JSON.stringify(session));
+  if (isStorageAvailable()) {
+    timerStorage.set(SESSION_KEY, JSON.stringify(session));
+  }
 }
 
 // Defensive decode: the stored blob is our own JSON, but a shape mismatch

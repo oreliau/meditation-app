@@ -1,6 +1,7 @@
 import { SymbolView, type SymbolViewProps } from "expo-symbols";
 import { Pressable } from "react-native";
 import { StyleSheet, useUnistyles } from "react-native-unistyles";
+import { spacing } from "@/theme/spacing";
 import { GlassPanel } from "./GlassPanel";
 
 // Cross-platform glyphs: SF Symbols on iOS, Material Symbols on Android/web.
@@ -32,7 +33,9 @@ export function ControlButton({
   primary = false,
 }: ControlButtonProps) {
   const { theme } = useUnistyles();
-  const size = primary ? 80 : 64;
+  // 8px-grid sizes: the mockups' 80/64pt buttons with 32/24pt glyphs.
+  const size = spacing.unit * (primary ? 10 : 8);
+  const iconSize = spacing.unit * (primary ? 4 : 3);
   const tint = primary ? theme.colors.primary : theme.colors.onSurfaceVariant;
 
   return (
@@ -57,7 +60,7 @@ export function ControlButton({
       >
         <SymbolView
           name={controlIcons[icon]}
-          size={primary ? 32 : 24}
+          size={iconSize}
           tintColor={tint}
         />
       </GlassPanel>

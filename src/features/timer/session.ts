@@ -52,7 +52,7 @@ export function pause(session: Session, now: number): Session {
 }
 
 // Stop is the quiet ending: remaining time drops to 0 immediately and — unlike
-// Completed — no completion feedback follows (see CONTEXT.md > Stopped).
+// Completed — no completion feedback follows (ADR-0002).
 export function stop(session: Session): Session {
   if (!isActive(session)) {
     return session;
@@ -86,9 +86,8 @@ export function tick(session: Session, now: number): TickResult {
   return { session, completedNaturally: false };
 }
 
-// Relaunch rule: a Running session that expired while the app was killed is
-// shown as Completed, but deliberately without a completion signal — the
-// moment already happened unobserved, so no haptic/sound/celebration.
+// Relaunch rule (ADR-0002): a Running session that expired while the app was
+// killed is shown as Completed, but deliberately without a completion signal.
 export function restore(session: Session, now: number): Session {
   return tick(session, now).session;
 }
@@ -108,5 +107,25 @@ export function remainingMs(
     case "Stopped":
     case "Completed":
       return 0;
+  }
+}
+
+// Fraction of the session elapsed, 0..1, for DESIGN.md's progress ring that
+// "fills as session progresses". Stopped reads as 0, not "almost full":
+// an early ending shouldn't look like a near-completion.
+export function progress(
+  session: Session,
+  now: number,
+  durationMs: number,
+): number {
+  switch (session.status) {
+    case "Idle":
+    case "Stopped":
+      return 0;
+    case "Completed":
+      return 1;
+    case "Running":
+    case "Paused":
+      return 1 - remainingMs(session, now, durationMs) / durationMs;
   }
 }
