@@ -49,7 +49,8 @@
       ],
       "expo-image",
       "expo-audio",
-      "expo-asset"
+      "expo-asset",
+      "react-native-webgpu"
     ],
     "experiments": {
       "typedRoutes": true,

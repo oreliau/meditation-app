@@ -1,21 +1,25 @@
 import { Link } from "expo-router";
 import { Pressable, Text, View } from "react-native";
 import { StyleSheet } from "react-native-unistyles";
+import { SanctuaryBackground } from "@/features/home/sanctuary-background";
 import { SettingsButton } from "@/settings/SettingsButton";
 import { ThemeToggleButton } from "@/theme/ThemeToggleButton";
 
 export default function Index() {
   return (
     <View style={styles.container}>
-      <SettingsButton />
-      <Text style={styles.headline}>Lumina Flow</Text>
-      <Text style={styles.body}>A quiet moment, whenever you need one.</Text>
-      <Link href="/timer" asChild>
-        <Pressable style={styles.primaryAction} accessibilityRole="button">
-          <Text style={styles.primaryActionLabel}>Begin a session</Text>
-        </Pressable>
-      </Link>
-      <ThemeToggleButton />
+      <SanctuaryBackground />
+      <View style={styles.content}>
+        <SettingsButton />
+        <Text style={styles.headline}>Lumina Flow</Text>
+        <Text style={styles.body}>A quiet moment, whenever you need one.</Text>
+        <Link href="/timer" asChild>
+          <Pressable style={styles.primaryAction} accessibilityRole="button">
+            <Text style={styles.primaryActionLabel}>Begin a session</Text>
+          </Pressable>
+        </Link>
+        <ThemeToggleButton />
+      </View>
     </View>
   );
 }
@@ -23,10 +27,13 @@ export default function Index() {
 const styles = StyleSheet.create((theme) => ({
   container: {
     flex: 1,
+    backgroundColor: theme.colors.background,
+  },
+  content: {
+    flex: 1,
     alignItems: "center",
     justifyContent: "center",
     gap: theme.spacing.gutter,
-    backgroundColor: theme.colors.background,
   },
   headline: {
     fontFamily: theme.typography.headlineMd.fontFamily,
