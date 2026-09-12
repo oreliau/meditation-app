@@ -12,7 +12,7 @@ const completionChime = require("@/assets/sounds/completion-chime-placeholder.wa
 
 // Haptic pulse + chime for natural completion only. Callers must not invoke
 // this for Stop, nor for a session found already expired on relaunch (see
-// useTimerSession's onCompleted contract).
+// SessionStore.subscribeToCompletion's contract).
 export function useCompletionFeedback(): () => void {
   const playerRef = useRef<AudioPlayer | null>(null);
 
