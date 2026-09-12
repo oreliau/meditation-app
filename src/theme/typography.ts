@@ -1,20 +1,30 @@
+import { Platform } from "react-native";
+
 // Type scale transcribed from DESIGN.md's Typography tables. `letterSpacing`
 // there is expressed in em; React Native wants px, so each value below is
 // pre-multiplied (em * fontSize) at the point DESIGN.md specifies one.
 //
-// These are just the font *family names* — loading is platform-specific
-// (see useLoadFonts.ts / useLoadFonts.web.ts) and both must use these same
-// names, since native links app.json's node_modules/@expo-google-fonts/*
-// .ttf files under their PostScript names, which match these exactly.
+// iOS uses each embedded font's PostScript name. Android uses the embedded
+// filename, while web registers that same alias in useLoadFonts.web.ts.
+function selectFontFamily(ios: string, fallback: string): string {
+  return Platform.select({ ios, default: fallback });
+}
+
 export const playfairDisplay = {
-  medium: "PlayfairDisplay_500Medium",
-  semiBold: "PlayfairDisplay_600SemiBold",
+  medium: selectFontFamily(
+    "PlayfairDisplay-Medium",
+    "PlayfairDisplay_500Medium",
+  ),
+  semiBold: selectFontFamily(
+    "PlayfairDisplay-SemiBold",
+    "PlayfairDisplay_600SemiBold",
+  ),
 } as const;
 
 export const inter = {
-  regular: "Inter_400Regular",
-  medium: "Inter_500Medium",
-  semiBold: "Inter_600SemiBold",
+  regular: selectFontFamily("Inter-Regular", "Inter_400Regular"),
+  medium: selectFontFamily("Inter-Medium", "Inter_500Medium"),
+  semiBold: selectFontFamily("Inter-SemiBold", "Inter_600SemiBold"),
 } as const;
 
 export const typography = {

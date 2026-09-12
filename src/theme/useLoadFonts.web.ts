@@ -1,19 +1,11 @@
-import {
-  Inter_400Regular,
-  Inter_500Medium,
-  Inter_600SemiBold,
-} from "@expo-google-fonts/inter";
-import {
-  PlayfairDisplay_500Medium,
-  PlayfairDisplay_600SemiBold,
-} from "@expo-google-fonts/playfair-display";
+import { Inter_400Regular } from "@expo-google-fonts/inter/400Regular";
+import { Inter_500Medium } from "@expo-google-fonts/inter/500Medium";
+import { Inter_600SemiBold } from "@expo-google-fonts/inter/600SemiBold";
+import { PlayfairDisplay_500Medium } from "@expo-google-fonts/playfair-display/500Medium";
+import { PlayfairDisplay_600SemiBold } from "@expo-google-fonts/playfair-display/600SemiBold";
 import { useFonts } from "expo-font";
 import { inter, playfairDisplay } from "./typography";
 
-// Web (see useLoadFonts.ts): app.json's expo-font plugin only links fonts
-// into the native app bundle, so the web build still has to load them at
-// runtime. Keys must match the `inter`/`playfairDisplay` names typography.ts
-// uses as fontFamily values.
 export function useLoadFonts(): boolean {
   const [fontsLoaded] = useFonts({
     [inter.regular]: Inter_400Regular,
