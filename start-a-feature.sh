@@ -58,7 +58,10 @@ else
     echo -e "${YELLOW}Available MCPs:${NC}"
 
     # Create array of MCPs
-    mapfile -t MCP_ARRAY <<< "$MCP_LIST"
+    MCP_ARRAY=()
+    while IFS= read -r line; do
+        MCP_ARRAY+=("$line")
+    done <<< "$MCP_LIST"
 
     # Display MCPs with numbers
     for i in "${!MCP_ARRAY[@]}"; do
@@ -95,7 +98,7 @@ fi
 echo ""
 
 # Build sbx command
-SBX_CMD="sbx run ./kits/claude-sonnet --clone --name \"$FEATURE_NAME\""
+SBX_CMD="sbx run ./sandbox/kits/claude-sonnet -t claude-code-pnpm:v1 --clone --name \"$FEATURE_NAME\""
 
 # Add static-mcp flag if MCPs are selected
 if [ ! -z "$SELECTED_MCPS" ]; then
@@ -105,4 +108,5 @@ fi
 SBX_CMD="$SBX_CMD . -- \"/grill-with-docs $PROMPT\""
 
 # Run the sbx command
+echo "Running: $SBX_CMD"
 eval "$SBX_CMD"

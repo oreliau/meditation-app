@@ -48,3 +48,6 @@ example
 
 # ADRs
 docs/adr/
+
+# sandbox
+*.tar
