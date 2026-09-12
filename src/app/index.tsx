@@ -1,14 +1,14 @@
 import { Link } from "expo-router";
 import { Pressable, Text, View } from "react-native";
 import { StyleSheet } from "react-native-unistyles";
-import { SanctuaryBackground } from "@/features/home/sanctuary-background";
+import { AdaptiveBackground } from "@/features/home/adaptive-background";
 import { SettingsButton } from "@/settings/SettingsButton";
 import { ThemeToggleButton } from "@/theme/ThemeToggleButton";
 
 export default function Index() {
   return (
     <View style={styles.container}>
-      <SanctuaryBackground />
+      <AdaptiveBackground />
       <View style={styles.content}>
         <SettingsButton />
         <Text style={styles.headline}>Lumina Flow</Text>

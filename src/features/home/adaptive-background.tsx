@@ -3,9 +3,9 @@ import { Component, lazy, Suspense, useState } from "react";
 import { View } from "react-native";
 import { useReducedMotion } from "react-native-reanimated";
 import { StyleSheet, useUnistyles } from "react-native-unistyles";
-import { sanctuaryPalettes } from "./sanctuary-palette";
+import { backgroundThemeValues } from "./background-theme-values";
 
-const SanctuaryWebGpuLayer = lazy(() => import("./sanctuary-webgpu-layer"));
+const WebGpuBackgroundLayer = lazy(() => import("./webgpu-background-layer"));
 
 class WebGpuErrorBoundary extends Component<
   { children: ReactNode; onFailure(): void },
@@ -26,11 +26,12 @@ class WebGpuErrorBoundary extends Component<
   }
 }
 
-export function SanctuaryBackground() {
+export function AdaptiveBackground() {
   const { rt } = useUnistyles();
   const reducedMotion = useReducedMotion();
   const [gpuFailed, setGpuFailed] = useState(false);
-  const palette = sanctuaryPalettes[rt.themeName === "dark" ? "dark" : "light"];
+  const themeValues =
+    backgroundThemeValues[rt.themeName === "dark" ? "dark" : "light"];
 
   function handleFailure() {
     setGpuFailed(true);
@@ -42,19 +43,19 @@ export function SanctuaryBackground() {
       style={[
         styles.container,
         {
-          backgroundColor: palette.fallbackBackground,
-          experimental_backgroundImage: palette.fallbackGradient,
+          backgroundColor: themeValues.fallbackBackground,
+          experimental_backgroundImage: themeValues.fallbackGradient,
         },
       ]}
       accessibilityElementsHidden
       importantForAccessibility="no-hide-descendants"
-      testID="sanctuary-background"
+      testID="adaptive-background"
     >
       {!gpuFailed ? (
         <WebGpuErrorBoundary onFailure={handleFailure}>
           <Suspense fallback={null}>
-            <SanctuaryWebGpuLayer
-              palette={palette}
+            <WebGpuBackgroundLayer
+              themeValues={themeValues}
               reducedMotion={reducedMotion}
               onFailure={handleFailure}
             />

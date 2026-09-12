@@ -1,12 +1,12 @@
-export const SANCTUARY_SHADER = /* wgsl */ `
+export const BACKGROUND_SHADER = /* wgsl */ `
 struct Uniforms {
   resolution: vec2f,
   time: f32,
   _padding: f32,
   background: vec4f,
-  terracotta: vec4f,
-  amber: vec4f,
-  glow: vec4f,
+  accentOne: vec4f,
+  accentTwo: vec4f,
+  accentThree: vec4f,
 }
 
 @group(0) @binding(0) var<uniform> uniforms: Uniforms;
@@ -42,27 +42,27 @@ fn fragmentMain(input: VertexOutput) -> @location(0) vec4f {
   point.x = (point.x - 0.5) * aspect + 0.5;
 
   let drift = uniforms.time * 0.055;
-  let terracottaCenter = vec2f(
+  let accentOneCenter = vec2f(
     0.14 + sin(drift * 0.73) * 0.09,
     0.76 + cos(drift * 0.61) * 0.08,
   );
-  let amberCenter = vec2f(
+  let accentTwoCenter = vec2f(
     0.82 + cos(drift * 0.57) * 0.10,
     0.22 + sin(drift * 0.69) * 0.09,
   );
-  let glowCenter = vec2f(
+  let accentThreeCenter = vec2f(
     0.52 + sin(drift * 0.41) * 0.12,
     0.51 + cos(drift * 0.47) * 0.10,
   );
 
-  let terracottaAmount = softField(point, terracottaCenter, 0.72);
-  let amberAmount = softField(point, amberCenter, 0.78);
-  let glowAmount = softField(point, glowCenter, 0.62);
+  let accentOneAmount = softField(point, accentOneCenter, 0.72);
+  let accentTwoAmount = softField(point, accentTwoCenter, 0.78);
+  let accentThreeAmount = softField(point, accentThreeCenter, 0.62);
 
   var color = uniforms.background.rgb;
-  color = mix(color, uniforms.terracotta.rgb, terracottaAmount * uniforms.terracotta.a);
-  color = mix(color, uniforms.amber.rgb, amberAmount * uniforms.amber.a);
-  color = mix(color, uniforms.glow.rgb, glowAmount * uniforms.glow.a);
+  color = mix(color, uniforms.accentOne.rgb, accentOneAmount * uniforms.accentOne.a);
+  color = mix(color, uniforms.accentTwo.rgb, accentTwoAmount * uniforms.accentTwo.a);
+  color = mix(color, uniforms.accentThree.rgb, accentThreeAmount * uniforms.accentThree.a);
 
   let vignette = smoothstep(0.95, 0.18, distance(input.uv, vec2f(0.5)));
   color *= 0.96 + vignette * 0.04;

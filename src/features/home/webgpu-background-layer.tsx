@@ -7,24 +7,24 @@ import {
   GPUBufferUsage,
   type RNCanvasContext,
 } from "react-native-webgpu";
+import { BACKGROUND_SHADER } from "./background-shader";
+import type { BackgroundThemeValues } from "./background-theme-values";
 import { startFrameLoop } from "./frame-loop";
-import type { SanctuaryPalette } from "./sanctuary-palette";
-import { SANCTUARY_SHADER } from "./sanctuary-shader";
 
 const TARGET_FRAMES_PER_SECOND = 20;
 const UNIFORM_BUFFER_SIZE = 80;
 
-interface SanctuaryWebGpuLayerProps {
-  palette: SanctuaryPalette;
+interface WebGpuBackgroundLayerProps {
+  themeValues: BackgroundThemeValues;
   reducedMotion: boolean;
   onFailure(): void;
 }
 
-export default function SanctuaryWebGpuLayer({
-  palette,
+export default function WebGpuBackgroundLayer({
+  themeValues,
   reducedMotion,
   onFailure,
-}: SanctuaryWebGpuLayerProps) {
+}: WebGpuBackgroundLayerProps) {
   const canvasRef = useRef<CanvasRef>(null);
   const isFocused = useIsFocused();
   const [appState, setAppState] = useState<AppStateStatus>(
@@ -45,6 +45,15 @@ export default function SanctuaryWebGpuLayer({
     let stopLoop: (() => void) | undefined;
     let device: GPUDevice | undefined;
     let context: RNCanvasContext | undefined;
+
+    function fail() {
+      if (cancelled) {
+        return;
+      }
+      cancelled = true;
+      stopLoop?.();
+      onFailure();
+    }
 
     async function initialize() {
       try {
@@ -68,6 +77,8 @@ export default function SanctuaryWebGpuLayer({
           return;
         }
 
+        void device.lost.then(fail);
+
         context = canvasRef.current?.getContext("webgpu") ?? undefined;
         if (!context) {
           throw new Error("The WebGPU canvas could not be initialized");
@@ -81,8 +92,18 @@ export default function SanctuaryWebGpuLayer({
         const format = navigator.gpu.getPreferredCanvasFormat();
         context.configure({ device, format, alphaMode: "opaque" });
 
-        const shader = device.createShaderModule({ code: SANCTUARY_SHADER });
-        const pipeline = device.createRenderPipeline({
+        const shader = device.createShaderModule({ code: BACKGROUND_SHADER });
+        const compilation = await shader.getCompilationInfo();
+        const compilationErrors = compilation.messages.filter(
+          (message) => message.type === "error",
+        );
+        if (compilationErrors.length > 0) {
+          throw new Error(
+            `Background shader compilation failed: ${compilationErrors.map((message) => message.message).join("; ")}`,
+          );
+        }
+
+        const pipeline = await device.createRenderPipelineAsync({
           layout: "auto",
           vertex: { module: shader, entryPoint: "vertexMain" },
           fragment: {
@@ -101,10 +122,10 @@ export default function SanctuaryWebGpuLayer({
           entries: [{ binding: 0, resource: { buffer: uniformBuffer } }],
         });
         const colors = [
-          ...palette.background,
-          ...palette.terracotta,
-          ...palette.amber,
-          ...palette.glow,
+          ...themeValues.background,
+          ...themeValues.accentOne,
+          ...themeValues.accentTwo,
+          ...themeValues.accentThree,
         ];
 
         stopLoop = startFrameLoop({
@@ -119,38 +140,40 @@ export default function SanctuaryWebGpuLayer({
               return;
             }
 
-            const uniforms = new Float32Array([
-              canvas.width,
-              canvas.height,
-              timestamp / 1000,
-              0,
-              ...colors,
-            ]);
-            device.queue.writeBuffer(uniformBuffer, 0, uniforms);
+            try {
+              const uniforms = new Float32Array([
+                canvas.width,
+                canvas.height,
+                timestamp / 1000,
+                0,
+                ...colors,
+              ]);
+              device.queue.writeBuffer(uniformBuffer, 0, uniforms);
 
-            const encoder = device.createCommandEncoder();
-            const pass = encoder.beginRenderPass({
-              colorAttachments: [
-                {
-                  view: context.getCurrentTexture().createView(),
-                  clearValue: [...palette.background],
-                  loadOp: "clear",
-                  storeOp: "store",
-                },
-              ],
-            });
-            pass.setPipeline(pipeline);
-            pass.setBindGroup(0, bindGroup);
-            pass.draw(3);
-            pass.end();
-            device.queue.submit([encoder.finish()]);
-            context.present();
+              const encoder = device.createCommandEncoder();
+              const pass = encoder.beginRenderPass({
+                colorAttachments: [
+                  {
+                    view: context.getCurrentTexture().createView(),
+                    clearValue: [...themeValues.background],
+                    loadOp: "clear",
+                    storeOp: "store",
+                  },
+                ],
+              });
+              pass.setPipeline(pipeline);
+              pass.setBindGroup(0, bindGroup);
+              pass.draw(3);
+              pass.end();
+              device.queue.submit([encoder.finish()]);
+              context.present();
+            } catch {
+              fail();
+            }
           },
         });
       } catch {
-        if (!cancelled) {
-          onFailure();
-        }
+        fail();
       }
     }
 
@@ -162,7 +185,7 @@ export default function SanctuaryWebGpuLayer({
       context?.unconfigure();
       device?.destroy();
     };
-  }, [appState, isFocused, onFailure, palette, reducedMotion]);
+  }, [appState, isFocused, onFailure, reducedMotion, themeValues]);
 
   return <Canvas ref={canvasRef} style={{ flex: 1 }} opaque />;
 }
