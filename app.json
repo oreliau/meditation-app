@@ -50,7 +50,8 @@
       "expo-image",
       "expo-audio",
       "expo-asset",
-      "expo-status-bar"
+      "expo-status-bar",
+      "react-native-webgpu"
     ],
     "experiments": {
       "reactCompiler": true,
