@@ -63,3 +63,11 @@ _Avoid_: AI reminder, AI notification (no LLM is involved)
 **Evening summary**:
 The 6pm local notification reflecting that day's Daily stats in a reflective, personalized tone, or a generic gentle nudge on a day with no Daily stats.
 _Avoid_: Daily summary (reserve "Daily stats" for the underlying data, "Evening summary" for the notification presenting it)
+
+**Reminder**:
+Either of the two opt-in, repeating local (on-device, never push) daily notifications — the Morning presence reminder and the Evening summary — scheduled at device-local time and re-issued with fresh content on every app foreground.
+_Avoid_: Push notification, alarm (the mockups' "Session alarms" are a separate, unbuilt concept)
+
+**Presence sentence**:
+One of the bundled, curated "being present" lines the Morning presence reminder carries. Chosen per delivery day so consecutive mornings never repeat.
+_Avoid_: Quote, tip

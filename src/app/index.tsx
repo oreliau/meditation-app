@@ -1,14 +1,20 @@
-import { Text, View } from "react-native";
+import { Link } from "expo-router";
+import { Pressable, Text, View } from "react-native";
 import { StyleSheet } from "react-native-unistyles";
+import { SettingsButton } from "@/settings/SettingsButton";
 import { ThemeToggleButton } from "@/theme/ThemeToggleButton";
 
 export default function Index() {
   return (
     <View style={styles.container}>
+      <SettingsButton />
       <Text style={styles.headline}>Lumina Flow</Text>
-      <Text style={styles.body}>
-        Edit src/app/index.tsx to edit this screen.
-      </Text>
+      <Text style={styles.body}>A quiet moment, whenever you need one.</Text>
+      <Link href="/timer" asChild>
+        <Pressable style={styles.primaryAction} accessibilityRole="button">
+          <Text style={styles.primaryActionLabel}>Begin a session</Text>
+        </Pressable>
+      </Link>
       <ThemeToggleButton />
     </View>
   );
@@ -33,5 +39,18 @@ const styles = StyleSheet.create((theme) => ({
     fontSize: theme.typography.bodyMd.fontSize,
     lineHeight: theme.typography.bodyMd.lineHeight,
     color: theme.colors.onSurfaceVariant,
+  },
+  primaryAction: {
+    paddingVertical: theme.spacing.unit * 2,
+    paddingHorizontal: theme.spacing.unit * 4,
+    borderRadius: theme.radius.full,
+    backgroundColor: theme.colors.primary,
+  },
+  primaryActionLabel: {
+    fontFamily: theme.typography.labelMd.fontFamily,
+    fontSize: theme.typography.labelMd.fontSize,
+    lineHeight: theme.typography.labelMd.lineHeight,
+    letterSpacing: theme.typography.labelMd.letterSpacing,
+    color: theme.colors.onPrimary,
   },
 }));

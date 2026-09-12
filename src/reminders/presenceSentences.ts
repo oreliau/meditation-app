@@ -1,0 +1,28 @@
+// The curated "being present" set the morning reminder rotates through.
+// One sentence per notification; see rotation.ts for the no-repeat rule.
+export const PRESENCE_SENTENCES = [
+  "Good morning. Before the day begins, take one breath that belongs only to you.",
+  "You don't have to earn this moment. It's already yours.",
+  "Wherever your feet are, that's where your life is happening.",
+  "Notice the light in the room. That's enough for now.",
+  "The day will ask a lot of you. Start by giving yourself a minute.",
+  "Feel the weight of your body being held. You're supported.",
+  "This breath is new. So is this morning.",
+  "Nothing needs solving yet. Just arrive.",
+  "Let your shoulders drop. The rest can wait a moment.",
+  "Presence isn't a task. It's a place you can return to all day.",
+  "You're allowed to move slowly this morning.",
+  "Listen for the quietest sound you can find. Stay with it.",
+  "Today, try meeting one ordinary moment with your full attention.",
+  "Your mind will wander. Coming back is the practice, not a failure.",
+  "Be where you are. It's the only place anything real can happen.",
+  "One calm breath now can change the shape of the whole day.",
+  "You don't need to be ready. You only need to be here.",
+  "The morning doesn't rush. Let it show you how.",
+  "Soften your gaze. Soften your jaw. Begin from there.",
+  "Whatever today holds, you'll meet it one moment at a time.",
+  "Rest your attention on your hands. Feel them. That's presence.",
+  "Kindness toward yourself is a good first act of the day.",
+  "Take in this moment as if it were new. It is.",
+  "Let this be a morning you actually notice.",
+] as const;
