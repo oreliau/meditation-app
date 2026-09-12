@@ -19,3 +19,29 @@ _Avoid_: System theme, auto mode
 **Manual override**:
 A user-chosen theme selection that takes precedence over adaptive mode and persists across app restarts.
 _Avoid_: Forced theme, pinned theme
+
+### Session Timer
+
+**Session**:
+One timed run of the meditation timer, bounded by its start and its end (via Stop, Restart, or reaching zero on its own).
+_Avoid_: Timer (the timer is the display/mechanism; the session is the run it measures)
+
+**Idle**:
+The session state before a session has started, or after choosing a duration but before pressing Play.
+
+**Running**:
+The session state where the remaining time is actively counting down.
+
+**Paused**:
+The session state where the remaining time is frozen and can be resumed from where it left off.
+
+**Stopped**:
+The session state after ending early, before the remaining time reached zero on its own. Distinct from Completed: no completion feedback plays.
+_Avoid_: Cancelled
+
+**Completed**:
+The session state after the remaining time reached zero on its own, without being stopped early.
+
+**Restart**:
+Ending the current session early and immediately beginning a new one at the full configured duration.
+_Avoid_: Reset (Restart both ends and begins a session, not just zeroes a clock)
