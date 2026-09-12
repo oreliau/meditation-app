@@ -49,11 +49,12 @@
       ],
       "expo-image",
       "expo-audio",
-      "expo-asset"
+      "expo-asset",
+      "expo-status-bar"
     ],
     "experiments": {
-      "typedRoutes": true,
-      "reactCompiler": true
+      "reactCompiler": true,
+      "typedRoutes": true
     }
   }
 }

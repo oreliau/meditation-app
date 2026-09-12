@@ -1,4 +1,9 @@
 sbx mcp add expo --url https://mcp.expo.dev/mcp
+sbx secret set openai --oauth
+docker build -t codex-pnpm:v1 ./sandbox/templates/codex-pnpm
+docker image save codex-pnpm:v1 -o codex-pnpm.tar
+sbx template load codex-pnpm.tar
+sbx run ./sandbox/kits/codex-luna -t codex-pnpm:v1 --clone --name test
 docker build -t claude-code-pnpm:v1 .
 docker image save claude-code-pnpm:v1 -o claude-code-pnpm.tar
 sbx template load claude-code-pnpm.tar

@@ -1,0 +1,42 @@
+schemaVersion: "2"
+kind: sandbox
+name: codex-luna
+extends: codex
+
+credentials:
+  - service: github
+    apiKey:
+      name: GH_TOKEN
+      proxyManaged: true
+      inject:
+        - domain: api.github.com
+          scheme: bearer
+        - domain: github.com
+          scheme: bearer
+  - service: openai
+    oauth:
+      tokenEndpoint:
+        host: auth.openai.com
+        path: /oauth/token
+      passthrough: true
+
+permissions:
+  network:
+    allow:
+      - auth.openai.com
+      - mcp.expo.dev
+      - stitch.googleapis.com
+      - expo.dev
+      - www.unistyl.es
+      - api.expo.dev
+      - exp.host
+      - cdp.exp.host
+      - reactnative.directory
+      - deb.nodesource.com
+      - cdp.expo.dev
+
+sandbox:
+  command:
+    - --dangerously-bypass-approvals-and-sandbox
+    - --model
+    - gpt-5.6-luna
