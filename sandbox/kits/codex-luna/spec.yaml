@@ -23,6 +23,7 @@ credentials:
 permissions:
   network:
     allow:
+      - react.doctor
       - auth.openai.com
       - mcp.expo.dev
       - stitch.googleapis.com
@@ -37,6 +38,9 @@ permissions:
 
 sandbox:
   command:
+    - --sandbox
+    - danger-full-access
     - --dangerously-bypass-approvals-and-sandbox
+    - --dangerously-bypass-hook-trust
     - --model
     - gpt-5.6-luna

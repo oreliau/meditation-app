@@ -18,6 +18,8 @@ RUN curl -fsSL https://deb.nodesource.com/setup_24.x -o /tmp/nodesource-setup.sh
 	&& apt-get install -y nodejs \
 	&& rm -rf /var/lib/apt/lists/*
 
+RUN npm install -g @openai/codex
+
 RUN npm install -g corepack@0.36.0 \
 	&& corepack enable pnpm
 
