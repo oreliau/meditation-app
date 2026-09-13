@@ -1,6 +1,6 @@
 import { useIsFocused } from "expo-router";
 import { useEffect, useRef, useState } from "react";
-import { AppState, type AppStateStatus, PixelRatio } from "react-native";
+import { AppState, type AppStateStatus, PixelRatio, View } from "react-native";
 import {
   Canvas,
   type CanvasRef,
@@ -27,6 +27,7 @@ export default function WebGpuBackgroundLayer({
 }: WebGpuBackgroundLayerProps) {
   const canvasRef = useRef<CanvasRef>(null);
   const isFocused = useIsFocused();
+  const [layout, setLayout] = useState({ width: 0, height: 0 });
   const [appState, setAppState] = useState<AppStateStatus>(
     AppState.currentState,
   );
@@ -37,7 +38,12 @@ export default function WebGpuBackgroundLayer({
   }, []);
 
   useEffect(() => {
-    if (!isFocused || appState !== "active") {
+    if (
+      !isFocused ||
+      appState !== "active" ||
+      !layout.width ||
+      !layout.height
+    ) {
       return;
     }
 
@@ -96,6 +102,9 @@ export default function WebGpuBackgroundLayer({
 
         const shader = device.createShaderModule({ code: BACKGROUND_SHADER });
         const compilation = await shader.getCompilationInfo();
+        if (cancelled) {
+          return;
+        }
         const compilationErrors = compilation.messages.filter(
           (message) => message.type === "error",
         );
@@ -114,6 +123,9 @@ export default function WebGpuBackgroundLayer({
           },
           primitive: { topology: "triangle-list" },
         });
+        if (cancelled) {
+          return;
+        }
         const uniformBuffer = device.createBuffer({
           size: UNIFORM_BUFFER_SIZE,
           usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
@@ -146,7 +158,7 @@ export default function WebGpuBackgroundLayer({
                 canvas.width,
                 canvas.height,
                 timestamp / 1000,
-                0,
+                process.env.EXPO_OS === "web" ? 1 : 0,
                 ...colors,
               ]);
               device.queue.writeBuffer(uniformBuffer, 0, uniforms);
@@ -186,7 +198,21 @@ export default function WebGpuBackgroundLayer({
       context?.unconfigure();
       device?.destroy();
     };
-  }, [appState, isFocused, onFailure, reducedMotion, themeValues]);
+  }, [appState, isFocused, layout, onFailure, reducedMotion, themeValues]);
 
-  return <Canvas ref={canvasRef} style={{ flex: 1 }} opaque />;
+  return (
+    <View
+      style={{ flex: 1 }}
+      onLayout={({ nativeEvent: { layout: nextLayout } }) => {
+        setLayout((previous) =>
+          previous.width === nextLayout.width &&
+          previous.height === nextLayout.height
+            ? previous
+            : { width: nextLayout.width, height: nextLayout.height },
+        );
+      }}
+    >
+      <Canvas ref={canvasRef} style={{ flex: 1 }} opaque />
+    </View>
+  );
 }
