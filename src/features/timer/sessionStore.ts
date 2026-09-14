@@ -16,8 +16,10 @@ import {
 } from "./session";
 import {
   getPersistedDurationMinutes,
+  getPersistedProgramContext,
   getPersistedSession,
   persistDurationMinutes,
+  persistProgramContext,
   persistSession,
 } from "./storage";
 
@@ -37,6 +39,12 @@ export type SessionSnapshot = {
   // The picker only applies before a session starts (Idle) or after one has
   // ended (Stopped/Completed); it's locked while a session is active.
   canChangeDuration: boolean;
+  programContext?: ProgramContext;
+};
+
+export type ProgramContext = {
+  programId: string;
+  sessionId: string;
 };
 
 export type SessionStore = {
@@ -44,7 +52,10 @@ export type SessionStore = {
   subscribe: (listener: () => void) => () => void;
   // Fired only on natural completion (remaining time reached 0 on its own).
   // Never fired for Stop, nor for a session found already expired on relaunch.
-  subscribeToCompletion: (listener: () => void) => () => void;
+  subscribeToCompletion: (
+    listener: (context?: ProgramContext) => void,
+  ) => () => void;
+  setProgramContext: (context: ProgramContext | undefined) => void;
   setDurationMinutes: (minutes: DurationMinutes) => void;
   play: () => void;
   pause: () => void;
@@ -64,6 +75,7 @@ function snapshotOf(
   session: Session,
   durationMinutes: DurationMinutes,
   now: number,
+  programContext: ProgramContext | undefined,
 ): SessionSnapshot {
   return {
     status: session.status,
@@ -74,6 +86,7 @@ function snapshotOf(
     progress: progress(session, now, minutesToMs(durationMinutes)),
     durationMinutes,
     canChangeDuration: !isActive(session),
+    programContext,
   };
 }
 
@@ -86,22 +99,25 @@ export function createSessionStore(): SessionStore {
   let durationMinutes =
     getPersistedDurationMinutes() ?? DEFAULT_DURATION_MINUTES;
   let session = restore(getPersistedSession() ?? idleSession, now);
-  let snapshot = snapshotOf(session, durationMinutes, now);
+  let programContext = getPersistedProgramContext();
+  let snapshot = snapshotOf(session, durationMinutes, now, programContext);
   // restore() may have moved an expired Running session to Completed; write
   // it back so storage never lags behind what the user is shown.
   persistSession(session);
 
   const listeners = new Set<() => void>();
-  const completionListeners = new Set<() => void>();
+  const completionListeners = new Set<(context?: ProgramContext) => void>();
   let interval: ReturnType<typeof setInterval> | undefined;
 
   function publish(now: number) {
-    const next = snapshotOf(session, durationMinutes, now);
+    const next = snapshotOf(session, durationMinutes, now, programContext);
 
     if (
       next.status === snapshot.status &&
       next.remainingSeconds === snapshot.remainingSeconds &&
-      next.durationMinutes === snapshot.durationMinutes
+      next.durationMinutes === snapshot.durationMinutes &&
+      next.programContext?.programId === snapshot.programContext?.programId &&
+      next.programContext?.sessionId === snapshot.programContext?.sessionId
     ) {
       return;
     }
@@ -140,7 +156,7 @@ export function createSessionStore(): SessionStore {
 
     if (result.completedNaturally) {
       for (const listener of completionListeners) {
-        listener();
+        listener(programContext);
       }
     }
   }
@@ -168,6 +184,12 @@ export function createSessionStore(): SessionStore {
       return () => {
         completionListeners.delete(listener);
       };
+    },
+    setProgramContext(context) {
+      if (isActive(session)) return;
+      programContext = context;
+      persistProgramContext(context);
+      publish(Date.now());
     },
     setDurationMinutes(minutes) {
       if (isActive(session)) {
