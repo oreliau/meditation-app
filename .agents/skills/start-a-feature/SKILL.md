@@ -1,23 +1,21 @@
 ---
 name: start-a-feature
-description: Launch a fresh Docker sandbox (via `sbx`) running the Codex-sonnet kit to build a feature end-to-end, seeded with a @grill-with-docs prompt. Use when the user wants to kick off a new feature, task, or fix in an isolated sandboxed agent session instead of doing it in the current session.
-argument-hint: "<feature-name> <what to build>"
+description: Launch a fresh Docker sandbox (via `sbx`) running the codex-luna kit to build a feature end-to-end, seeded with a $grill-with-docs prompt. Use when the user wants to kick off a new feature, task, or fix in an isolated sandboxed agent session instead of doing it in the current session.
+argument-hint: "<what to build>"
 disable-model-invocation: true
 ---
 
-Agent-callable equivalent of running `start-a-feature.sh` by hand: gathers the same inputs through conversation instead of shell `read` prompts, sharpens them into a draft ADR, breaks that ADR into tracer-bullet GitHub issues via `to-tickets`, then hands a fresh sandboxed agent a reference to those issues instead of the ADR's raw content.
+## 1. Find the feature name
 
-## 1. Get the feature name
-
-If a name was passed as an argument, use it (kebab-case; becomes the sandbox `--name` and the draft ADR's filename). Otherwise ask the user for one directly.
+Find name for the feature (kebab-case; becomes the sandbox `--name` and the draft ADR's filename). 
 
 ## 2. Get the grill-with-docs prompt
 
-Ask the user for the prompt to seed the `grill-with-docs` interview with: a short description of what to build for this feature. This is the `args` passed to the Skill call in the next step, not the feature name from step 1.
+Ask the user for the prompt to seed the `grill-with-docs` interview with: a short description of what to build for this feature. 
 
 ## 3. Interview and draft the ADR
 
-Call the Skill tool for `grill-with-docs`, passing the prompt from step 2 as `args`, to interview the user about this feature (it in turn calls `grilling` then `domain-modeling`). Tell it explicitly: this ADR is a **temporary draft** for handing off to a sandboxed `@implement` run, not a permanent entry in the numbered ADR sequence — write it to `docs/adr/DRAFT-<feature-name>.md` instead of wherever it would normally place a resolved decision. `docs/adr/` is already gitignored in this repo, so the draft never gets committed.
+Call the Skill tool for `grill-with-docs`, passing the prompt from step 2 as `args`, to interview the user about this feature (it in turn calls `grilling` then `domain-modeling`). Tell it explicitly: this ADR is a **temporary draft** for handing off to a sandboxed `$implement` run, not a permanent entry in the numbered ADR sequence — write it to `docs/adr/DRAFT-<feature-name>.md` instead of wherever it would normally place a resolved decision. `docs/adr/` is already gitignored in this repo, so the draft never gets committed.
 
 Stop here if the user abandons the interview; don't proceed to a sandbox with a half-finished ADR.
 
