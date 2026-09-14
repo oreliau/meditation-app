@@ -17,3 +17,13 @@ jest.mock("react-native-mmkv", () => ({
     return store;
   },
 }));
+
+// WidgetKit is only available in an iOS development build.
+jest.mock("expo-widgets", () => ({
+  addUserInteractionListener: () => ({ remove: jest.fn() }),
+  createWidget: () => ({ updateSnapshot: jest.fn(), reload: jest.fn() }),
+  createLiveActivity: () => ({
+    start: () => ({ update: jest.fn(), end: jest.fn() }),
+    getInstances: () => [],
+  }),
+}));

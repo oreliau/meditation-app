@@ -18,6 +18,7 @@ const serverSnapshot: SessionSnapshot = {
   status: "Idle",
   isActive: false,
   remainingSeconds: DEFAULT_DURATION_MINUTES * 60,
+  endsAt: undefined,
   progress: 0,
   durationMinutes: DEFAULT_DURATION_MINUTES,
   canChangeDuration: true,

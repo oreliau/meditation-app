@@ -9,7 +9,8 @@
     "userInterfaceStyle": "automatic",
     "ios": {
       "icon": "./assets/expo.icon",
-      "bundleIdentifier": "com.anonymous.meditation-app"
+      "bundleIdentifier": "com.anonymous.meditation-app",
+      "deploymentTarget": "17.0"
     },
     "android": {
       "adaptiveIcon": {
@@ -51,7 +52,29 @@
       "expo-audio",
       "expo-asset",
       "expo-status-bar",
-      "react-native-webgpu"
+      "react-native-webgpu",
+      [
+        "expo-widgets",
+        {
+          "widgets": [
+            {
+              "name": "MeditationWidget",
+              "displayName": "Meditation",
+              "description": "Start or control your meditation session.",
+              "ios": {
+                "supportedFamilies": [
+                  "systemSmall",
+                  "systemMedium",
+                  "accessoryCircular",
+                  "accessoryRectangular",
+                  "accessoryInline"
+                ],
+                "contentMarginsDisabled": true
+              }
+            }
+          ]
+        }
+      ]
     ],
     "experiments": {
       "reactCompiler": true,
