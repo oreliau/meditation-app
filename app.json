@@ -9,7 +9,7 @@
     "userInterfaceStyle": "automatic",
     "ios": {
       "icon": "./assets/expo.icon",
-      "bundleIdentifier": "com.anonymous.meditation-app"
+      "bundleIdentifier": "com.oreliaukmz.meditationapp"
     },
     "android": {
       "adaptiveIcon": {
@@ -19,7 +19,7 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "com.anonymous.meditationapp"
+      "package": "com.oreliaukmz.meditationapp"
     },
     "web": {
       "output": "static",
