@@ -2,12 +2,43 @@ import { createMMKV } from "react-native-mmkv";
 import { isStorageAvailable } from "@/storage/isStorageAvailable";
 import { type DurationMinutes, isDurationPreset } from "./durations";
 import type { Session } from "./session";
+import type { ProgramContext } from "./sessionStore";
 
-// Holds the live session and the chosen preset only — no history (ADR-0004).
+// Holds the live session, chosen preset, and optional Program session context;
+// it still stores no per-session history (ADR-0004).
 export const timerStorage = createMMKV({ id: "aura-timer" });
 
 export const DURATION_MINUTES_KEY = "durationMinutes";
 export const SESSION_KEY = "session";
+export const PROGRAM_CONTEXT_KEY = "programContext";
+
+export function getPersistedProgramContext(): ProgramContext | undefined {
+  if (!isStorageAvailable()) return undefined;
+  const raw = timerStorage.getString(PROGRAM_CONTEXT_KEY);
+  if (!raw) return undefined;
+  try {
+    const value: unknown = JSON.parse(raw);
+    if (
+      typeof value === "object" &&
+      value !== null &&
+      typeof (value as Record<string, unknown>).programId === "string" &&
+      typeof (value as Record<string, unknown>).sessionId === "string"
+    ) {
+      return value as ProgramContext;
+    }
+  } catch {
+    return undefined;
+  }
+  return undefined;
+}
+
+export function persistProgramContext(
+  context: ProgramContext | undefined,
+): void {
+  if (!isStorageAvailable()) return;
+  if (context) timerStorage.set(PROGRAM_CONTEXT_KEY, JSON.stringify(context));
+  else timerStorage.remove(PROGRAM_CONTEXT_KEY);
+}
 
 export function getPersistedDurationMinutes(): DurationMinutes | undefined {
   if (!isStorageAvailable()) {

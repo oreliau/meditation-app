@@ -9,7 +9,12 @@ import {
 export type SessionTimer = SessionSnapshot &
   Pick<
     SessionStore,
-    "setDurationMinutes" | "play" | "pause" | "stop" | "restart"
+    | "setDurationMinutes"
+    | "setProgramContext"
+    | "play"
+    | "pause"
+    | "stop"
+    | "restart"
   >;
 
 // What the server prerender shows before the client store takes over: an
@@ -38,6 +43,7 @@ export function useTimerSession(
   return {
     ...snapshot,
     setDurationMinutes: store.setDurationMinutes,
+    setProgramContext: store.setProgramContext,
     play: store.play,
     pause: store.pause,
     stop: store.stop,

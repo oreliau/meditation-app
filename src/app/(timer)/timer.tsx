@@ -1,7 +1,9 @@
 import { Host, Picker } from "@expo/ui";
-import { Stack } from "expo-router";
+import { Stack, useLocalSearchParams } from "expo-router";
+import { useEffect } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { StyleSheet, useUnistyles } from "react-native-unistyles";
+import { getProgram } from "@/features/explorer/programs";
 import { ControlButton } from "@/features/timer/ControlButton";
 import {
   DURATION_PRESETS_MINUTES,
@@ -27,6 +29,34 @@ const statusCopy: Record<SessionStatus, string> = {
 export default function TimerScreen() {
   const { theme } = useUnistyles();
   const session = useTimerSession();
+  const params = useLocalSearchParams<{
+    programId?: string;
+    sessionId?: string;
+  }>();
+  const programId =
+    typeof params.programId === "string" ? params.programId : undefined;
+  const sessionId =
+    typeof params.sessionId === "string" ? params.sessionId : undefined;
+  const programSession =
+    programId && sessionId
+      ? getProgram(programId)?.sessions.find((item) => item.id === sessionId)
+      : undefined;
+
+  useEffect(() => {
+    if (programId && sessionId && programSession) {
+      session.setProgramContext({ programId, sessionId });
+      session.setDurationMinutes(programSession.durationMinutes);
+    } else if (!session.isActive && !programSession) {
+      session.setProgramContext(undefined);
+    }
+  }, [
+    programId,
+    sessionId,
+    programSession,
+    session.isActive,
+    session.setDurationMinutes,
+    session.setProgramContext,
+  ]);
 
   const isRunning = session.status === "Running";
 
@@ -85,7 +115,7 @@ export default function TimerScreen() {
               appearance="wheel"
               selectedValue={session.durationMinutes}
               onValueChange={session.setDurationMinutes}
-              enabled={session.canChangeDuration}
+              enabled={session.canChangeDuration && !session.programContext}
               testID="duration-picker"
             >
               {DURATION_PRESETS_MINUTES.map((minutes) => (

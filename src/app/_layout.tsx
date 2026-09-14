@@ -1,6 +1,7 @@
 import { NativeTabs } from "expo-router/unstable-native-tabs";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
+import "../unistyles";
 import { SessionCompletionFeedback } from "@/features/timer/SessionCompletionFeedback";
 import { getSessionStore } from "@/features/timer/sessionStore";
 import { useSessionWidgets } from "@/features/timer/widgets";
@@ -35,6 +36,10 @@ export default function RootLayout() {
             md="home"
           />
           <NativeTabs.Trigger.Label>Home</NativeTabs.Trigger.Label>
+        </NativeTabs.Trigger>
+        <NativeTabs.Trigger name="(explorer)">
+          <NativeTabs.Trigger.Icon sf="safari" md="explore" />
+          <NativeTabs.Trigger.Label>Explore</NativeTabs.Trigger.Label>
         </NativeTabs.Trigger>
         <NativeTabs.Trigger name="(timer)">
           <NativeTabs.Trigger.Icon sf="timer" md="timer" />

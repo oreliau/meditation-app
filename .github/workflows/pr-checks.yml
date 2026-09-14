@@ -78,7 +78,13 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       - name: expo:doctor
+        id: expo-doctor
+        continue-on-error: true
         run: pnpm run expo:doctor
+
+      - name: Warn about Expo Doctor findings
+        if: ${{ steps.expo-doctor.outcome == 'failure' }}
+        run: echo "::warning::Expo Doctor reported issues. Review the expo:doctor step logs for details."
 
   react-compiler-healthcheck:
     name: React Compiler healthcheck

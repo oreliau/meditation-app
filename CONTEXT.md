@@ -71,3 +71,20 @@ _Avoid_: Push notification, alarm (the mockups' "Session alarms" are a separate,
 **Presence sentence**:
 One of the bundled, curated "being present" lines the Morning presence reminder carries. Chosen per delivery day so consecutive mornings never repeat.
 _Avoid_: Quote, tip
+
+### Explorer Programs
+
+**Program**:
+An ordered, bundled course of meditation Sessions. A Program has stable identity and independent progress; completing a Program session requires natural timer completion.
+
+**Program session**:
+One fixed-duration Session within a Program. A Program session is prepared through the shared timer and is marked complete only when that timer reaches zero naturally.
+
+**Program progress**:
+The locally persisted set of completed Program session identifiers for each Program. Progress survives relaunch and does not include standalone Sessions.
+
+**Today’s practice**:
+The Explorer presentation of the current device-local Daily stats. It is an aggregate of completed Sessions, not a per-session history.
+
+**Advice**:
+A bundled, read-only mindfulness guidance card shown in Explorer. Advice is not generated remotely and does not start a Session.

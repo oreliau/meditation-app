@@ -2,6 +2,8 @@ import { render, screen } from "@testing-library/react";
 import type { PropsWithChildren } from "react";
 import RootLayout from "../_layout";
 
+jest.mock("../../unistyles", () => ({}));
+
 jest.mock("expo-splash-screen", () => ({
   preventAutoHideAsync: jest.fn(),
   hideAsync: jest.fn(),
@@ -54,19 +56,21 @@ jest.mock("expo-router/unstable-native-tabs", () => {
 });
 
 describe("root tab navigation", () => {
-  it("exposes Home, Timer, and Settings as exactly three tabs in order", () => {
+  it("exposes the four primary tabs in order", () => {
     render(<RootLayout />);
 
     const tabs = screen.getAllByRole("tab");
 
-    expect(tabs).toHaveLength(3);
+    expect(tabs).toHaveLength(4);
     expect(tabs.map((tab) => tab.textContent)).toEqual([
       "Home",
+      "Explore",
       "Timer",
       "Settings",
     ]);
     expect(tabs.map((tab) => tab.getAttribute("data-route"))).toEqual([
       "(home)",
+      "(explorer)",
       "(timer)",
       "(settings)",
     ]);

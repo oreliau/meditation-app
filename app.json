@@ -9,8 +9,8 @@
     "userInterfaceStyle": "automatic",
     "ios": {
       "icon": "./assets/expo.icon",
-      "bundleIdentifier": "com.anonymous.meditation-app",
-      "deploymentTarget": "17.0"
+      "deploymentTarget": "17.0",
+      "bundleIdentifier": "com.oreliaukmz.meditationapp"
     },
     "android": {
       "adaptiveIcon": {
@@ -20,7 +20,7 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "com.anonymous.meditationapp"
+      "package": "com.oreliaukmz.meditationapp"
     },
     "web": {
       "output": "static",
@@ -78,7 +78,8 @@
     ],
     "experiments": {
       "reactCompiler": true,
-      "typedRoutes": true
+      "typedRoutes": true,
+      "baseUrl": "/meditation-app"
     }
   }
 }
