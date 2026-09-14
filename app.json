@@ -55,7 +55,8 @@
     ],
     "experiments": {
       "reactCompiler": true,
-      "typedRoutes": true
+      "typedRoutes": true,
+      "baseUrl": "/meditation-app"
     }
   }
 }

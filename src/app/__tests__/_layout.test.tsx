@@ -2,6 +2,8 @@ import { render, screen } from "@testing-library/react";
 import type { PropsWithChildren } from "react";
 import RootLayout from "../_layout";
 
+jest.mock("../../unistyles", () => ({}));
+
 jest.mock("expo-splash-screen", () => ({
   preventAutoHideAsync: jest.fn(),
   hideAsync: jest.fn(),

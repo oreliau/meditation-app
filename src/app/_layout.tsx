@@ -1,6 +1,7 @@
 import { NativeTabs } from "expo-router/unstable-native-tabs";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
+import "../unistyles";
 import { SessionCompletionFeedback } from "@/features/timer/SessionCompletionFeedback";
 import { useRefreshRemindersOnForeground } from "@/reminders/useRefreshRemindersOnForeground";
 import { useRecordCompletedSessions } from "@/stats/useRecordCompletedSessions";
