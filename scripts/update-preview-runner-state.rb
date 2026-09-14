@@ -4,8 +4,12 @@ require "fileutils"
 require "json"
 require "time"
 
-path = ENV.fetch("PREVIEW_STATE_FILE", File.expand_path("~/.meditation-app/preview-runner-state.json"))
-path = File.expand_path(path)
+path = ENV.fetch("PREVIEW_STATE_FILE", "~/.meditation-app/preview-runner-state.json")
+path = if path.start_with?("~/")
+  File.join(Dir.home, path[2..])
+else
+  File.expand_path(path)
+end
 commit = ENV.fetch("PREVIEW_SHA")
 platform = ENV.fetch("PREVIEW_PLATFORM")
 status = ENV.fetch("PREVIEW_STATUS")
