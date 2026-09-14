@@ -1,5 +1,7 @@
 name: Mobile private preview
 
+run-name: Mobile preview ${{ github.event.inputs.sha || github.sha }}
+
 on:
   push:
     branches: [main]
@@ -21,12 +23,16 @@ concurrency:
 
 env:
   EXPO_NO_TELEMETRY: "1"
-  PREVIEW_SHA: ${{ inputs.sha || github.sha }}
+  # Use the manual SHA only for workflow_dispatch; pushes always preview the
+  # commit that caused the workflow, which is the merge result on main.
+  PREVIEW_SHA: ${{ github.event.inputs.sha || github.sha }}
   IOS_BUNDLE_IDENTIFIER: com.oreliaukmz.meditationapp
   ANDROID_PACKAGE_NAME: com.oreliaukmz.meditationapp
   PREVIEW_STATE_FILE: ${{ vars.PREVIEW_STATE_FILE || '~/.meditation-app/preview-runner-state.json' }}
 
 jobs:
+  # These jobs intentionally have no `needs` relationship: one store outage or
+  # platform-specific failure must not prevent the other preview from running.
   ios:
     name: iOS TestFlight preview
     runs-on: [self-hosted, macOS, preview-runner]
