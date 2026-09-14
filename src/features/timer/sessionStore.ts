@@ -33,6 +33,8 @@ export type SessionSnapshot = {
   // Running or Paused: there is a session underway that Stop can end.
   isActive: boolean;
   remainingSeconds: number;
+  // Absolute end time for native countdown surfaces. Undefined while paused.
+  endsAt?: number;
   // Fraction of the session elapsed, 0..1, for the progress ring.
   progress: number;
   durationMinutes: DurationMinutes;
@@ -83,6 +85,7 @@ function snapshotOf(
     remainingSeconds: toSeconds(
       remainingMs(session, now, minutesToMs(durationMinutes)),
     ),
+    endsAt: session.status === "Running" ? session.endsAt : undefined,
     progress: progress(session, now, minutesToMs(durationMinutes)),
     durationMinutes,
     canChangeDuration: !isActive(session),
