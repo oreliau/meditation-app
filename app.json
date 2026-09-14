@@ -8,7 +8,7 @@
     "scheme": "meditationapp",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "icon": "./assets/expo.icon",
+      "icon": "./assets/meditation-app.icon",
       "deploymentTarget": "17.0",
       "bundleIdentifier": "com.oreliaukmz.meditationapp"
     },
