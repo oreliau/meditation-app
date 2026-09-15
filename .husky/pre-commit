@@ -1,5 +1,4 @@
-./node_modules/.bin/lint-staged
-./node_modules/.bin/tsc --noEmit
-./node_modules/.bin/jest --bail --onlyChanged
 pnpm run lint:ci
-npx --yes react-doctor@latest --staged --no-score --no-supply-chain
+pnpm run typecheck
+pnpm run react-compiler:healthcheck
+pnpm test

@@ -50,7 +50,7 @@ const withMyConfig: ConfigPlugin<{ apiKey: string }> = (config, { apiKey }) => {
 export default withMyConfig;
 ```
 
-## Using in app.config.js
+## Using in app.json
 
 ```json
 {

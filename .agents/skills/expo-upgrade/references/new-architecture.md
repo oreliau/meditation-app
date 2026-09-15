@@ -17,7 +17,7 @@ Full guide: https://docs.expo.dev/guides/new-architecture/
 | SDK Version | New Architecture Status |
 | ----------- | ----------------------- |
 | SDK 53+     | Enabled by default      |
-| SDK 52      | Opt-in via app.config.js     |
+| SDK 52      | Opt-in via app.json     |
 | SDK 51-     | Experimental            |
 
 ## Configuration

@@ -13,7 +13,7 @@ set -uo pipefail
 
 APP="${1:?usage: clean-fixture.sh <project-path>}"
 
-# Safety guard: only ever clean inside an expo-skill-eval home.
+# Safety guard: only ever clean inside an expo-skill-eval workspace.
 case "$APP" in
   *expo-skill-eval-*) : ;;
   *) echo "clean-fixture: refusing to clean '$APP' (not an expo-skill-eval fixture)" >&2; exit 1 ;;

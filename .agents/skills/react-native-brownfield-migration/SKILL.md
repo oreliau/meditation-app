@@ -54,7 +54,7 @@ Before selecting any reference file, classify the project:
 
 1. If no React Native app exists yet, use Expo creation path:
    - [expo-create-app.md][expo-create-app] -> [expo-quick-start.md][expo-quick-start]
-2. If React Native app exists, inspect `package.json` and `app.config.js`:
+2. If React Native app exists, inspect `package.json` and `app.json`:
    - Expo if `expo` is present or Expo plugin workflow is requested.
    - Bare RN if native folders and direct RN CLI workflow are used without Expo path requirements.
 3. If still unclear, ask one disambiguation question.

@@ -105,7 +105,7 @@ Behavior to remember:
 
 - standalone modules default to all platforms when `--platform` is omitted in non-interactive mode
 - local modules also default to all platforms in non-interactive mode
-- interactive local scaffolding preselects platforms from `app.config.js:expo.platforms` when available, mapping `ios` to `apple`
+- interactive local scaffolding preselects platforms from `app.json:expo.platforms` when available, mapping `ios` to `apple`
 - invalid platform values are ignored with a warning; if all provided values are invalid, the CLI falls back to all platforms
 
 If you do not want web support, omit `web` during scaffolding instead of removing it later.

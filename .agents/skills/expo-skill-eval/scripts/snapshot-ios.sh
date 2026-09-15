@@ -113,7 +113,7 @@ done
 # confirmation dialog that xcrun simctl openurl triggers on the iOS Simulator.
 # expo run:ios embeds the Metro URL in the build, so the dev client auto-connects.
 if [[ "$RUNNER" == "dev-build" ]]; then
-  BUNDLE_ID="$(node -e "try{var a=require('$PROJECT_PATH/app.config.js');console.log((a.expo&&a.expo.ios&&a.expo.ios.bundleIdentifier)||'com.exposkilleval.fixture')}catch(e){console.log('com.exposkilleval.fixture')}" 2>/dev/null || echo 'com.exposkilleval.fixture')"
+  BUNDLE_ID="$(node -e "try{var a=require('$PROJECT_PATH/app.json');console.log((a.expo&&a.expo.ios&&a.expo.ios.bundleIdentifier)||'com.exposkilleval.fixture')}catch(e){console.log('com.exposkilleval.fixture')}" 2>/dev/null || echo 'com.exposkilleval.fixture')"
   xcrun simctl terminate booted "$BUNDLE_ID" 2>/dev/null || true
   sleep 2
   xcrun simctl launch --terminate-running-process booted "$BUNDLE_ID" >/dev/null 2>&1 || true
