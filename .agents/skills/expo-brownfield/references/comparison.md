@@ -54,7 +54,7 @@ When in doubt — and especially when the question is "can the native team avoid
 
 ## What is identical between the approaches
 
-- The React Native + Expo source code itself — the same Expo project, the same `app.json`, the same modules — only differs in **how** it is shipped.
+- The React Native + Expo source code itself — the same Expo project, the same `app.config.js`, the same modules — only differs in **how** it is shipped.
 - The JavaScript module registered with `AppRegistry.registerComponent("main", () => App)` is the same; the native side passes the same `moduleName` string in both flows.
 
 ## What is different at runtime

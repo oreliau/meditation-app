@@ -49,7 +49,7 @@ Add to the appropriate settings file:
         "hooks": [
           {
             "type": "command",
-            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/block-dangerous-git.sh"
+            "command": "\"$CLAUDE_PROJECT_DIR\"/..claude/hooks/block-dangerous-git.sh"
           }
         ]
       }

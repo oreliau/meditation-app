@@ -76,7 +76,7 @@ pnpm exec expo config --type public
 ```
 
 The output must show both identifiers above. A native build will generate the
-`ios/` and `android/` projects from `app.json`; generated projects must not be
+`ios/` and `android/` projects from `app.config.js`; generated projects must not be
 hand-edited or committed unless the build strategy explicitly changes.
 
 ## Outstanding ticket #26 prerequisites

@@ -27,7 +27,7 @@ export function useThemeToggle() {
 
   // No useCallback: `cycle` is only read as an event handler, never as an
   // effect dependency or a memoized child's prop, so a stable identity carries
-  // no behavioral intent. The React Compiler (app.json `experiments.
+  // no behavioral intent. The React Compiler (app.config.js `experiments.
   // reactCompiler`) caches it automatically.
   function cycle() {
     const next = nextMode[mode];

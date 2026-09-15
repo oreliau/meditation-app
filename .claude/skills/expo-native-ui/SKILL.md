@@ -43,7 +43,7 @@ You need `npx expo run:ios/android` or `eas build` ONLY when using:
 - **Local Expo modules** (custom native code in `modules/`)
 - **Apple targets** (widgets, app clips, extensions via `@bacons/apple-targets`)
 - **Third-party native modules** not included in Expo Go
-- **Custom native configuration** that can't be expressed in `app.json`
+- **Custom native configuration** that can't be expressed in `app.config.js`
 
 ### When Expo Go Works
 

@@ -57,7 +57,7 @@ if [[ ! -d "$CACHE_DIR" ]]; then
   # would prompt for them - which fails in the snapshot scripts' non-interactive
   # mode - and the snapshot scripts need a known id to relaunch the app by.
   (cd "$TMP_DIR/fixture" && bun -e '
-    const f = "app.json";
+    const f = "app.config.js";
     const j = await Bun.file(f).json();
     j.expo ??= {};
     j.expo.ios ??= {};

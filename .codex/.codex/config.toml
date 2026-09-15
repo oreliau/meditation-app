@@ -1,6 +1,0 @@
-[projects."/Users/oreliaukoumedzro/Development/meditation-app"]
-trust_level = "trusted"
-
-[tui]
-status_line = ["model-with-reasoning", "git-branch", "used-tokens", "estimated-thread-cost"]
-status_line_use_colors = true

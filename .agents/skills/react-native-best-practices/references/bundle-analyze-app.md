@@ -188,7 +188,7 @@ cd android && ./gradlew bundleRelease
 # Check: android/app/build/outputs/bundle/release/
 
 # iOS archive
-cd ios && xcodebuild -workspace ios/MyApp.xcworkspace \
+cd ios && xcodebuild -home ios/MyApp.xcworkspace \
   -scheme MyApp \
   -configuration Release \
   -archivePath MyApp.xcarchive \

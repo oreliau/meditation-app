@@ -1,5 +1,9 @@
 FROM docker/sandbox-templates:claude-code
 
+LABEL com.docker.sandboxes="templates" \
+	com.docker.sandboxes.base="docker/sandbox-templates:claude-code" \
+	com.docker.sandboxes.flavor="claude-sonnet"
+
 USER root
 
 ARG NODESOURCE_SETUP_SHA256=6e3d580f5bd7ccf2aa1e8df8d35c60d78e873c3ff8beb282c9bebd914904ad72

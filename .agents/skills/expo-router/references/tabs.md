@@ -376,7 +376,7 @@ import { NativeTabs } from "expo-router/unstable-native-tabs";
 
 ## Keyboard Handling (Android)
 
-Configure in app.json:
+Configure in app.config.js:
 
 ```json
 {

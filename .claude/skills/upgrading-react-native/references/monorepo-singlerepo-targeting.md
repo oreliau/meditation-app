@@ -1,7 +1,7 @@
 ---
 title: Monorepo vs Single-App Targeting
 impact: HIGH
-tags: monorepo, workspace, react-native, app-selection
+tags: monorepo, home, react-native, app-selection
 ---
 
 # Skill: Monorepo vs Single-App Targeting
