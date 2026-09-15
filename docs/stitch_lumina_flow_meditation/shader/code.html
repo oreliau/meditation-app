@@ -1,124 +1,383 @@
 <!DOCTYPE html>
-
-<html lang="en">
+<html lang="fr" class="h-full">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width,initial-scale=1.0" name="viewport"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: #000;
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aura - Plein Écran Shader Web Desktop (Nocturne)</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .font-serif {
+      font-family: 'Playfair Display', Georgia, serif;
+    }
+    @keyframes breathPulse {
+      0%, 100% { transform: scale(1); opacity: 0.85; filter: drop-shadow(0 0 45px rgba(186, 165, 255, 0.25)); }
+      50% { transform: scale(1.08); opacity: 1; filter: drop-shadow(0 0 75px rgba(224, 242, 241, 0.4)); }
+    }
+    .animate-breath-orb {
+      animation: breathPulse 5.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+    @keyframes softGlow {
+      0%, 100% { opacity: 0.35; transform: scale(0.95); }
+      50% { opacity: 0.65; transform: scale(1.15); }
+    }
+    .animate-halo {
+      animation: softGlow 5.5s ease-in-out infinite;
     }
   </style>
 </head>
-<body>
-<!-- STITCH_SHADER_START:ANIMATION_2 class="fixed inset-0 w-full h-full" -->
-<div class="fixed inset-0 w-full h-full" style="display:block;">
-<canvas id="shader-canvas-ANIMATION_2" style="display:block;width:100%;height:100%"></canvas>
-<script>
-(function() {
-  const canvas = document.getElementById('shader-canvas-ANIMATION_2');
+<body class="h-full w-full bg-[#12121d] text-stone-200 overflow-hidden select-none">
 
-  // Sync the WebGL drawing-buffer size with the CSS-driven layout size.
-  // This fires on initial layout and whenever the element is resized.
-  function syncSize() {
-    const w = canvas.clientWidth  || 1280;
-    const h = canvas.clientHeight || 720;
-    if (canvas.width !== w || canvas.height !== h) {
-      canvas.width  = w;
-      canvas.height = h;
+  <!-- Background WebGL Shader Canvas (Identique au shader nocturne SCREEN_43) -->
+  <div class="fixed inset-0 w-full h-full z-0">
+    <canvas id="shader-canvas" class="w-full h-full block"></canvas>
+  </div>
+
+  <!-- Foreground Atmospheric Vignette & Grain -->
+  <div class="fixed inset-0 pointer-events-none z-[1] bg-[radial-gradient(circle_at_center,transparent_40%,rgba(13,13,24,0.65)_100%)]"></div>
+
+  <!-- Desktop App Chrome Overlay -->
+  <div class="relative z-10 w-full h-full flex flex-col justify-between p-8 md:p-10 pointer-events-none">
+    
+    <!-- Top Bar Desktop Header -->
+    <header class="w-full flex items-center justify-between pointer-events-auto">
+      <!-- Brand & Status -->
+      <div class="flex items-center gap-4">
+        <a href="#" class="w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/15 flex items-center justify-center text-[#baa5ff] shadow-lg shadow-black/20 hover:scale-105 hover:bg-white/15 transition-all">
+          <span class="material-symbols-outlined text-2xl">spa</span>
+        </a>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-serif text-2xl tracking-wide text-white font-medium">Aura</span>
+            <span class="text-[10px] uppercase font-semibold tracking-widest px-2.5 py-0.5 rounded-full bg-[#baa5ff]/20 text-[#baa5ff] border border-[#baa5ff]/30">Nuit Indigo</span>
+          </div>
+          <p class="text-xs text-stone-400 font-light tracking-wider">IMMERSION SENSORIELLE • WEB DESKTOP</p>
+        </div>
+      </div>
+
+      <!-- Quick Session Badges & Ambient Status -->
+      <div class="flex items-center gap-3">
+        <!-- Frequency Badge -->
+        <div class="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-xl border border-white/15 text-stone-200 text-xs shadow-sm">
+          <span class="w-2 h-2 rounded-full bg-[#baa5ff] animate-ping"></span>
+          <span class="font-medium tracking-wide">432 Hz • Sommeil Profond & Sérénité</span>
+        </div>
+
+        <!-- Mouse reactive indicator -->
+        <div class="hidden lg:flex items-center gap-2 px-3.5 py-2 rounded-full bg-white/5 backdrop-blur-md border border-white/10 text-stone-400 text-xs">
+          <span class="material-symbols-outlined text-[16px] text-[#baa5ff]">mouse</span>
+          <span>Fluide réactif au curseur</span>
+        </div>
+
+        <!-- Sound wave control -->
+        <button id="soundToggle" class="w-10 h-10 rounded-full bg-white/10 backdrop-blur-xl border border-white/15 flex items-center justify-center text-stone-300 hover:text-white hover:bg-white/20 transition-colors" title="Ambiance sonore">
+          <span class="material-symbols-outlined text-[20px]">graphic_eq</span>
+        </button>
+
+        <!-- Fullscreen toggle -->
+        <button id="fsToggle" class="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-xl border border-white/15 text-stone-200 text-xs hover:bg-white/20 transition-all shadow-sm">
+          <span class="material-symbols-outlined text-[18px]">fullscreen</span>
+          <span class="font-medium tracking-wide">Plein Écran</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Centerpiece: Luminous Breathing Guide & Timer Hero -->
+    <main class="w-full flex flex-col items-center justify-center my-auto pointer-events-auto">
+      
+      <!-- Luminous Breathing Orb with concentric auroras -->
+      <div class="relative flex items-center justify-center">
+        <!-- Diffuse ambient aura halo -->
+        <div class="absolute w-[440px] h-[440px] rounded-full bg-gradient-to-tr from-[#1a1b41]/40 via-[#baa5ff]/25 to-[#e0f2f1]/20 blur-3xl animate-halo pointer-events-none"></div>
+        <div class="absolute w-[360px] h-[360px] rounded-full border border-[#baa5ff]/20 animate-pulse pointer-events-none"></div>
+
+        <!-- Interactive Core Circle -->
+        <div class="relative w-80 h-80 md:w-96 md:h-96 rounded-full backdrop-blur-2xl bg-white/[0.04] border border-white/20 shadow-[0_20px_70px_rgba(0,0,0,0.6)] flex flex-col items-center justify-center p-8 text-center animate-breath-orb cursor-pointer hover:border-white/35 transition-colors group">
+          
+          <!-- Subtle top sub-label -->
+          <div class="flex items-center gap-1.5 text-[11px] uppercase tracking-[0.25em] text-[#baa5ff] font-semibold mb-3">
+            <span class="material-symbols-outlined text-sm">air</span>
+            <span id="breathPhase">Cohérence 5.5s</span>
+          </div>
+
+          <!-- Main Breathing Guidance Word -->
+          <h1 id="breathInstruction" class="font-serif text-4xl md:text-5xl font-light italic tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.4)] transition-all duration-700">
+            Inspirer
+          </h1>
+
+          <p class="text-xs text-stone-300/80 mt-3 font-light max-w-[210px] leading-relaxed">
+            Laissez le flux indigo détendre vos pensées et bercer l'instant.
+          </p>
+
+          <!-- Small progress wave dots -->
+          <div class="flex items-center gap-1.5 mt-5">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#baa5ff] animate-ping"></span>
+            <span class="w-1.5 h-1.5 rounded-full bg-white/40"></span>
+            <span class="w-1.5 h-1.5 rounded-full bg-white/20"></span>
+            <span class="w-1.5 h-1.5 rounded-full bg-white/10"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Digital Timer & Telemetry -->
+      <div class="mt-8 flex flex-col items-center text-center">
+        <div id="timerDisplay" class="font-serif text-4xl md:text-5xl tracking-wide text-white font-normal drop-shadow-md">
+          20:00
+        </div>
+        <div class="flex items-center gap-3 mt-2 text-xs text-stone-400 tracking-widest uppercase">
+          <span>Session Nocturne</span>
+          <span class="w-1 h-1 rounded-full bg-stone-500"></span>
+          <span>Objectif 20 min</span>
+          <span class="w-1 h-1 rounded-full bg-stone-500"></span>
+          <span class="text-[#baa5ff] flex items-center gap-1">
+            <span class="material-symbols-outlined text-[14px]">favorite</span>
+            <span id="heartRate">58 BPM</span>
+          </span>
+        </div>
+      </div>
+    </main>
+
+    <!-- Bottom Desktop Controls Dock & Inspiration Quote -->
+    <footer class="w-full flex flex-col md:flex-row items-center justify-between gap-6 pointer-events-auto">
+      
+      <!-- Shader Palette Themes Selector -->
+      <div class="flex items-center gap-1.5 p-1.5 rounded-full bg-white/[0.07] backdrop-blur-2xl border border-white/15 shadow-xl">
+        <button class="px-4 py-2 rounded-full text-xs font-medium bg-[#baa5ff]/25 text-white border border-[#baa5ff]/40 shadow-inner flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-[#baa5ff]"></span>
+          Indigo & Lavande
+        </button>
+        <button class="px-4 py-2 rounded-full text-xs font-medium text-stone-400 hover:text-white hover:bg-white/10 transition-colors flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-[#e0f2f1]"></span>
+          Brume Céleste
+        </button>
+        <button class="px-4 py-2 rounded-full text-xs font-medium text-stone-400 hover:text-white hover:bg-white/10 transition-colors flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-[#d97757]"></span>
+          Crépuscule Chaud
+        </button>
+      </div>
+
+      <!-- Playback Media Dock -->
+      <div class="flex items-center gap-3 px-6 py-3 rounded-full bg-white/[0.08] backdrop-blur-2xl border border-white/15 shadow-[0_16px_40px_rgba(0,0,0,0.5)]">
+        <!-- Reset 10s -->
+        <button id="rewindBtn" class="w-10 h-10 rounded-full flex items-center justify-center text-stone-300 hover:text-white hover:bg-white/10 transition-transform active:scale-95" title="Reculer de 15s">
+          <span class="material-symbols-outlined text-[20px]">replay_10</span>
+        </button>
+
+        <!-- Main Play / Pause Button -->
+        <button id="playPauseBtn" class="w-14 h-14 rounded-full bg-gradient-to-tr from-[#baa5ff] to-[#e0f2f1] text-[#12121d] flex items-center justify-center shadow-lg shadow-[#baa5ff]/30 hover:scale-105 active:scale-95 transition-all">
+          <span id="playIcon" class="material-symbols-outlined text-3xl">pause</span>
+        </button>
+
+        <!-- Forward 10s -->
+        <button id="forwardBtn" class="w-10 h-10 rounded-full flex items-center justify-center text-stone-300 hover:text-white hover:bg-white/10 transition-transform active:scale-95" title="Avancer de 15s">
+          <span class="material-symbols-outlined text-[20px]">forward_10</span>
+        </button>
+
+        <div class="w-px h-6 bg-white/15 mx-1"></div>
+
+        <!-- Tibetan Bell chime trigger -->
+        <button id="bellBtn" class="w-10 h-10 rounded-full flex items-center justify-center text-stone-300 hover:text-[#baa5ff] hover:bg-white/10 transition-all" title="Cloche de Pleine Conscience">
+          <span class="material-symbols-outlined text-[20px]">notifications_active</span>
+        </button>
+
+        <!-- Sound volume -->
+        <button id="volumeBtn" class="w-10 h-10 rounded-full flex items-center justify-center text-stone-300 hover:text-white hover:bg-white/10 transition-all" title="Volume">
+          <span class="material-symbols-outlined text-[20px]">volume_up</span>
+        </button>
+      </div>
+
+      <!-- Meditative Thought & Finish Button -->
+      <div class="flex items-center gap-5">
+        <div class="hidden xl:block text-right">
+          <p class="font-serif italic text-sm text-stone-300">« Le calme est le berceau de toute clarté. »</p>
+          <span class="text-[10px] tracking-widest text-stone-500 uppercase">Sanctuaire Aura • Nuit</span>
+        </div>
+
+        <button class="px-6 py-3 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-medium tracking-wider uppercase backdrop-blur-xl transition-all active:scale-95 shadow-md">
+          Terminer la séance
+        </button>
+      </div>
+
+    </footer>
+  </div>
+
+  <!-- WebGL Shader Script (Source exacte du SCREEN_43) -->
+  <script>
+  (function() {
+    const canvas = document.getElementById('shader-canvas');
+
+    function syncSize() {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      if (canvas.width !== w || canvas.height !== h) {
+        canvas.width = w;
+        canvas.height = h;
+      }
     }
-  }
-  if (typeof ResizeObserver !== 'undefined') {
-    new ResizeObserver(syncSize).observe(canvas);
-  }
-  syncSize();
+    window.addEventListener('resize', syncSize);
+    syncSize();
 
-  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-  if (!gl) return;
-  const vs = `attribute vec2 a_position;
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    if (!gl) return;
+
+    const vs = `attribute vec2 a_position;
 varying vec2 v_texCoord;
 void main() {
   v_texCoord = a_position * 0.5 + 0.5;
   gl_Position = vec4(a_position, 0.0, 1.0);
 }`;
-  const fs = `precision highp float;
+
+    // Fragment shader exact reproduit de SCREEN_43 avec couplage curseur
+    const fs = `precision highp float;
 uniform float u_time;
 uniform vec2 u_resolution;
-
+uniform vec2 u_mouse;
 varying vec2 v_texCoord;
 
 void main() {
     vec2 uv = v_texCoord;
+    vec2 mouseNorm = (u_mouse.xy / u_resolution.xy) - 0.5;
     
     // Create a fluid, breathing motion
-    float breathe = sin(u_time * 0.5) * 0.5 + 0.5;
+    float breathe = sin(u_time * 0.45) * 0.5 + 0.5;
     
-    // Layered noise-like gradients
-    float color1 = sin(uv.x * 3.0 + u_time * 0.2) * cos(uv.y * 2.0 + u_time * 0.3);
-    float color2 = sin(uv.y * 4.0 - u_time * 0.1) * cos(uv.x * 5.0 + u_time * 0.4);
+    // Layered noise-like gradients with mouse drift
+    float color1 = sin((uv.x + mouseNorm.x * 0.25) * 3.0 + u_time * 0.22) * cos((uv.y - mouseNorm.y * 0.25) * 2.2 + u_time * 0.3);
+    float color2 = sin(uv.y * 4.2 - u_time * 0.12) * cos(uv.x * 5.2 + u_time * 0.38 + mouseNorm.x * 0.4);
     
-    // Deep meditation colors (Indigo to Lavender)
-    vec3 col1 = vec3(0.10, 0.11, 0.25); // #1A1B41
-    vec3 col2 = vec3(0.73, 0.65, 1.00); // #BAA5FF
-    vec3 col3 = vec3(0.88, 0.95, 0.95); // #E0F2F1
+    // Deep meditation colors (Indigo to Lavender & Mint)
+    vec3 col1 = vec3(0.07, 0.07, 0.16); // Deep Indigo #121228
+    vec3 col2 = vec3(0.73, 0.65, 1.00); // Lavender #BAA5FF
+    vec3 col3 = vec3(0.88, 0.95, 0.95); // Ethereal Mist #E0F2F1
     
-    vec3 finalCol = mix(col1, col2, color1 * 0.5 + 0.5);
-    finalCol = mix(finalCol, col3, color2 * 0.3 * breathe);
-    
+    vec3 finalCol = mix(col1, col2, color1 * 0.45 + 0.45);
+    finalCol = mix(finalCol, col3, color2 * 0.28 * breathe);
+
+    // Vignette douce
+    vec2 center = uv - 0.5;
+    float dist = length(center);
+    finalCol *= smoothstep(1.3, 0.35, dist);
+
     gl_FragColor = vec4(finalCol, 1.0);
 }`;
-  function cs(type, src) {
-    const s = gl.createShader(type);
-    gl.shaderSource(s, src);
-    gl.compileShader(s);
-    return s;
-  }
-  const prog = gl.createProgram();
-  gl.attachShader(prog, cs(gl.VERTEX_SHADER, vs));
-  gl.attachShader(prog, cs(gl.FRAGMENT_SHADER, fs));
-  gl.linkProgram(prog);
-  gl.useProgram(prog);
-  const buf = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
-  const pos = gl.getAttribLocation(prog, 'a_position');
-  gl.enableVertexAttribArray(pos);
-  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
-  const uTime = gl.getUniformLocation(prog, 'u_time');
-  const uRes = gl.getUniformLocation(prog, 'u_resolution');
-  const uMouse = gl.getUniformLocation(prog, 'u_mouse');
 
-  // u_mouse is in pixel coordinates matching u_resolution (ShaderToy convention).
-  // Shaders that need normalized coords should use: u_mouse / u_resolution.
-  let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
-  window.addEventListener('mousemove', (event) => {
-    const rect = canvas.getBoundingClientRect();
-    if (rect.width && rect.height) {
-      const nx = (event.clientX - rect.left) / rect.width;
-      const ny = 1.0 - (event.clientY - rect.top) / rect.height;
-      mouse.x = nx * canvas.width;
-      mouse.y = ny * canvas.height;
+    function cs(type, src) {
+      const s = gl.createShader(type);
+      gl.shaderSource(s, src);
+      gl.compileShader(s);
+      return s;
     }
-  });
 
-  function render(t) {
-    if (typeof ResizeObserver === 'undefined') syncSize();
-    gl.viewport(0, 0, canvas.width, canvas.height);
-    if (uTime) gl.uniform1f(uTime, t * 0.001);
-    if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
-    if (uMouse) gl.uniform2f(uMouse, mouse.x, mouse.y);
-    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-    requestAnimationFrame(render);
-  }
-  render(0);
-})();
-</script>
-</div>
-<!-- STITCH_SHADER_END:ANIMATION_2 -->
+    const prog = gl.createProgram();
+    gl.attachShader(prog, cs(gl.VERTEX_SHADER, vs));
+    gl.attachShader(prog, cs(gl.FRAGMENT_SHADER, fs));
+    gl.linkProgram(prog);
+    gl.useProgram(prog);
+
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+
+    const pos = gl.getAttribLocation(prog, 'a_position');
+    gl.enableVertexAttribArray(pos);
+    gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+
+    const uTime = gl.getUniformLocation(prog, 'u_time');
+    const uRes = gl.getUniformLocation(prog, 'u_resolution');
+    const uMouse = gl.getUniformLocation(prog, 'u_mouse');
+
+    let mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.clientX;
+      mouse.y = window.innerHeight - e.clientY;
+    });
+
+    function render(t) {
+      gl.viewport(0, 0, canvas.width, canvas.height);
+      if (uTime) gl.uniform1f(uTime, t * 0.001);
+      if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
+      if (uMouse) gl.uniform2f(uMouse, mouse.x, mouse.y);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+      requestAnimationFrame(render);
+    }
+    render(0);
+  })();
+
+  // Breathing Cycle Logic and Dynamic Interactive UI
+  (function() {
+    const phases = [
+      { text: "Inspirer", sub: "Cohérence 5.5s" },
+      { text: "Retenir", sub: "Apaisement" },
+      { text: "Expirer", sub: "Relâchement" },
+      { text: "Savourer", sub: "Présence Pure" }
+    ];
+    let phaseIdx = 0;
+    const textEl = document.getElementById('breathInstruction');
+    const subEl = document.getElementById('breathPhase');
+
+    setInterval(() => {
+      phaseIdx = (phaseIdx + 1) % phases.length;
+      textEl.style.opacity = '0';
+      textEl.style.transform = 'scale(0.95)';
+      setTimeout(() => {
+        textEl.textContent = phases[phaseIdx].text;
+        subEl.textContent = phases[phaseIdx].sub;
+        textEl.style.opacity = '1';
+        textEl.style.transform = 'scale(1)';
+      }, 350);
+    }, 5500);
+
+    // Timer countdown interactive
+    let totalSeconds = 1200; // 20:00
+    let isPlaying = true;
+    const timerEl = document.getElementById('timerDisplay');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const playIcon = document.getElementById('playIcon');
+
+    function updateTimerDisplay() {
+      const mins = Math.floor(totalSeconds / 60);
+      const secs = totalSeconds % 60;
+      timerEl.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
+    const timerInterval = setInterval(() => {
+      if (isPlaying && totalSeconds > 0) {
+        totalSeconds--;
+        updateTimerDisplay();
+      }
+    }, 1000);
+
+    playPauseBtn.addEventListener('click', () => {
+      isPlaying = !isPlaying;
+      playIcon.textContent = isPlaying ? 'pause' : 'play_arrow';
+    });
+
+    document.getElementById('rewindBtn').addEventListener('click', () => {
+      totalSeconds = Math.min(3600, totalSeconds + 15);
+      updateTimerDisplay();
+    });
+
+    document.getElementById('forwardBtn').addEventListener('click', () => {
+      totalSeconds = Math.max(0, totalSeconds - 15);
+      updateTimerDisplay();
+    });
+
+    // Fullscreen Toggle
+    const fsToggle = document.getElementById('fsToggle');
+    fsToggle.addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen().catch(() => {});
+      }
+    });
+  })();
+  </script>
 </body>
 </html>

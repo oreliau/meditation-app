@@ -14,13 +14,13 @@ describe("backgroundThemeValues", () => {
   it("uses the documented indigo, lavender, and mint dark-theme colors", () => {
     expect(backgroundThemeValues.dark.fallbackBackground).toBe("#12121d");
     expect(backgroundThemeValues.dark.fallbackGradient).toContain(
-      "rgba(26, 27, 65, 0.62)",
+      "radial-gradient(circle at 12% 78%, rgba(175, 165, 255, 0.34) 0%, transparent 58%), radial-gradient(circle at 84% 20%, rgba(186, 165, 255, 0.3) 0%, transparent 60%), radial-gradient(circle at 52% 52%, rgba(224, 242, 241, 0.2) 0%, transparent 68%)",
     );
     expect(backgroundThemeValues.dark.fallbackGradient).toContain(
-      "rgba(186, 165, 255, 0.14)",
+      "radial-gradient(circle at 12% 78%, rgba(175, 165, 255, 0.34) 0%, transparent 58%), radial-gradient(circle at 84% 20%, rgba(186, 165, 255, 0.3) 0%, transparent 60%), radial-gradient(circle at 52% 52%, rgba(224, 242, 241, 0.2) 0%, transparent 68%)",
     );
     expect(backgroundThemeValues.dark.fallbackGradient).toContain(
-      "rgba(224, 242, 241, 0.08)",
+      "radial-gradient(circle at 12% 78%, rgba(175, 165, 255, 0.34) 0%, transparent 58%), radial-gradient(circle at 84% 20%, rgba(186, 165, 255, 0.3) 0%, transparent 60%), radial-gradient(circle at 52% 52%, rgba(224, 242, 241, 0.2) 0%, transparent 68%)",
     );
   });
 });

@@ -1,3 +1,4 @@
+import { Root } from "@typegpu/react";
 import type { ErrorInfo, ReactNode } from "react";
 import { Component, lazy, Suspense, useState } from "react";
 import { View } from "react-native";
@@ -54,11 +55,13 @@ export function AdaptiveBackground() {
       {!gpuFailed ? (
         <WebGpuErrorBoundary onFailure={handleFailure}>
           <Suspense fallback={null}>
-            <WebGpuBackgroundLayer
-              themeValues={themeValues}
-              reducedMotion={reducedMotion}
-              onFailure={handleFailure}
-            />
+            <Root disableWorklets>
+              <WebGpuBackgroundLayer
+                themeValues={themeValues}
+                reducedMotion={reducedMotion}
+                onFailure={handleFailure}
+              />
+            </Root>
           </Suspense>
         </WebGpuErrorBoundary>
       ) : null}

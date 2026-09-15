@@ -1,5 +1,4 @@
 minimumReleaseAge: 10080
-trustPolicy: no-downgrade
 trustPolicyExclude:
   - semver@6.3.1
   - ua-parser-js@0.7.41
@@ -50,6 +49,9 @@ minimumReleaseAgeExclude:
   - expo@57.0.22
   - lint-staged@17.5.1
   - react-is@19.3.0
-  - react-native-webgpu@0.10.0
   - react-test-renderer@19.3.0
   - scheduler@0.28.0
+  - react-native-webgpu@0.10.0
+trustPolicy: off
+allowBuilds:
+  unrs-resolver: false

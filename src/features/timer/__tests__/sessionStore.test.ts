@@ -73,7 +73,7 @@ describe("createSessionStore", () => {
   it("re-syncs from the wall clock the moment the app returns to the foreground", () => {
     // jest-expo mocks AppState; capture the listener the store registers so
     // the test can play the OS: timers stall while backgrounded, then "active".
-    const listeners: Array<(state: AppStateStatus) => void> = [];
+    const listeners: ((state: AppStateStatus) => void)[] = [];
     const addEventListener = AppState.addEventListener as jest.Mock;
     addEventListener.mockImplementationOnce((_type, listener) => {
       listeners.push(listener);

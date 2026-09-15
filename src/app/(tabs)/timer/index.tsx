@@ -28,7 +28,8 @@ const statusCopy: Record<SessionStatus, string> = {
 
 export default function TimerScreen() {
   const { theme } = useUnistyles();
-  const session = useTimerSession();
+  const { isActive, setDurationMinutes, setProgramContext, ...session } =
+    useTimerSession();
   const params = useLocalSearchParams<{
     programId?: string;
     sessionId?: string;
@@ -44,18 +45,18 @@ export default function TimerScreen() {
 
   useEffect(() => {
     if (programId && sessionId && programSession) {
-      session.setProgramContext({ programId, sessionId });
-      session.setDurationMinutes(programSession.durationMinutes);
-    } else if (!session.isActive && !programSession) {
-      session.setProgramContext(undefined);
+      setProgramContext({ programId, sessionId });
+      setDurationMinutes(programSession.durationMinutes);
+    } else if (!isActive && !programSession) {
+      setProgramContext(undefined);
     }
   }, [
     programId,
     sessionId,
     programSession,
-    session.isActive,
-    session.setDurationMinutes,
-    session.setProgramContext,
+    isActive,
+    setDurationMinutes,
+    setProgramContext,
   ]);
 
   const isRunning = session.status === "Running";
@@ -114,7 +115,7 @@ export default function TimerScreen() {
             <Picker
               appearance="wheel"
               selectedValue={session.durationMinutes}
-              onValueChange={session.setDurationMinutes}
+              onValueChange={setDurationMinutes}
               enabled={session.canChangeDuration && !session.programContext}
               testID="duration-picker"
             >
@@ -145,7 +146,7 @@ export default function TimerScreen() {
             icon="stop"
             label="Stop"
             onPress={session.stop}
-            disabled={!session.isActive}
+            disabled={!isActive}
           />
         </View>
       </ScrollView>
