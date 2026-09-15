@@ -1,5 +1,0 @@
-app_identifier(ENV.fetch("IOS_BUNDLE_IDENTIFIER"))
-
-apple_id(ENV["FASTLANE_USER"]) if ENV["FASTLANE_USER"]
-team_id(ENV["IOS_TEAM_ID"]) if ENV["IOS_TEAM_ID"]
-itc_team_id(ENV["APP_STORE_CONNECT_TEAM_ID"]) if ENV["APP_STORE_CONNECT_TEAM_ID"]

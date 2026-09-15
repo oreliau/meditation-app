@@ -1,8 +1,8 @@
 const androidPackage =
-  process.env.ANDROID_PACKAGE_NAME || "com.anonymous.meditationapp";
+  process.env.ANDROID_PACKAGE_NAME || "com.oreliaukmz.meditationapp";
 const androidVersionCode = process.env.ANDROID_VERSION_CODE || 1;
 const iosBundleIdentifier =
-  process.env.IOS_BUNDLE_IDENTIFIER || "com.anonymous.meditationapp";
+  process.env.IOS_BUNDLE_IDENTIFIER || "com.oreliaukmz.meditationapp";
 
 module.exports = {
   expo: {
@@ -107,6 +107,11 @@ module.exports = {
       reactCompiler: true,
       typedRoutes: true,
       baseUrl: "/meditation-app",
+    },
+    extra: {
+      eas: {
+        projectId: "a80aea2a-9ef2-43ce-9067-f90ea61e6a11",
+      },
     },
   },
 };

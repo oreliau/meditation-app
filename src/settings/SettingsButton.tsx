@@ -20,10 +20,10 @@ export function SettingsButton() {
   );
 }
 
-const styles = StyleSheet.create((theme) => ({
+const styles = StyleSheet.create((theme, rt) => ({
   button: {
     position: "absolute",
-    top: theme.spacing.gutter,
+    top: theme.spacing.gutter + rt.insets.top,
     right: theme.spacing.gutter,
     width: 44,
     height: 44,
