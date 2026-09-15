@@ -10,7 +10,7 @@ export default function SettingsScreen() {
 
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
-      <Stack.Screen options={{ title: "Settings" }} />
+      <Stack.Screen />
 
       <Text style={styles.headline}>Settings</Text>
       <Text style={styles.subtitle}>Shape your inner sanctuary.</Text>

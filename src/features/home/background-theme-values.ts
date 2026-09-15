@@ -63,8 +63,8 @@ export const backgroundThemeValues = {
   }),
   dark: createBackgroundThemeValues({
     background: "#12121d",
-    accentOne: { color: "#1a1b41", opacity: 0.62 },
-    accentTwo: { color: "#baa5ff", opacity: 0.14 },
-    accentThree: { color: "#e0f2f1", opacity: 0.08 },
+    accentOne: { color: "#afa5ff", opacity: 0.34 },
+    accentTwo: { color: "#baa5ff", opacity: 0.3 },
+    accentThree: { color: "#e0f2f1", opacity: 0.2 },
   }),
 } as const satisfies Record<"light" | "dark", BackgroundThemeValues>;

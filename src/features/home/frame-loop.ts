@@ -34,15 +34,15 @@ export function startFrameLoop({
       }
     }
 
-    frameId = scheduler.request(tick);
+    frameId = scheduler.request.call(globalThis, tick);
   }
 
-  frameId = scheduler.request(tick);
+  frameId = scheduler.request.call(globalThis, tick);
 
   return () => {
     stopped = true;
     if (frameId !== undefined) {
-      scheduler.cancel(frameId);
+      scheduler.cancel.call(globalThis, frameId);
     }
   };
 }

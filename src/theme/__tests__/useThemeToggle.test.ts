@@ -4,7 +4,7 @@ import { setThemeRuntime } from "../ThemeRuntime";
 import { useThemeToggle } from "../useThemeToggle";
 
 const createMockRuntime = () => {
-  const calls: Array<{ method: string; args: unknown[] }> = [];
+  const calls: { method: string; args: unknown[] }[] = [];
 
   const runtime: ThemeRuntime = {
     setAdaptiveMode(enabled: boolean) {

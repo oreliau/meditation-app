@@ -55,3 +55,4 @@ docs/adr/
 *.tar
 
 .env
+.vscode/mcp.json
