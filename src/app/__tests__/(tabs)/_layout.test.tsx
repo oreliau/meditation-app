@@ -34,17 +34,15 @@ describe("tab tab navigation", () => {
 
     const tabs = screen.getAllByRole("tab");
 
-    expect(tabs).toHaveLength(4);
+    expect(tabs).toHaveLength(3);
     expect(tabs.map((tab) => tab.textContent)).toEqual([
-      "Home",
-      "Explore",
       "Timer",
+      "Explore",
       "Settings",
     ]);
     expect(tabs.map((tab) => tab.getAttribute("data-route"))).toEqual([
       "(home)",
       "explorer",
-      "timer",
       "settings",
     ]);
   });

@@ -77,7 +77,7 @@ export default function ExplorerScreen() {
               <Text style={styles.summaryBody}>
                 A few quiet minutes is a good place to begin.
               </Text>
-              <Link href="/timer" asChild>
+              <Link href="/" asChild>
                 <Pressable>
                   <Text style={styles.inlineAction}>Begin a session</Text>
                 </Pressable>
