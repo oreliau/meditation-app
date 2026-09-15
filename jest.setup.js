@@ -16,6 +16,18 @@ jest.mock("react-native-mmkv", () => ({
     }
     return store;
   },
+  // Test-only shim backed by the in-memory store's `_subscribe`, so
+  // components that watch an MMKV instance for changes (e.g. the root
+  // layout's onboarding gate) behave the same under test as at runtime.
+  useMMKVListener: (listener, instance) => {
+    const { useEffect } = jest.requireActual("react");
+    useEffect(() => {
+      if (!instance || typeof instance._subscribe !== "function") {
+        return undefined;
+      }
+      return instance._subscribe(listener);
+    }, [instance, listener]);
+  },
 }));
 
 // WidgetKit is only available in an iOS development build.

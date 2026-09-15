@@ -4,6 +4,13 @@
 // isolate with `<instance>.clearAll()`.
 export function createInMemoryMMKV() {
   const store = new Map<string, string | number | boolean>();
+  const listeners = new Set<(key: string) => void>();
+  const notify = (key: string) => {
+    for (const listener of listeners) {
+      listener(key);
+    }
+  };
+
   return {
     getString: (key: string) => {
       const v = store.get(key);
@@ -19,10 +26,23 @@ export function createInMemoryMMKV() {
     },
     set: (key: string, value: string | number | boolean) => {
       store.set(key, value);
+      notify(key);
     },
-    remove: (key: string) => store.delete(key),
+    remove: (key: string) => {
+      const existed = store.delete(key);
+      if (existed) {
+        notify(key);
+      }
+      return existed;
+    },
     contains: (key: string) => store.has(key),
     getAllKeys: () => [...store.keys()],
     clearAll: () => store.clear(),
+    // Test-only stand-in for react-native-mmkv's change-listener API, wired
+    // up by the `useMMKVListener` mock in jest.setup.js.
+    _subscribe: (listener: (key: string) => void) => {
+      listeners.add(listener);
+      return () => listeners.delete(listener);
+    },
   };
 }
