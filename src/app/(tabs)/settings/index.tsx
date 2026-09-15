@@ -4,9 +4,11 @@ import { StyleSheet } from "react-native-unistyles";
 import { useReminderSettings } from "@/reminders/useReminderSettings";
 import { PermissionDeniedPrompt } from "@/settings/PermissionDeniedPrompt";
 import { ReminderToggleRow } from "@/settings/ReminderToggleRow";
+import { useSessionEndAlertSetting } from "@/settings/useSessionEndAlertSetting";
 
 export default function SettingsScreen() {
   const reminders = useReminderSettings();
+  const sessionEndAlert = useSessionEndAlertSetting();
 
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
@@ -34,7 +36,18 @@ export default function SettingsScreen() {
             reminders.setEveningEnabled(value).catch(() => {});
           }}
         />
-        {reminders.permissionDenied && <PermissionDeniedPrompt />}
+        <View style={styles.divider} />
+        <ReminderToggleRow
+          title="Session-end alert"
+          description="Let me know when my session finishes, even if I've stepped away"
+          value={sessionEndAlert.enabled}
+          onValueChange={(value) => {
+            sessionEndAlert.setEnabled(value).catch(() => {});
+          }}
+        />
+        {(reminders.permissionDenied || sessionEndAlert.permissionDenied) && (
+          <PermissionDeniedPrompt />
+        )}
       </View>
     </ScrollView>
   );

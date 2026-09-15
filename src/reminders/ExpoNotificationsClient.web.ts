@@ -12,6 +12,7 @@ export function createExpoNotificationsClient(): NotificationsClient {
       return "denied";
     },
     async scheduleDaily() {},
+    async scheduleAt() {},
     async cancel() {},
   };
 }

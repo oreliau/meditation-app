@@ -7,6 +7,9 @@ import type {
 // Android requires a channel for scheduled notifications to be delivered;
 // iOS ignores it.
 const CHANNEL_ID = "reminders";
+// Separate from CHANNEL_ID so users can control Session-end alerts
+// independently of Reminders in Android's per-channel notification settings.
+const SESSION_END_ALERT_CHANNEL_ID = "session-end-alert";
 
 function toPermission(
   response: Notifications.NotificationPermissionsStatus,
@@ -34,6 +37,13 @@ export function createExpoNotificationsClient(): NotificationsClient {
     name: "Reminders",
     importance: Notifications.AndroidImportance.DEFAULT,
   });
+  const sessionEndAlertChannelReady = Notifications.setNotificationChannelAsync(
+    SESSION_END_ALERT_CHANNEL_ID,
+    {
+      name: "Session-end alert",
+      importance: Notifications.AndroidImportance.DEFAULT,
+    },
+  );
 
   return {
     async getPermission() {
@@ -57,6 +67,22 @@ export function createExpoNotificationsClient(): NotificationsClient {
           hour,
           minute,
           channelId: CHANNEL_ID,
+        },
+      });
+    },
+
+    async scheduleAt({ id, date, title, body }) {
+      await sessionEndAlertChannelReady;
+      // Scheduling with an existing identifier replaces it on iOS but not
+      // reliably on Android, so cancel explicitly first.
+      await Notifications.cancelScheduledNotificationAsync(id);
+      await Notifications.scheduleNotificationAsync({
+        identifier: id,
+        content: { title, body },
+        trigger: {
+          type: Notifications.SchedulableTriggerInputTypes.DATE,
+          date,
+          channelId: SESSION_END_ALERT_CHANNEL_ID,
         },
       });
     },
