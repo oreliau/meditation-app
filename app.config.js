@@ -7,17 +7,87 @@ const iosBundleIdentifier = process.env.IOS_BUNDLE_IDENTIFIER;
 module.exports = {
   ...appJson,
   expo: {
-    ...appJson.expo,
-    android: {
-      ...appJson.expo.android,
-      ...(androidPackage ? { package: androidPackage } : {}),
-      ...(androidVersionCode
-        ? { versionCode: Number(androidVersionCode) }
-        : {}),
-    },
+    name: "meditation-app",
+    slug: "meditation-app",
+    version: "1.0.0",
+    orientation: "portrait",
+    icon: "./assets/images/icon.png",
+    scheme: "meditationapp",
+    userInterfaceStyle: "automatic",
     ios: {
-      ...appJson.expo.ios,
-      ...(iosBundleIdentifier ? { bundleIdentifier: iosBundleIdentifier } : {}),
+      icon: "./assets/meditation-app.icon",
+      deploymentTarget: "17.0",
+      bundleIdentifier: iosBundleIdentifier,
+    },
+    android: {
+      adaptiveIcon: {
+        backgroundColor: "#E6F4FE",
+        foregroundImage: "./assets/images/android-icon-foreground.png",
+        backgroundImage: "./assets/images/android-icon-background.png",
+        monochromeImage: "./assets/images/android-icon-monochrome.png",
+      },
+      predictiveBackGestureEnabled: false,
+      package: androidPackage,
+      versionCode: Number(androidVersionCode),
+    },
+    web: {
+      output: "static",
+      favicon: "./assets/images/favicon.png",
+    },
+    plugins: [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          backgroundColor: "#208AEF",
+          image: "./assets/images/splash-icon.png",
+          imageWidth: 76,
+        },
+      ],
+      [
+        "expo-font",
+        {
+          fonts: [
+            "node_modules/@expo-google-fonts/inter/400Regular/Inter_400Regular.ttf",
+            "node_modules/@expo-google-fonts/inter/500Medium/Inter_500Medium.ttf",
+            "node_modules/@expo-google-fonts/inter/600SemiBold/Inter_600SemiBold.ttf",
+            "node_modules/@expo-google-fonts/playfair-display/500Medium/PlayfairDisplay_500Medium.ttf",
+            "node_modules/@expo-google-fonts/playfair-display/600SemiBold/PlayfairDisplay_600SemiBold.ttf",
+          ],
+        },
+      ],
+      "expo-image",
+      "expo-audio",
+      "expo-asset",
+      "expo-status-bar",
+      "react-native-webgpu",
+      [
+        "expo-widgets",
+        {
+          widgets: [
+            {
+              name: "MeditationWidget",
+              displayName: "Meditation",
+              description: "Start or control your meditation session.",
+              ios: {
+                supportedFamilies: [
+                  "systemSmall",
+                  "systemMedium",
+                  "accessoryCircular",
+                  "accessoryRectangular",
+                  "accessoryInline",
+                ],
+                contentMarginsDisabled: true,
+              },
+            },
+          ],
+        },
+      ],
+    ],
+    experiments: {
+      reactCompiler: true,
+      typedRoutes: true,
+      baseUrl: "/meditation-app",
     },
   },
 };
