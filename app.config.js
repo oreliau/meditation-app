@@ -71,28 +71,28 @@ module.exports = {
         },
       ],
       "react-native-webgpu",
-      [
-        "expo-widgets",
-        {
-          widgets: [
-            {
-              name: "MeditationWidget",
-              displayName: "Meditation",
-              description: "Start or control your meditation session.",
-              ios: {
-                supportedFamilies: [
-                  "systemSmall",
-                  "systemMedium",
-                  "accessoryCircular",
-                  "accessoryRectangular",
-                  "accessoryInline",
-                ],
-                contentMarginsDisabled: true,
-              },
-            },
-          ],
-        },
-      ],
+      // [
+      //   "expo-widgets",
+      //   {
+      //     widgets: [
+      //       {
+      //         name: "MeditationWidget",
+      //         displayName: "Meditation",
+      //         description: "Start or control your meditation session.",
+      //         ios: {
+      //           supportedFamilies: [
+      //             "systemSmall",
+      //             "systemMedium",
+      //             "accessoryCircular",
+      //             "accessoryRectangular",
+      //             "accessoryInline",
+      //           ],
+      //           contentMarginsDisabled: true,
+      //         },
+      //       },
+      //     ],
+      //   },
+      // ],
     ],
     experiments: {
       reactCompiler: true,
