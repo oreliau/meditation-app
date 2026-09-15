@@ -26,11 +26,11 @@ export function GradientOrb({ label }: { label: string }) {
     if (reducedMotion) {
       return;
     }
-    scale.value = withRepeat(withTiming(1.06, { duration: 2200 }), -1, true);
+    scale.set(withRepeat(withTiming(1.06, { duration: 2200 }), -1, true));
   }, [reducedMotion, scale]);
 
   const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
+    transform: [{ scale: scale.get() }],
   }));
 
   return (
