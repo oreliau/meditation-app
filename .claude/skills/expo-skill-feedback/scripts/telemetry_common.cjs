@@ -88,7 +88,7 @@ function telemetryConfigured() {
 
 // Best-effort agent-harness label for the event (default when --agent-harness isn't passed).
 function detectHarness() {
-  if (process.env.CLAUDECODE) return "claude-code";
+  if (process.env.CLAUDECODE) return ".claude-code";
   if (process.env.CODEX_SANDBOX || process.env.CODEX_SANDBOX_NETWORK_DISABLED ||
       String(process.env.AGENT || "").toLowerCase() === "codex") return "codex";
   return "unknown";

@@ -6,7 +6,7 @@
 input=$(cat)
 
 model=$(echo "$input" | jq -r '.model.display_name // empty')
-cwd=$(echo "$input" | jq -r '.workspace.current_dir // empty')
+cwd=$(echo "$input" | jq -r '.home.current_dir // empty')
 dir_display="${cwd/#$HOME/~}"
 
 # --- Git repo name + branch (skip optional locks to avoid contention) ---

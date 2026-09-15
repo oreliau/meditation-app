@@ -143,7 +143,7 @@ An image-prompt case is a normal case with `reference_image` set; enable "Runtim
 Create the run's directory tree once, with the workspace script — **never with ad-hoc `mkdir`** (a raw `mkdir` prompts: there is no `mkdir` rule, and a `"$WORKSPACE/…"` variable can't match a path glob anyway):
 
 ```bash
-bash /abs/path/expo-skill-eval/scripts/make-workspace.sh /private/tmp/expo-skill-eval-<skill> iteration-N <num-evals>
+bash /abs/path/expo-skill-eval/scripts/make-home.sh /private/tmp/expo-skill-eval-<skill> iteration-N <num-evals>
 ```
 
 This creates `trigger-evals/scratch` and `iteration-N/eval-<i>/{with_skill,without_skill}/outputs` for every eval. It is covered by `Bash(bash *expo-skill-eval/scripts/*)`, and the `mkdir`s inside run as children of the script (no rule of their own). After this, every other directory is made by the scripts/orchestrators that need it (`make-fixture.sh`, the executor orchestrator's `os.makedirs`, the snapshot scripts) or by the `Write` tool auto-creating parents — so you never need another `mkdir`.
@@ -167,8 +167,8 @@ Run trigger evals once per skill, not per code eval case.
 Each executor run gets a fresh Expo app, created by `scripts/make-fixture.sh <app-path> <sdk> [clean|full]`:
 
 ```bash
-scripts/make-fixture.sh <workspace>/iteration-N/eval-X/<config>/app <sdk>          # blank app (default)
-scripts/make-fixture.sh <workspace>/iteration-N/eval-X/<config>/app <sdk> full     # keep example tabs
+scripts/make-fixture.sh <home>/iteration-N/eval-X/<config>/app <sdk>          # blank app (default)
+scripts/make-fixture.sh <home>/iteration-N/eval-X/<config>/app <sdk> full     # keep example tabs
 ```
 
 The script creates the app with `bunx create-expo-app -t default@sdk-<version>` (or the latest template when no version is given) once per SDK version + variant, caches it under `~/.cache/expo-skill-eval/fixtures/`, and clones the cache with APFS copy-on-write — so the first run per variant pays the install cost and every later run is near-instant. The default `clean` variant runs the template's `reset-project` script, so executors start from a blank app and every screen in the output is theirs — a much cleaner grading signal. Use `full` only when the eval prompt assumes an existing app (e.g. "I have an app with two tabs..."). The script also resets git inside the clone, so `git diff` in the app shows exactly what the executor changed (useful evidence for the grader).

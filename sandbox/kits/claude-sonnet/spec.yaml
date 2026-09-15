@@ -1,7 +1,7 @@
 schemaVersion: "2"
 kind: sandbox
-name: claude-sonnet
-extends: claude
+name: .claude-sonnet
+extends: .claude
 
 credentials:
   - service: github
@@ -13,10 +13,18 @@ credentials:
           scheme: bearer
         - domain: github.com
           scheme: bearer
+  - service: .claude
+    oauth:
+      tokenEndpoint:
+        host: .claude.ai
+        path: /oauth/authorize
+      passthrough: true
 
 permissions:
   network:
     allow:
+      - react.doctor
+      - auth.openai.com
       - mcp.expo.dev
       - stitch.googleapis.com
       - expo.dev
@@ -31,7 +39,5 @@ permissions:
 sandbox:
   command:
     - --dangerously-skip-permissions
-    - --settings
-    - /home/agent/.config/claude/sonnet.json
     - --model
-    - claude-sonnet-5
+    - .claude-sonnet-5

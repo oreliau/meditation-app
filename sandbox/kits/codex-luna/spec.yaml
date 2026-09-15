@@ -38,9 +38,6 @@ permissions:
 
 sandbox:
   command:
-    - --sandbox
-    - danger-full-access
     - --dangerously-bypass-approvals-and-sandbox
-    - --dangerously-bypass-hook-trust
     - --model
     - gpt-5.6-luna

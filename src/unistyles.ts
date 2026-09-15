@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native-unistyles";
+import { appThemes } from "./theme";
 import { breakpoints } from "./theme/breakpoints";
-import { appThemes } from "./theme/index";
 import { getPersistedThemeOverride } from "./theme/storage";
 import { setThemeRuntime } from "./theme/ThemeRuntime";
 import { createUnistylesAdapter } from "./theme/UnistylesAdapter";

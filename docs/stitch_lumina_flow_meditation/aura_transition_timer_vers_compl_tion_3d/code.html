@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="fr" class="h-full">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aura - Transition Timer vers Complétion</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            surface: '#fbf9f5',
+            'surface-dim': '#dbdad6',
+            'surface-bright': '#fbf9f5',
+            'surface-container-lowest': '#ffffff',
+            'surface-container-low': '#f5f3ef',
+            'surface-container': '#efece6',
+            'surface-container-high': '#e9e6df',
+            primary: '#d97757',
+            'primary-hover': '#c26243',
+            'on-surface': '#2d2621',
+            'on-surface-variant': '#786f66',
+            'night-bg': '#0a0a14',
+            'night-card': '#141423'
+          },
+          fontFamily: {
+            serif: ['Playfair Display', 'serif'],
+            sans: ['Plus Jakarta Sans', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @keyframes pulseGlow {
+      0%, 100% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.15); opacity: 0.85; }
+    }
+    @keyframes rippleExpand {
+      0% { transform: scale(0.6); opacity: 0.9; }
+      100% { transform: scale(2.8); opacity: 0; }
+    }
+    @keyframes chimeRing {
+      0%, 100% { transform: rotate(0deg); }
+      20% { transform: rotate(-8deg); }
+      40% { transform: rotate(8deg); }
+      60% { transform: rotate(-4deg); }
+      80% { transform: rotate(4deg); }
+    }
+    .animate-pulse-glow {
+      animation: pulseGlow 4s ease-in-out infinite;
+    }
+    .animate-ripple {
+      animation: rippleExpand 2.8s cubic-bezier(0.1, 0.8, 0.2, 1) infinite;
+    }
+    .animate-chime {
+      animation: chimeRing 2.4s ease-in-out infinite;
+    }
+    .glass-pill {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 20px 40px -15px rgba(217, 119, 87, 0.08), 0 0 1px 1px rgba(255,255,255,0.8);
+    }
+  </style>
+</head>
+<body class="h-full font-sans bg-[#fbf9f5] text-[#2d2621] antialiased overflow-hidden select-none transition-colors duration-1000 ease-out" id="appBody">
+
+  <!-- Interactive Demo Banner & Stage Controls (Header Floating) -->
+  <div class="fixed top-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 p-1.5 rounded-full glass-pill shadow-lg border border-black/5 text-xs font-medium text-on-surface">
+    <button id="btnStateTimer" onclick="setStage('timer')" class="px-3.5 py-1.5 rounded-full transition-all duration-300 font-semibold text-white bg-primary shadow-sm">
+      1. Timer Final (00:03)
+    </button>
+    <button id="btnStateTransition" onclick="setStage('transition')" class="px-3.5 py-1.5 rounded-full transition-all duration-300 hover:bg-black/5 text-on-surface-variant">
+      2. Éveil & Transition Zen
+    </button>
+    <button id="btnStateSuccess" onclick="setStage('success')" class="px-3.5 py-1.5 rounded-full transition-all duration-300 hover:bg-black/5 text-on-surface-variant">
+      3. Complétion 3D
+    </button>
+    <div class="w-px h-4 bg-black/10 mx-1"></div>
+    <button onclick="playFullFlow()" class="flex items-center gap-1 px-3 py-1.5 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-all font-semibold">
+      <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      Lancer le Flux Auto
+    </button>
+  </div>
+
+  <!-- Ambient Light Orbs / Canvas Background -->
+  <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+    <div id="ambientOrb1" class="absolute -top-[20%] -left-[15%] w-[65vw] h-[65vw] rounded-full bg-gradient-to-tr from-amber-100/50 via-orange-100/40 to-transparent blur-3xl transition-all duration-1000 transform"></div>
+    <div id="ambientOrb2" class="absolute -bottom-[20%] -right-[15%] w-[70vw] h-[70vw] rounded-full bg-gradient-to-bl from-rose-100/50 via-amber-50/40 to-transparent blur-3xl transition-all duration-1000 transform"></div>
+    <div id="darkBackdrop" class="absolute inset-0 bg-[#0c0c16] opacity-0 pointer-events-none transition-opacity duration-1000"></div>
+  </div>
+
+  <!-- MAIN VIEW CONTAINER -->
+  <main class="relative z-10 w-full h-full flex items-center justify-center p-4 md:p-8">
+
+    <!-- ========================================================================= -->
+    <!-- STAGE 1 & 2: TIMER FIN & ONDE DE CHOC DE TRANSITION                       -->
+    <!-- ========================================================================= -->
+    <div id="timerContainer" class="absolute inset-0 flex flex-col items-center justify-between py-12 px-6 max-w-lg mx-auto transition-all duration-700 ease-out z-20">
+      
+      <!-- Top Bar: Aura Brand -->
+      <div class="w-full flex items-center justify-between text-on-surface/80 pt-6">
+        <div class="flex items-center gap-2">
+          <svg class="w-6 h-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M12 3a9 9 0 0 0-9 9c0 4.97 4.03 9 9 9s9-4.03 9-9a9 9 0 0 0-9-9z"/>
+            <path d="M12 7c-2.76 0-5 2.24-5 5 0 2.5 1.8 4.5 4.1 4.9.3.1.6.1.9.1 2.76 0 5-2.24 5-5s-2.24-5-5-5z"/>
+          </svg>
+          <span class="font-serif text-2xl tracking-wide font-semibold">Aura</span>
+        </div>
+        <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container text-xs font-medium text-on-surface-variant">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>Séance en cours</span>
+        </div>
+      </div>
+
+      <!-- Center: Circular Breathing Timer with Animated Rings -->
+      <div class="relative flex flex-col items-center justify-center my-auto">
+        
+        <!-- Shockwave ripples during transition -->
+        <div id="shockwaveRing1" class="absolute w-72 h-72 rounded-full border-2 border-primary/40 opacity-0 pointer-events-none transition-all duration-1000"></div>
+        <div id="shockwaveRing2" class="absolute w-72 h-72 rounded-full border border-amber-300/60 opacity-0 pointer-events-none transition-all duration-1000 delay-200"></div>
+        <div id="shockwaveRing3" class="absolute w-72 h-72 rounded-full border border-rose-300/40 opacity-0 pointer-events-none transition-all duration-1000 delay-500"></div>
+
+        <!-- Glowing Breathing Backdrop Orb -->
+        <div class="absolute w-80 h-80 rounded-full bg-gradient-to-br from-orange-200/40 via-amber-100/30 to-rose-200/20 blur-2xl animate-pulse-glow pointer-events-none"></div>
+
+        <!-- SVG Circular Progress Ring -->
+        <div class="relative w-72 h-72 flex items-center justify-center">
+          <svg class="w-full h-full -rotate-90 transform" viewBox="0 0 240 240">
+            <!-- Background track -->
+            <circle cx="120" cy="120" r="102" stroke="currentColor" stroke-width="6" class="text-surface-container" fill="none"/>
+            <!-- Animated progress line -->
+            <circle id="timerProgressCircle" cx="120" cy="120" r="102" stroke="url(#timerGrad)" stroke-width="6" stroke-linecap="round" fill="none"
+              stroke-dasharray="640" stroke-dashoffset="30" class="transition-all duration-1000 ease-out"/>
+            <defs>
+              <linearGradient id="timerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#d97757"/>
+                <stop offset="50%" stop-color="#f5b041"/>
+                <stop offset="100%" stop-color="#e07a5f"/>
+              </linearGradient>
+            </defs>
+          </svg>
+
+          <!-- Inside Ring Content -->
+          <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-6">
+            <!-- Tibetan Bell Icon / Breathing indicator -->
+            <div id="timerPhaseIcon" class="mb-2 text-primary/80 transition-all duration-500">
+              <svg class="w-7 h-7 animate-chime" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
+                <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
+                <path d="M12 2v2"/>
+              </svg>
+            </div>
+            
+            <p id="breathGuidance" class="text-xs uppercase tracking-[0.25em] text-on-surface-variant font-semibold mb-1 transition-all duration-500">
+              Dernière Expiration
+            </p>
+            
+            <span id="countdownDisplay" class="font-serif text-5xl md:text-6xl font-normal text-on-surface tracking-tight transition-all duration-300">
+              00:03
+            </span>
+            
+            <p id="timerSubtext" class="text-xs text-on-surface-variant/70 mt-2 font-medium">
+              Sanctuaire Sonore • 432 Hz
+            </p>
+          </div>
+        </div>
+
+        <!-- Floating Bell Resonance Toast on Completion -->
+        <div id="bellToast" class="mt-8 px-5 py-2.5 rounded-full glass-card flex items-center gap-3 opacity-0 translate-y-4 transition-all duration-700 ease-out pointer-events-none">
+          <span class="flex h-2.5 w-2.5 relative">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary"></span>
+          </span>
+          <span class="text-xs font-semibold text-on-surface tracking-wide">Cloche de fin tibétaine • Résonance sacrée</span>
+        </div>
+
+      </div>
+
+      <!-- Bottom Audio / Pause controls during timer -->
+      <div id="timerControls" class="w-full flex items-center justify-center gap-6 pb-6 transition-all duration-500">
+        <button class="w-12 h-12 rounded-full flex items-center justify-center bg-surface-container hover:bg-surface-container-high transition text-on-surface-variant">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+        </button>
+        <button onclick="triggerTransitionInstant()" class="w-16 h-16 rounded-full flex items-center justify-center bg-primary text-white shadow-xl shadow-primary/25 hover:scale-105 active:scale-95 transition-all">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+        </button>
+        <button class="w-12 h-12 rounded-full flex items-center justify-center bg-surface-container hover:bg-surface-container-high transition text-on-surface-variant">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- STAGE 3: ECRAN DE COMPLÉTION 3D (Fidélité exacte de SCREEN_3)              -->
+    <!-- ========================================================================= -->
+    <div id="successContainer" class="relative w-full max-w-2xl flex flex-col items-center text-center opacity-0 scale-95 pointer-events-none transition-all duration-1000 ease-out z-30">
+      
+      <!-- Top Action Bar (Close & Share) -->
+      <div class="w-full flex items-center justify-between mb-4 px-2">
+        <button onclick="setStage('timer')" title="Retour au timer" class="w-11 h-11 rounded-full glass-card flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:scale-105 active:scale-95 transition-all">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+
+        <div class="px-4 py-1.5 rounded-full glass-pill text-xs font-semibold tracking-wider uppercase text-on-surface flex items-center gap-2 shadow-sm">
+          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+          Séance Complétée
+        </div>
+
+        <button title="Partager ma séance" class="w-11 h-11 rounded-full glass-card flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:scale-105 active:scale-95 transition-all">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+        </button>
+      </div>
+
+      <!-- Three.js 3D Celebratory Badge Scene (Interactive Floating Lotus & Gyroscopic Rings) -->
+      <div class="relative w-full h-72 md:h-80 flex items-center justify-center my-1">
+        <!-- Radial Golden Glow behind the 3D Trophy -->
+        <div class="absolute w-64 h-64 rounded-full bg-gradient-to-r from-amber-200/50 via-orange-200/40 to-rose-200/30 blur-3xl pointer-events-none"></div>
+        <div id="threejsSuccessContainer" class="w-full h-full cursor-grab active:cursor-grabbing"></div>
+      </div>
+
+      <!-- Duolingo Inspiration: XP Chip with Shimmer -->
+      <div class="inline-flex items-center gap-1.5 px-4 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-xs font-bold text-amber-700 mb-3 shadow-sm transform hover:scale-105 transition-transform">
+        <span class="text-amber-500">✦ +50 XP</span>
+        <span class="text-amber-800/80 font-medium">Clarté Mentale</span>
+      </div>
+
+      <!-- Title & Subtitle -->
+      <h1 class="font-serif text-4xl md:text-5xl font-semibold text-on-surface tracking-tight mb-2">
+        Moment de Grâce
+      </h1>
+      <p class="text-sm md:text-base text-on-surface-variant max-w-md mx-auto mb-6 leading-relaxed">
+        Votre esprit s’est apaisé. Respirez cette sérénité pour le reste de votre journée.
+      </p>
+
+      <!-- Stats Grid: Duolingo streak + Airbnb clean card finish -->
+      <div class="grid grid-cols-3 gap-3 w-full max-w-md mx-auto mb-4">
+        <!-- Duration -->
+        <div class="glass-card rounded-2xl p-3.5 flex flex-col items-center justify-center text-center">
+          <div class="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+          <span class="font-serif text-xl font-bold text-on-surface">12:00</span>
+          <span class="text-[10px] tracking-wider uppercase font-semibold text-on-surface-variant">Méditation</span>
+        </div>
+
+        <!-- Streak (8 Days active) -->
+        <div class="glass-card rounded-2xl p-3.5 flex flex-col items-center justify-center text-center ring-1 ring-primary/30 relative overflow-hidden">
+          <div class="absolute -top-3 -right-3 w-8 h-8 bg-primary/10 rounded-full blur-sm"></div>
+          <div class="w-7 h-7 rounded-full bg-orange-500/15 text-orange-600 flex items-center justify-center mb-1.5">
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M17.66 11.2C17.43 10.9 17.15 10.64 16.89 10.38C16.22 9.78 15.46 9.35 14.82 8.72C13.33 7.26 13 4.85 13.95 3C13 3.23 12.17 3.75 11.46 4.32C8.87 6.4 7.85 10.07 9.07 13.22C9.11 13.32 9.15 13.42 9.15 13.55C9.15 13.77 9 13.97 8.8 14.05C8.57 14.15 8.33 14.09 8.14 13.93C8.08 13.88 8.04 13.83 8 13.76C6.87 12.33 6.69 10.28 7.45 8.64C5.78 10 4.87 12.3 5 14.47C5.06 14.97 5.17 15.47 5.41 15.97C6.43 18.26 8.77 19.8 11.28 19.98C14.03 20.17 16.71 18.84 18.06 16.41C19.12 14.54 18.91 12.44 17.66 11.2Z"/></svg>
+          </div>
+          <span class="font-serif text-xl font-bold text-primary">8j</span>
+          <span class="text-[10px] tracking-wider uppercase font-semibold text-primary">Série Active</span>
+        </div>
+
+        <!-- Heart Rate Zen -->
+        <div class="glass-card rounded-2xl p-3.5 flex flex-col items-center justify-center text-center">
+          <div class="w-7 h-7 rounded-full bg-emerald-500/10 text-emerald-600 flex items-center justify-center mb-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          </div>
+          <span class="font-serif text-xl font-bold text-on-surface">62 bpm</span>
+          <span class="text-[10px] tracking-wider uppercase font-semibold text-on-surface-variant">Rythme Zen</span>
+        </div>
+      </div>
+
+      <!-- Daily Zen Quote Card -->
+      <div class="w-full max-w-md mx-auto p-4 rounded-2xl glass-card flex items-start gap-3.5 text-left mb-6">
+        <div class="p-2 rounded-full bg-primary/10 text-primary shrink-0 mt-0.5">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+          </svg>
+        </div>
+        <div>
+          <p class="font-serif italic text-sm text-on-surface/90 leading-snug">
+            « Là où le souffle s'adoucit, l'univers retrouve sa juste cadence. »
+          </p>
+          <p class="text-[10px] tracking-wider uppercase text-primary font-bold mt-1">
+            Rituel de mi-journée Aura
+          </p>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="w-full max-w-md mx-auto flex flex-col gap-2.5">
+        <button onclick="setStage('timer')" class="w-full py-3.5 px-6 rounded-2xl bg-primary hover:bg-primary-hover active:scale-[0.98] text-white font-semibold shadow-xl shadow-primary/30 flex items-center justify-center gap-2 transition-all">
+          <span>Ancrer ma Sérénité</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+        </button>
+        <button class="w-full py-2 text-xs font-medium text-on-surface-variant hover:text-on-surface transition-colors">
+          Enregistrer une réflexion dans mon journal
+        </button>
+      </div>
+
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- TRANSITION OVERLAY FX: Golden Particles, Soundwaves, Flash                -->
+    <!-- ========================================================================= -->
+    <div id="transitionFlash" class="fixed inset-0 pointer-events-none bg-white/0 z-40 transition-colors duration-700"></div>
+
+    <!-- Canvas for Floating Confetti & Light Dust particles -->
+    <canvas id="fxCanvas" class="fixed inset-0 pointer-events-none z-30"></canvas>
+
+  </main>
+
+  <!-- Interactive Logic & Three.js Scene Setup -->
+  <script>
+    // State management
+    let currentStage = 'timer'; // 'timer', 'transition', 'success'
+    let countdownSec = 3;
+    let autoFlowTimer = null;
+    let countdownInterval = null;
+
+    const timerContainer = document.getElementById('timerContainer');
+    const successContainer = document.getElementById('successContainer');
+    const bellToast = document.getElementById('bellToast');
+    const countdownDisplay = document.getElementById('countdownDisplay');
+    const timerProgressCircle = document.getElementById('timerProgressCircle');
+    const breathGuidance = document.getElementById('breathGuidance');
+    const timerPhaseIcon = document.getElementById('timerPhaseIcon');
+    const transitionFlash = document.getElementById('transitionFlash');
+    const shockwaveRing1 = document.getElementById('shockwaveRing1');
+    const shockwaveRing2 = document.getElementById('shockwaveRing2');
+    const shockwaveRing3 = document.getElementById('shockwaveRing3');
+
+    const btnStateTimer = document.getElementById('btnStateTimer');
+    const btnStateTransition = document.getElementById('btnStateTransition');
+    const btnStateSuccess = document.getElementById('btnStateSuccess');
+
+    function updateNavButtons(stage) {
+      const activeClass = 'px-3.5 py-1.5 rounded-full transition-all duration-300 font-semibold text-white bg-primary shadow-sm';
+      const idleClass = 'px-3.5 py-1.5 rounded-full transition-all duration-300 hover:bg-black/5 text-on-surface-variant font-medium';
+      
+      btnStateTimer.className = stage === 'timer' ? activeClass : idleClass;
+      btnStateTransition.className = stage === 'transition' ? activeClass : idleClass;
+      btnStateSuccess.className = stage === 'success' ? activeClass : idleClass;
+    }
+
+    function setStage(stage) {
+      currentStage = stage;
+      updateNavButtons(stage);
+      clearInterval(countdownInterval);
+      clearTimeout(autoFlowTimer);
+
+      if (stage === 'timer') {
+        countdownSec = 3;
+        countdownDisplay.textContent = '00:03';
+        countdownDisplay.classList.remove('text-primary', 'scale-110');
+        breathGuidance.textContent = 'Dernière Expiration';
+        timerProgressCircle.setAttribute('stroke-dashoffset', '30');
+
+        // Reset rings
+        shockwaveRing1.style.opacity = '0';
+        shockwaveRing1.style.transform = 'scale(0.8)';
+        shockwaveRing2.style.opacity = '0';
+        shockwaveRing2.style.transform = 'scale(0.8)';
+        shockwaveRing3.style.opacity = '0';
+        shockwaveRing3.style.transform = 'scale(0.8)';
+        bellToast.style.opacity = '0';
+        bellToast.style.transform = 'translateY(16px)';
+
+        // Show timer, hide success
+        timerContainer.style.opacity = '1';
+        timerContainer.style.transform = 'scale(1)';
+        timerContainer.style.pointerEvents = 'auto';
+
+        successContainer.style.opacity = '0';
+        successContainer.style.transform = 'scale(0.92)';
+        successContainer.style.pointerEvents = 'none';
+
+      } else if (stage === 'transition') {
+        // Trigger the magical transition phase
+        timerContainer.style.opacity = '1';
+        timerContainer.style.transform = 'scale(1)';
+        timerContainer.style.pointerEvents = 'auto';
+
+        successContainer.style.opacity = '0';
+        successContainer.style.transform = 'scale(0.95)';
+        successContainer.style.pointerEvents = 'none';
+
+        countdownDisplay.textContent = '00:00';
+        countdownDisplay.classList.add('text-primary', 'scale-110');
+        breathGuidance.textContent = 'Harmonie Atteinte';
+        timerProgressCircle.setAttribute('stroke-dashoffset', '640'); // Fully closed
+
+        // Launch Shockwaves
+        shockwaveRing1.style.opacity = '0.9';
+        shockwaveRing1.style.transform = 'scale(1.8)';
+        setTimeout(() => {
+          shockwaveRing2.style.opacity = '0.7';
+          shockwaveRing2.style.transform = 'scale(2.2)';
+        }, 200);
+        setTimeout(() => {
+          shockwaveRing3.style.opacity = '0.5';
+          shockwaveRing3.style.transform = 'scale(2.6)';
+        }, 450);
+
+        // Show Toast
+        bellToast.style.opacity = '1';
+        bellToast.style.transform = 'translateY(0)';
+
+        // Flash warm golden burst
+        transitionFlash.style.backgroundColor = 'rgba(251, 237, 216, 0.45)';
+        burstParticles();
+        setTimeout(() => {
+          transitionFlash.style.backgroundColor = 'rgba(255, 255, 255, 0)';
+        }, 600);
+
+      } else if (stage === 'success') {
+        // Fade out timer smoothly and slide up 3D success page
+        timerContainer.style.opacity = '0';
+        timerContainer.style.transform = 'scale(1.08) translateY(-20px)';
+        timerContainer.style.pointerEvents = 'none';
+
+        setTimeout(() => {
+          successContainer.style.opacity = '1';
+          successContainer.style.transform = 'scale(1) translateY(0)';
+          successContainer.style.pointerEvents = 'auto';
+        }, 200);
+
+        burstCelebrationParticles();
+      }
+    }
+
+    function triggerTransitionInstant() {
+      setStage('transition');
+      setTimeout(() => {
+        setStage('success');
+      }, 1600);
+    }
+
+    function playFullFlow() {
+      setStage('timer');
+      countdownSec = 3;
+      countdownDisplay.textContent = '00:03';
+
+      countdownInterval = setInterval(() => {
+        countdownSec--;
+        if (countdownSec > 0) {
+          countdownDisplay.textContent = '00:0' + countdownSec;
+          timerProgressCircle.setAttribute('stroke-dashoffset', (countdownSec * 150).toString());
+        } else {
+          clearInterval(countdownInterval);
+          countdownDisplay.textContent = '00:00';
+          setStage('transition');
+          
+          autoFlowTimer = setTimeout(() => {
+            setStage('success');
+          }, 1800);
+        }
+      }, 900);
+    }
+
+    // =========================================================================
+    // PARTICLE FX ENGINE (2D Canvas for Gold Dust & Zen Sparkles)
+    // =========================================================================
+    const canvas = document.getElementById('fxCanvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Particle {
+      constructor(x, y, color, speedScale = 1) {
+        this.x = x;
+        this.y = y;
+        const angle = Math.random() * Math.PI * 2;
+        const speed = (Math.random() * 4 + 1.5) * speedScale;
+        this.vx = Math.cos(angle) * speed;
+        this.vy = Math.sin(angle) * speed - 1.5;
+        this.size = Math.random() * 4 + 1.5;
+        this.color = color;
+        this.alpha = 1;
+        this.decay = Math.random() * 0.015 + 0.01;
+        this.rot = Math.random() * Math.PI;
+        this.rotSpeed = (Math.random() - 0.5) * 0.1;
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.vy += 0.04; // Gentle gravity
+        this.vx *= 0.98;
+        this.rot += this.rotSpeed;
+        this.alpha -= this.decay;
+      }
+      draw(c) {
+        c.save();
+        c.globalAlpha = Math.max(0, this.alpha);
+        c.translate(this.x, this.y);
+        c.rotate(this.rot);
+        c.fillStyle = this.color;
+        // Draw soft diamond / sparkle
+        c.beginPath();
+        c.moveTo(0, -this.size * 1.5);
+        c.lineTo(this.size, 0);
+        c.lineTo(0, this.size * 1.5);
+        c.lineTo(-this.size, 0);
+        c.closePath();
+        c.fill();
+        c.restore();
+      }
+    }
+
+    function burstParticles() {
+      const cx = window.innerWidth / 2;
+      const cy = window.innerHeight / 2;
+      const colors = ['#d97757', '#f5b041', '#ffe8d6', '#f39c12', '#ffffff'];
+      for (let i = 0; i < 45; i++) {
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        particles.push(new Particle(cx, cy, color, 1.6));
+      }
+    }
+
+    function burstCelebrationParticles() {
+      const cx = window.innerWidth / 2;
+      const cy = window.innerHeight * 0.35;
+      const colors = ['#d97757', '#f5b041', '#ffd166', '#ffffff', '#e76f51'];
+      for (let i = 0; i < 60; i++) {
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        particles.push(new Particle(cx + (Math.random() - 0.5) * 120, cy + (Math.random() - 0.5) * 60, color, 2.0));
+      }
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.update();
+        p.draw(ctx);
+        if (p.alpha <= 0) particles.splice(i, 1);
+      }
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+    // =========================================================================
+    // THREE.JS 3D SCENE (Complétion Trophy avec Shaders & Gyroscope)
+    // =========================================================================
+    (function initThreeScene() {
+      const container = document.getElementById('threejsSuccessContainer');
+      if (!container) return;
+
+      const width = container.clientWidth || 400;
+      const height = container.clientHeight || 300;
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+      camera.position.set(0, 0, 7.5);
+
+      const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+      renderer.setSize(width, height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      container.appendChild(renderer.domElement);
+
+      // Warm luminous Sanctuary lighting
+      const ambientLight = new THREE.AmbientLight(0xfff5ea, 1.5);
+      scene.add(ambientLight);
+
+      const keyLight = new THREE.DirectionalLight(0xffecd2, 2.4);
+      keyLight.position.set(4, 6, 5);
+      scene.add(keyLight);
+
+      const fillLight = new THREE.PointLight(0xd97757, 3.2, 20);
+      fillLight.position.set(-4, -2, 3);
+      scene.add(fillLight);
+
+      const rimLight = new THREE.PointLight(0xffd166, 3.0, 15);
+      rimLight.position.set(0, 4, -3);
+      scene.add(rimLight);
+
+      const trophyGroup = new THREE.Group();
+      scene.add(trophyGroup);
+
+      // Materials
+      const goldMat = new THREE.MeshStandardMaterial({
+        color: 0xf5b041,
+        roughness: 0.22,
+        metalness: 0.85,
+      });
+
+      const terracottaMat = new THREE.MeshStandardMaterial({
+        color: 0xd97757,
+        roughness: 0.35,
+        metalness: 0.18,
+      });
+
+      const pearlMat = new THREE.MeshStandardMaterial({
+        color: 0xfbf9f5,
+        roughness: 0.15,
+        metalness: 0.1,
+      });
+
+      const amberGlowMat = new THREE.MeshStandardMaterial({
+        color: 0xffa94d,
+        roughness: 0.2,
+        metalness: 0.3,
+        emissive: 0xd97757,
+        emissiveIntensity: 0.28,
+      });
+
+      // 1. Core Sphere (Mind/Breath)
+      const coreGeo = new THREE.SphereGeometry(1.15, 64, 64);
+      const coreMesh = new THREE.Mesh(coreGeo, pearlMat);
+      trophyGroup.add(coreMesh);
+
+      // 2. Halos / Gyroscopic rings
+      const torusGeo1 = new THREE.TorusGeometry(1.75, 0.08, 32, 100);
+      const torusMesh1 = new THREE.Mesh(torusGeo1, goldMat);
+      torusMesh1.rotation.x = Math.PI * 0.35;
+      trophyGroup.add(torusMesh1);
+
+      const torusGeo2 = new THREE.TorusGeometry(2.1, 0.06, 32, 100);
+      const torusMesh2 = new THREE.Mesh(torusGeo2, terracottaMat);
+      torusMesh2.rotation.y = Math.PI * 0.4;
+      torusMesh2.rotation.x = Math.PI * 0.15;
+      trophyGroup.add(torusMesh2);
+
+      // 3. Sacred Lotus Petals
+      const petalCount = 8;
+      const petalsGroup = new THREE.Group();
+      for (let i = 0; i < petalCount; i++) {
+        const angle = (i / petalCount) * Math.PI * 2;
+        const petalGeo = new THREE.ConeGeometry(0.35, 1.1, 32);
+        const petalMesh = new THREE.Mesh(petalGeo, amberGlowMat);
+        petalMesh.position.set(Math.cos(angle) * 1.5, Math.sin(angle) * 1.5, 0);
+        petalMesh.rotation.z = angle - Math.PI / 2;
+        petalMesh.scale.set(0.6, 1.0, 0.25);
+        petalsGroup.add(petalMesh);
+      }
+      trophyGroup.add(petalsGroup);
+
+      // 4. Sparkles / Stars
+      const sparkles = [];
+      const starGeo = new THREE.OctahedronGeometry(0.16, 0);
+      for (let i = 0; i < 16; i++) {
+        const mat = (i % 3 === 0) ? goldMat : (i % 3 === 1 ? terracottaMat : pearlMat);
+        const star = new THREE.Mesh(starGeo, mat);
+        const radius = 2.4 + Math.random() * 1.2;
+        const theta = Math.random() * Math.PI * 2;
+        const phi = (Math.random() - 0.5) * Math.PI;
+        star.position.set(
+          radius * Math.cos(theta) * Math.cos(phi),
+          radius * Math.sin(phi),
+          radius * Math.sin(theta) * Math.cos(phi)
+        );
+        star.userData = {
+          initialPos: star.position.clone(),
+          speed: 1.0 + Math.random() * 2.0,
+          rotSpeed: (Math.random() - 0.5) * 3.5,
+          phase: Math.random() * Math.PI * 2
+        };
+        scene.add(star);
+        sparkles.push(star);
+      }
+
+      // Mouse Parallax & Touch Tracking
+      let mouseX = 0, mouseY = 0, targetX = 0, targetY = 0;
+      window.addEventListener('mousemove', (e) => {
+        const rect = container.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / (rect.width || 1);
+        const y = (e.clientY - rect.top) / (rect.height || 1);
+        targetX = (x - 0.5) * 1.4;
+        targetY = (y - 0.5) * 1.4;
+      });
+
+      function onResize() {
+        const w = container.clientWidth || 400;
+        const h = container.clientHeight || 300;
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+        renderer.setSize(w, h);
+      }
+      window.addEventListener('resize', onResize);
+
+      const clock = new THREE.Clock();
+
+      function animate() {
+        requestAnimationFrame(animate);
+        const t = clock.getElapsedTime();
+
+        mouseX += (targetX - mouseX) * 0.05;
+        mouseY += (targetY - mouseY) * 0.05;
+
+        // Subtle floating bounce & rotation
+        trophyGroup.position.y = Math.sin(t * 1.8) * 0.15;
+        trophyGroup.rotation.y = t * 0.5 + mouseX * 0.6;
+        trophyGroup.rotation.x = Math.sin(t * 0.9) * 0.1 - mouseY * 0.6;
+
+        torusMesh1.rotation.z = t * 0.8;
+        torusMesh1.rotation.x = Math.PI * 0.35 + Math.sin(t * 1.2) * 0.2;
+
+        torusMesh2.rotation.z = -t * 0.6;
+        torusMesh2.rotation.y = Math.PI * 0.4 + Math.cos(t * 1.1) * 0.2;
+
+        const pulse = 1.0 + Math.sin(t * 2.4) * 0.08;
+        petalsGroup.scale.set(pulse, pulse, pulse);
+        petalsGroup.rotation.z = -t * 0.3;
+
+        sparkles.forEach((s) => {
+          const d = s.userData;
+          s.rotation.x += d.rotSpeed * 0.02;
+          s.rotation.y += d.rotSpeed * 0.03;
+          const offset = Math.sin(t * d.speed + d.phase) * 0.25;
+          s.position.x = d.initialPos.x + Math.cos(t * 0.8 + d.phase) * 0.15;
+          s.position.y = d.initialPos.y + offset;
+          s.position.z = d.initialPos.z + Math.sin(t * 0.8 + d.phase) * 0.15;
+        });
+
+        renderer.render(scene, camera);
+      }
+      animate();
+    })();
+  </script>
+</body>
+</html>

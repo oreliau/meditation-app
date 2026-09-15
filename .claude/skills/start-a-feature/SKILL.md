@@ -1,6 +1,6 @@
 ---
 name: start-a-feature
-description: Launch a fresh Docker sandbox (via `sbx`) running the claude-sonnet kit to build a feature end-to-end, seeded with a /grill-with-docs prompt. Use when the user wants to kick off a new feature, task, or fix in an isolated sandboxed agent session instead of doing it in the current session.
+description: Launch a fresh Docker sandbox (via `sbx`) running the .claude-sonnet kit to build a feature end-to-end, seeded with a /grill-with-docs prompt. Use when the user wants to kick off a new feature, task, or fix in an isolated sandboxed agent session instead of doing it in the current session.
 argument-hint: "<feature-name> <what to build>"
 disable-model-invocation: true
 ---
@@ -45,8 +45,8 @@ Echo the constructed command before running it. It starts a long-lived container
 
 ## Notes
 
-- The kit path is `sandbox/kits/claude-sonnet` (see its `spec.yaml`) — not `./kits/claude-sonnet`, an old path referenced in `Docker-sbx.md` that no longer exists in this repo.
-- The sandbox already has a `GH_TOKEN` injected for `github.com`/`api.github.com` (see `spec.yaml`'s `credentials`), so `gh issue view` works inside it with no extra setup.
+- The kit path is `sandbox/kits/claude-sonnet`— not `./kits/claude-sonnet`, an old path referenced in `Docker-sbx.md` that no longer exists in this repo.
+- The sandbox already has a `GH_TOKEN` injected for `github.com`/`api.github.com`s, so `gh issue view` works inside it with no extra setup.
 - The sandbox's own `/implement` skill (bundled at `sandbox/kits/claude-sonnet/files/workspace/.agents/skills/implement`) expects a spec or tickets; a GitHub issue reference satisfies that once the agent fetches it, same as it would for any other tracker-driven work in this repo.
 - The draft ADR is still cloned into the sandbox at `docs/adr/DRAFT-<feature-name>.md` as background reference, but the sandboxed agent's actual task comes from the published issue(s), not this file.
 - Publishing to `to-tickets` creates real, permanent GitHub issues (not gitignored drafts) — if the user is only sketching an idea and might abandon it, say so before step 4 rather than after issues already exist.
