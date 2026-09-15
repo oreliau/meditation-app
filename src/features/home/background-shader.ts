@@ -2,7 +2,7 @@ export const BACKGROUND_SHADER = /* wgsl */ `
 struct Uniforms {
   resolution: vec2f,
   time: f32,
-  isWeb: f32,
+  _padding: f32,
   background: vec4f,
   accentOne: vec4f,
   accentTwo: vec4f,
@@ -38,11 +38,8 @@ fn softField(point: vec2f, center: vec2f, radius: f32) -> f32 {
 @fragment
 fn fragmentMain(input: VertexOutput) -> @location(0) vec4f {
   let aspect = uniforms.resolution.x / max(uniforms.resolution.y, 1.0);
-  // On wide web canvases, spread the fields across the viewport instead of
-  // leaving empty side bands. Portrait web and native keep their geometry.
-  let fieldAspect = select(aspect, min(aspect, 1.0), uniforms.isWeb > 0.5);
   var point = input.uv;
-  point.x = (point.x - 0.5) * fieldAspect + 0.5;
+  point.x = (point.x - 0.5) * aspect + 0.5;
 
   let drift = uniforms.time * 0.055;
   let accentOneCenter = vec2f(
