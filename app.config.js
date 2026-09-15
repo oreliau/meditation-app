@@ -71,6 +71,15 @@ module.exports = {
         },
       ],
       "react-native-webgpu",
+      [
+        "expo-build-properties",
+        {
+          android: {
+            minSdkVersion: 26,
+          },
+        },
+      ],
+      "react-native-webgpu",
       // [
       //   "expo-widgets",
       //   {
