@@ -88,3 +88,20 @@ The Explorer presentation of the current device-local Daily stats. It is an aggr
 
 **Advice**:
 A bundled, read-only mindfulness guidance card shown in Explorer. Advice is not generated remotely and does not start a Session.
+
+### Onboarding
+
+**Onboarding**:
+The one-time, four-step introduction (Welcome, Intentions, Daily Rhythm, Soundscape) shown before the tab navigator on a device's first launch, gated by the locally persisted `hasCompletedOnboarding` flag. Never shown again once completed, on that device.
+_Avoid_: Setup wizard, sign-up flow (there is no account system — Onboarding never asks for or creates one)
+
+**Intention**:
+One of a fixed set of goals (easing stress, sleep, focus, or a daily presence practice) a person selects during Onboarding to describe why they're here. Multiple Intentions can be selected; they are persisted for future personalization but do not yet change any in-app behavior.
+_Avoid_: Goal (reserve "Intention" for this Onboarding concept specifically)
+
+**Experience level**:
+A person's self-reported familiarity with meditation (Beginner, Regular, or Zen guide), chosen once during Onboarding's Intentions step. Persisted for future personalization; nothing currently reads it.
+
+**Soundscape preference**:
+A person's chosen ambient audio identity (e.g. Amber Dawn, Silent River, Misty Forest), selected during Onboarding's final step. Persisted for when real audio playback is built; the Onboarding screen itself does not play audio.
+_Avoid_: Soundscape (reserve that for the eventual playable feature; "preference" makes clear this is only a stored choice today)
