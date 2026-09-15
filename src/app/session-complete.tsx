@@ -1,0 +1,154 @@
+import { router, Stack, useLocalSearchParams } from "expo-router";
+import { useCallback, useEffect, useState } from "react";
+import { BackHandler, Text, View } from "react-native";
+import { StyleSheet } from "react-native-unistyles";
+import { CompletionDoneButton } from "@/features/completion/CompletionDoneButton";
+import { CompletionOrb } from "@/features/completion/CompletionOrb";
+import { CompletionStats } from "@/features/completion/CompletionStats";
+import { CompletionTransition } from "@/features/completion/CompletionTransition";
+import { getProgramProgress } from "@/features/explorer/progress";
+import { getSessionStore } from "@/features/timer/sessionStore";
+
+type Stage = "transition" | "success";
+
+// The celebratory takeover shown whenever a session completes naturally
+// (pushed by useNavigateToCompletion, mounted at the app root). Stage 2 (the
+// brief "zen transition") plays automatically, then hands off to stage 3
+// (the completion screen itself) — see the completion-screen interview for
+// why this is a single non-dismissible route rather than two.
+export default function SessionCompleteScreen() {
+  const params = useLocalSearchParams<{
+    durationMinutes?: string;
+    programId?: string;
+  }>();
+  const durationMinutes = Number(params.durationMinutes) || 0;
+  const programId =
+    typeof params.programId === "string" ? params.programId : undefined;
+  const program = programId ? getProgramProgress(programId) : undefined;
+
+  const [stage, setStage] = useState<Stage>("transition");
+
+  // Block Android's hardware back button for the whole takeover; iOS's swipe
+  // gesture is disabled via this screen's Stack.Screen options below.
+  useEffect(() => {
+    const subscription = BackHandler.addEventListener(
+      "hardwareBackPress",
+      () => true,
+    );
+    return () => subscription.remove();
+  }, []);
+
+  const handleTransitionFinished = useCallback(() => setStage("success"), []);
+
+  const handleDone = useCallback(() => {
+    getSessionStore().resetToIdle();
+    router.back();
+  }, []);
+
+  return (
+    <>
+      <Stack.Screen
+        options={{
+          headerShown: false,
+          presentation: "modal",
+          gestureEnabled: false,
+          animation: "fade",
+        }}
+      />
+      <View style={styles.screen}>
+        {stage === "transition" ? (
+          <CompletionTransition onFinished={handleTransitionFinished} />
+        ) : (
+          <View style={styles.content}>
+            <View style={styles.statusPill}>
+              <View style={styles.statusDot} />
+              <Text style={styles.statusLabel}>Session complete</Text>
+            </View>
+
+            <CompletionOrb />
+
+            <View style={styles.copy}>
+              <Text style={styles.headline}>Moment of stillness</Text>
+              <Text style={styles.subtitle}>
+                Your mind has settled. Carry this quiet with you through the
+                rest of your day.
+              </Text>
+            </View>
+
+            <CompletionStats
+              durationMinutes={durationMinutes}
+              program={
+                program
+                  ? { completed: program.completed, total: program.total }
+                  : undefined
+              }
+            />
+
+            <View style={styles.actions}>
+              <CompletionDoneButton onPress={handleDone} />
+            </View>
+          </View>
+        )}
+      </View>
+    </>
+  );
+}
+
+const styles = StyleSheet.create((theme) => ({
+  screen: {
+    flex: 1,
+    backgroundColor: theme.colors.background,
+  },
+  content: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: theme.spacing.containerPaddingMobile,
+    paddingVertical: theme.spacing.sectionGap,
+    gap: theme.spacing.sectionGap / 2,
+  },
+  statusPill: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: theme.spacing.unit,
+    paddingHorizontal: theme.spacing.gutter,
+    paddingVertical: theme.spacing.unit,
+    borderRadius: theme.radius.full,
+    backgroundColor: theme.colors.surfaceContainer,
+  },
+  statusDot: {
+    width: 8,
+    height: 8,
+    borderRadius: theme.radius.full,
+    backgroundColor: theme.colors.tertiary,
+  },
+  statusLabel: {
+    fontFamily: theme.typography.labelMd.fontFamily,
+    fontSize: theme.typography.labelMd.fontSize,
+    letterSpacing: theme.typography.labelMd.letterSpacing,
+    textTransform: "uppercase",
+    color: theme.colors.onSurfaceVariant,
+  },
+  copy: {
+    alignItems: "center",
+    gap: theme.spacing.unit,
+  },
+  headline: {
+    fontFamily: theme.typography.headlineMdMobile.fontFamily,
+    fontSize: theme.typography.headlineMdMobile.fontSize,
+    lineHeight: theme.typography.headlineMdMobile.lineHeight,
+    color: theme.colors.onSurface,
+    textAlign: "center",
+  },
+  subtitle: {
+    fontFamily: theme.typography.bodyMd.fontFamily,
+    fontSize: theme.typography.bodyMd.fontSize,
+    lineHeight: theme.typography.bodyMd.lineHeight,
+    color: theme.colors.onSurfaceVariant,
+    textAlign: "center",
+    maxWidth: 280,
+  },
+  actions: {
+    alignSelf: "stretch",
+  },
+}));

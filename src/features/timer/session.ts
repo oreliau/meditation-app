@@ -92,6 +92,13 @@ export function restore(session: Session, now: number): Session {
   return tick(session, now).session;
 }
 
+// Unlike Restart, resetToIdle ends a session without starting a new one — the
+// completion screen calls this after the user taps Done, so returning to the
+// timer tab shows a fresh picker instead of the full "Completed" ring.
+export function resetToIdle(session: Session): Session {
+  return session.status === "Idle" ? session : idleSession;
+}
+
 export function remainingMs(
   session: Session,
   now: number,

@@ -7,6 +7,7 @@ import {
   play,
   progress,
   remainingMs,
+  resetToIdle,
   restart,
   restore,
   type Session,
@@ -63,6 +64,9 @@ export type SessionStore = {
   pause: () => void;
   stop: () => void;
   restart: () => void;
+  // Ends a Completed/Stopped session and returns to Idle without starting a
+  // new one — called once the completion screen is dismissed.
+  resetToIdle: () => void;
 };
 
 function minutesToMs(minutes: number): number {
@@ -217,6 +221,9 @@ export function createSessionStore(): SessionStore {
     restart() {
       const now = Date.now();
       commit(restart(session, now, minutesToMs(durationMinutes)), now);
+    },
+    resetToIdle() {
+      commit(resetToIdle(session), Date.now());
     },
   };
 }

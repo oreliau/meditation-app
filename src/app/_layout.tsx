@@ -6,6 +6,7 @@ import "../unistyles";
 import { Stack } from "expo-router";
 // import { getSessionStore } from "@/features/timer/sessionStore";
 // import { useSessionWidgets } from "@/features/timer/widgets";
+import { useNavigateToCompletion } from "@/features/completion/useNavigateToCompletion";
 import {
   getHasCompletedOnboarding,
   HAS_COMPLETED_ONBOARDING_KEY,
@@ -30,6 +31,7 @@ export default function RootLayout() {
     getHasCompletedOnboarding,
   );
   useRecordCompletedSessions();
+  useNavigateToCompletion();
   useRefreshRemindersOnForeground();
   // useSessionWidgets(getSessionStore());
 
@@ -60,6 +62,7 @@ export default function RootLayout() {
         <Stack.Protected guard={hasCompletedOnboarding}>
           <Stack.Screen name="(tabs)" />
         </Stack.Protected>
+        <Stack.Screen name="session-complete" />
       </Stack>
       <SessionCompletionFeedback />
     </>

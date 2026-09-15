@@ -4,6 +4,7 @@ import {
   play,
   progress,
   remainingMs,
+  resetToIdle,
   restart,
   restore,
   type Session,
@@ -170,6 +171,26 @@ describe("Natural completion (tick)", () => {
       session: idleSession,
       completedNaturally: false,
     });
+  });
+});
+
+describe("resetToIdle", () => {
+  it("ends any session and returns to Idle without starting a new one", () => {
+    const running = play(idleSession, T0, DURATION_MS);
+    expect(resetToIdle(running)).toBe(idleSession);
+
+    const paused = pause(running, T0 + 30_000);
+    expect(resetToIdle(paused)).toBe(idleSession);
+
+    const stopped: Session = { status: "Stopped" };
+    expect(resetToIdle(stopped)).toBe(idleSession);
+
+    const completed: Session = { status: "Completed" };
+    expect(resetToIdle(completed)).toBe(idleSession);
+  });
+
+  it("is a no-op already Idle", () => {
+    expect(resetToIdle(idleSession)).toBe(idleSession);
   });
 });
 
