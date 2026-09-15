@@ -108,5 +108,10 @@ module.exports = {
       typedRoutes: true,
       baseUrl: "/meditation-app",
     },
+    extra: {
+      eas: {
+        projectId: "a80aea2a-9ef2-43ce-9067-f90ea61e6a11",
+      },
+    },
   },
 };
