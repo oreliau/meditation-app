@@ -17,6 +17,9 @@ module.exports = {
       icon: "./assets/meditation-app.icon",
       deploymentTarget: "17.0",
       bundleIdentifier: iosBundleIdentifier,
+      infoPlist: {
+        ITSAppUsesNonExemptEncryption: false,
+      },
     },
     android: {
       adaptiveIcon: {
@@ -59,6 +62,14 @@ module.exports = {
       "expo-audio",
       "expo-asset",
       "expo-status-bar",
+      [
+        "expo-build-properties",
+        {
+          android: {
+            minSdkVersion: 26,
+          },
+        },
+      ],
       "react-native-webgpu",
       [
         "expo-widgets",
