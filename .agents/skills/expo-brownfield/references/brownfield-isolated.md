@@ -47,7 +47,7 @@ cd my-project
 npx expo install expo-brownfield
 ```
 
-Check that the plugin registered in `app.config.js`; add it explicitly if the install command did not update the config (for example, with dynamic app configuration). Defaults derive from your app config.
+Check that the plugin registered in `app.json`; add it explicitly if the install command did not update the config (for example, with dynamic app configuration). Defaults derive from your app config.
 
 ### Check what the host app already ships
 
@@ -60,7 +60,7 @@ When a shared library must stay at the host's version, exclude the Expo module t
 
 ### Configure the plugin (optional)
 
-To override the auto-generated names, expand the plugin entry in `app.config.js`:
+To override the auto-generated names, expand the plugin entry in `app.json`:
 
 ```json
 {
@@ -213,7 +213,7 @@ Outputs to `./artifacts`. Set `ios.buildReactNativeFromSource` on the **`expo-br
 - **`buildReactNativeFromSource: false`** (default on SDK 56+) — React Native is consumed as a prebuilt binary. A typical set includes: `{TargetName}.xcframework`, `React.xcframework`, `ReactNativeDependencies.xcframework`, `ExpoModulesJSI.xcframework`, and `hermesvm.xcframework`.
 - **`buildReactNativeFromSource: true`** (default on SDK 55, opt-in on SDK 56+) — React Native is compiled from source and statically linked into the brownfield framework, typically leaving: `{TargetName}.xcframework` and `hermesvm.xcframework`.
 
-To force source builds, configure the brownfield plugin directly in `app.config.js`:
+To force source builds, configure the brownfield plugin directly in `app.json`:
 
 ```json
 {

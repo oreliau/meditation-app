@@ -36,7 +36,7 @@ npm install --prefix "$APP_DIR"
 cd "$APP_DIR/ios" && pod install
 # 4. Validate: both platforms must build successfully
 npx react-native build-android --mode debug --no-packager
-xcodebuild -home "$APP_DIR/ios/App.xcworkspace" -scheme App -sdk iphonesimulator build
+xcodebuild -workspace "$APP_DIR/ios/App.xcworkspace" -scheme App -sdk iphonesimulator build
 ```
 
 ## When to Apply

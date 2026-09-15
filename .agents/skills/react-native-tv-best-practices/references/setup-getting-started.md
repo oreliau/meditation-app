@@ -71,7 +71,7 @@ npx create-expo-app MyTVProject -- -e with-router-tv
    ```bash
    npx expo install @react-native-tvos/config-tv -- --dev
    ```
-4. Add to `app.config.js`:
+4. Add to `app.json`:
    ```json
    { "plugins": ["@react-native-tvos/config-tv"] }
    ```

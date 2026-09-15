@@ -25,7 +25,7 @@ cd "$APP_DIR" && npx expo-doctor
 
 - Follow Expo's official upgrade skill as a primary guide:
   - [Expo Upgrading Expo Skill][expo-upgrading-expo-skill]
-- Important for this workflow: skip `app.config.js` changes, because this is not an Expo Managed project.
+- Important for this workflow: skip `app.json` changes, because this is not an Expo Managed project.
 
 ## Pre-Upgrade Audit (Required)
 

@@ -4,7 +4,7 @@ React Compiler is stable in Expo SDK 54 and later. It automatically memoizes com
 
 ## Enabling React Compiler
 
-Add to `app.config.js`:
+Add to `app.json`:
 
 ```json
 {

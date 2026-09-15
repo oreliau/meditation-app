@@ -8,7 +8,7 @@ license: MIT
 
 # Expo Examples
 
-[expo/examples](https://github.com/expo/examples) is Expo's official library of ~70 **integration examples** — directories named `with-<library>` (e.g. `with-stripe`, `with-maps`), each built around **one** library or service. These are not full apps: they're **managed** projects (no `ios/`/`android/` dirs — native setup is via config plugins), and the typical one is a **single screen of ~100–200 lines**. Mine them for the canonical integration *pattern* — the dependency set, `app.config.js` config plugins, and minimal wiring Expo maintains against the current SDK — and adapt that into the user's app. Don't expect to lift an application architecture from them.
+[expo/examples](https://github.com/expo/examples) is Expo's official library of ~70 **integration examples** — directories named `with-<library>` (e.g. `with-stripe`, `with-maps`), each built around **one** library or service. These are not full apps: they're **managed** projects (no `ios/`/`android/` dirs — native setup is via config plugins), and the typical one is a **single screen of ~100–200 lines**. Mine them for the canonical integration *pattern* — the dependency set, `app.json` config plugins, and minimal wiring Expo maintains against the current SDK — and adapt that into the user's app. Don't expect to lift an application architecture from them.
 
 Reach for an example before hand-rolling an integration. (Kinds — full-stack, showcases, starters — are noted in `./references/catalog.md`.)
 
@@ -43,7 +43,7 @@ gh api 'repos/expo/examples/git/trees/master?recursive=1' \
   --jq '.tree[].path | select(startswith("with-stripe/"))'
 ```
 
-**Then read the high-signal files first:** `README.md` (setup) → `package.json` (deps) → `app.config.js` (config plugins / permissions) → the integration code the manifest revealed → `.env` (required secrets). Per file:
+**Then read the high-signal files first:** `README.md` (setup) → `package.json` (deps) → `app.json` (config plugins / permissions) → the integration code the manifest revealed → `.env` (required secrets). Per file:
 
 ```bash
 gh api repos/expo/examples/contents/with-stripe/utils/stripe-server.ts --jq '.content' | base64 -d
@@ -74,7 +74,7 @@ bun create expo --example with-stripe    # with bun
 When the user already has an app, **add only what the example introduces; never overwrite their setup.**
 
 - **Version-align — don't copy pinned versions.** Examples track the **latest** SDK, so their `package.json` pins won't match an older project. Add only the *missing* deps with `npx expo install <pkg>` (it resolves SDK-correct versions) instead of copying exact versions.
-- **Merge config, don't replace it.** Add only the `app.config.js`/`app.config.*` plugins and permissions the example introduces that the user lacks — keep their existing config block intact.
+- **Merge config, don't replace it.** Add only the `app.json`/`app.config.*` plugins and permissions the example introduces that the user lacks — keep their existing config block intact.
 - **Port the integration code.**
 - **Recreate env vars** from the example's `.env` shape — it holds placeholders, never working secrets.
 
