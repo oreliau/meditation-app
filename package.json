@@ -53,6 +53,7 @@
     "@types/react": "~19.2.2",
     "@webgpu/types": "^0.1.72",
     "babel-jest": "^29.7.0",
+    "babel-preset-expo": "~57.0.12",
     "eslint": "^9.39.5",
     "eslint-config-expo": "57.0.2",
     "eslint-plugin-typegpu": "^0.12.0",

@@ -1,5 +1,6 @@
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useState } from "react";
+import { LogBox } from "react-native";
 import { useMMKVListener } from "react-native-mmkv";
 import "../unistyles";
 import { Stack } from "expo-router";
@@ -16,6 +17,12 @@ import { useRecordCompletedSessions } from "@/stats/useRecordCompletedSessions";
 import { useLoadFonts } from "@/theme/useLoadFonts";
 
 SplashScreen.preventAutoHideAsync();
+
+// Harmless upstream race in expo-router's ContextNavigator linking init on slow launches.
+// See https://github.com/expo/expo/issues/47659
+LogBox.ignoreLogs([
+  "Can't perform a React state update on a component that hasn't mounted yet.",
+]);
 
 export default function RootLayout() {
   const fontsLoaded = useLoadFonts();
