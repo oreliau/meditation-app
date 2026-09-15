@@ -11,7 +11,7 @@ You write one function and the framework manages when and how it executes.
 
 ## Configuration
 
-**Requirements:** Expo SDK 55+, web output mode (`npx expo serve` or `npx expo export --platform web`) set in `app.json` or `app.config.js`.
+**Requirements:** Expo SDK 55+, web output mode (`npx expo serve` or `npx expo export --platform web`) set in `app.config.js` or `app.config.js`.
 
 **Server rendering:**
 

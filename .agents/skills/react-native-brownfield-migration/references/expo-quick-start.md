@@ -1,7 +1,7 @@
 ---
 title: Expo Brownfield Quick Start
 impact: CRITICAL
-tags: react-native, brownfield, expo, app.json, plugin, setup
+tags: react-native, brownfield, expo, app.config.js, plugin, setup
 ---
 
 # Skill: Expo Brownfield Quick Start
@@ -21,7 +21,7 @@ npm install @callstack/react-native-brownfield
 
 ## Prerequisites
 
-- Expo project with `app.json`
+- Expo project with `app.config.js`
 - Expo path selected in router
 
 ## Step-by-Step Instructions
@@ -34,7 +34,7 @@ Progress checklist:
 ```
 
 1. Install package in the Expo project.
-2. Add plugin to `app.json`:
+2. Add plugin to `app.config.js`:
 
 ```json
 {
@@ -54,7 +54,7 @@ Progress checklist:
 
 ## Common Pitfalls
 
-- Missing plugin entry in `app.json`
+- Missing plugin entry in `app.config.js`
 - Mixing Expo flow with bare packaging files
 
 ## Related Skills

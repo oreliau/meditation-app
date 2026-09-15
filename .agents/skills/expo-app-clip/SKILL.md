@@ -13,7 +13,7 @@ The parent app's bundle ID becomes `com.<username>.<app-name>` and the Clip's is
 
 ## 1. Set `bundleIdentifier` and `appleTeamId`
 
-`bun create target` warns if these are missing. Add to `app.json`:
+`bun create target` warns if these are missing. Add to `app.config.js`:
 
 ```json
 {
@@ -32,7 +32,7 @@ The parent app's bundle ID becomes `com.<username>.<app-name>` and the Clip's is
 bun create target clip
 ```
 
-This installs [`@bacons/apple-targets`](https://github.com/EvanBacon/expo-apple-targets), adds it to the `plugins` array in `app.json`, and writes:
+This installs [`@bacons/apple-targets`](https://github.com/EvanBacon/expo-apple-targets), adds it to the `plugins` array in `app.config.js`, and writes:
 
 - `targets/clip/expo-target.config.js` — the target's config plugin
 - `targets/clip/Info.plist` — Clip Info.plist
@@ -44,7 +44,7 @@ Pick a good icon or reuse the existing one defined in the app — check it with 
 
 The parent app and the Clip each need the Associated Domains entitlement pointing at the domain that hosts the AASA file.
 
-In `app.json`, add both `applinks:` (parent) and `appclips:` (Clip invocation) entries:
+In `app.config.js`, add both `applinks:` (parent) and `appclips:` (Clip invocation) entries:
 
 ```json
 {

@@ -184,7 +184,7 @@ Write a Python script to `/private/tmp/expo-skill-eval-<skill>/run_executors.py`
 - The skill path (with-skill runs only) and the eval prompt.
 - **Image-prompt cases (`reference_image` set):** the absolute path to the target screenshot plus an instruction like "Open the reference screenshot at `<path>` with your Read tool and build an app whose UI matches it as closely as you can — layout, components, spacing, and colors." (`claude -p` renders PNGs read this way, so the executor can actually see the target.)
 - The fixture app path: "Make your changes inside `<app-path>`. The project already exists and has dependencies installed. Use absolute paths for all file operations."
-- "Before writing any files, inspect the project layout — run `ls`, read `package.json` and `app.json` — to find the correct routes directory. Recent SDK default templates place Expo Router routes in `src/app/`; older ones use `app/` at the project root — inspect to confirm which this fixture uses."
+- "Before writing any files, inspect the project layout — run `ls`, read `package.json` and `app.config.js` — to find the correct routes directory. Recent SDK default templates place Expo Router routes in `src/app/`; older ones use `app/` at the project root — inspect to confirm which this fixture uses."
 - "Do NOT start the dev server, boot simulators, or take screenshots — the harness does that after you finish."
 - Where to save a short summary of what was built.
 

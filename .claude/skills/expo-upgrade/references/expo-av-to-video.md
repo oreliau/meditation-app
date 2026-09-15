@@ -107,7 +107,7 @@ const player = useVideoPlayer({ assetId: require('./video.mp4') });
 />
 ```
 
-For PiP and background playback, add to app.json:
+For PiP and background playback, add to app.config.js:
 
 ```json
 {

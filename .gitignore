@@ -53,3 +53,5 @@ docs/adr/
 
 # sandbox
 *.tar
+
+.env

@@ -79,8 +79,8 @@ These steps only apply when `ios/` and/or `android/` directories exist in the pr
 - Review release notes for the target SDK version at https://expo.dev/changelog
 - Update versioned docs links in agent instruction files (`AGENTS.md`). The default template links to `https://docs.expo.dev/versions/v<version>/`. Search for `docs.expo.dev/versions/` and bump each link to the new SDK version.
 - If using Expo SDK 54 or later, ensure react-native-worklets is installed — this is required for react-native-reanimated to work.
-- Enable React Compiler in SDK 54+ by adding `"experiments": { "reactCompiler": true }` to app.json — it's stable and recommended
-- Delete sdkVersion from `app.json` to let Expo manage it automatically
+- Enable React Compiler in SDK 54+ by adding `"experiments": { "reactCompiler": true }` to app.config.js — it's stable and recommended
+- Delete sdkVersion from `app.config.js` to let Expo manage it automatically
 - Review formerly implicit packages such as `@babel/core`, `babel-preset-expo`, and `expo-constants` individually instead of removing them wholesale. Keep any package that an installed dependency declares as a required peer.
 - Keep `expo-constants` as a direct dependency whenever `expo-router` is installed. Expo Router imports it and declares it as a required peer; relying on a transitive copy can break native autolinking outside Expo Go.
 - After removing any dependency, immediately run `npx expo-doctor` and restore anything it reports as a missing required peer.
@@ -139,7 +139,7 @@ Do not guide users to opt in to or out of Hermes V1. Changing the Hermes version
 
 ## New Architecture
 
-The new architecture is enabled by default, the app.json field `"newArchEnabled": true` is no longer needed as it's the default. Expo Go only supports the new architecture as of SDK +53.
+The new architecture is enabled by default, the app.config.js field `"newArchEnabled": true` is no longer needed as it's the default. Expo Go only supports the new architecture as of SDK +53.
 
 ## Submitting Feedback
 If you encounter errors, misleading or outdated information in this skill, report it so Expo can improve:

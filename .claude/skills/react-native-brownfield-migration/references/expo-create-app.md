@@ -43,7 +43,7 @@ Progress checklist:
 Proceed only if:
 
 - create command exits with code `0`
-- `app.json` exists at project root
+- `app.config.js` exists at project root
 
 ## Canonical Docs
 

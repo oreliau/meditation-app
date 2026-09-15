@@ -44,7 +44,7 @@ else
 fi
 ```
 
-**Sources included:** `ios/Podfile`, `android/build.gradle`, `app.json`, `package.json`
+**Sources included:** `ios/Podfile`, `android/build.gradle`, `app.config.js`, `package.json`
 
 ## Diff-Based Triggers
 

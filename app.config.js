@@ -1,5 +1,3 @@
-const appJson = require("./app.json");
-
 const androidPackage = process.env.ANDROID_PACKAGE_NAME;
 const androidVersionCode = process.env.ANDROID_VERSION_CODE;
 const iosBundleIdentifier = process.env.IOS_BUNDLE_IDENTIFIER;
