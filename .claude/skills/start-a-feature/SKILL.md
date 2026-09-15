@@ -1,6 +1,6 @@
 ---
 name: start-a-feature
-description: Launch a fresh Docker sandbox (via `sbx`) running the .claude-sonnet kit to build a feature end-to-end, seeded with a /grill-with-docs prompt. Use when the user wants to kick off a new feature, task, or fix in an isolated sandboxed agent session instead of doing it in the current session.
+description: Launch a fresh Docker sandbox (via `sbx`) running the claude-sonnet kit to build a feature end-to-end, seeded with a /grill-with-docs prompt. Use when the user wants to kick off a new feature, task, or fix in an isolated sandboxed agent session instead of doing it in the current session.
 argument-hint: "<feature-name> <what to build>"
 disable-model-invocation: true
 ---

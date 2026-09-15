@@ -1,7 +1,7 @@
 schemaVersion: "2"
 kind: sandbox
-name: .claude-sonnet
-extends: .claude
+name: claude-sonnet
+extends: claude
 
 credentials:
   - service: github
@@ -13,10 +13,10 @@ credentials:
           scheme: bearer
         - domain: github.com
           scheme: bearer
-  - service: .claude
+  - service: claude
     oauth:
       tokenEndpoint:
-        host: .claude.ai
+        host: claude.ai
         path: /oauth/authorize
       passthrough: true
 
@@ -40,4 +40,4 @@ sandbox:
   command:
     - --dangerously-skip-permissions
     - --model
-    - .claude-sonnet-5
+    - claude-sonnet-5

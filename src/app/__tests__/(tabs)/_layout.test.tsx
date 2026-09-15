@@ -43,9 +43,9 @@ describe("tab tab navigation", () => {
     ]);
     expect(tabs.map((tab) => tab.getAttribute("data-route"))).toEqual([
       "(home)",
-      "(explorer)",
-      "(timer)",
-      "(settings)",
+      "explorer",
+      "timer",
+      "settings",
     ]);
   });
 });

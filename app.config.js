@@ -1,9 +1,10 @@
-const androidPackage = process.env.ANDROID_PACKAGE_NAME;
-const androidVersionCode = process.env.ANDROID_VERSION_CODE;
-const iosBundleIdentifier = process.env.IOS_BUNDLE_IDENTIFIER;
+const androidPackage =
+  process.env.ANDROID_PACKAGE_NAME || "com.anonymous.meditationapp";
+const androidVersionCode = process.env.ANDROID_VERSION_CODE || 1;
+const iosBundleIdentifier =
+  process.env.IOS_BUNDLE_IDENTIFIER || "com.anonymous.meditationapp";
 
 module.exports = {
-  ...appJson,
   expo: {
     name: "meditation-app",
     slug: "meditation-app",
