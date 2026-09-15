@@ -62,7 +62,7 @@ export default function ProgramDetailScreen() {
               {isNext && (
                 <Link
                   href={{
-                    pathname: "/timer",
+                    pathname: "/",
                     params: { programId: program.id, sessionId: session.id },
                   }}
                   asChild
