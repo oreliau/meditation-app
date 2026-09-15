@@ -66,7 +66,11 @@ _Avoid_: Daily summary (reserve "Daily stats" for the underlying data, "Evening 
 
 **Reminder**:
 Either of the two opt-in, repeating local (on-device, never push) daily notifications — the Morning presence reminder and the Evening summary — scheduled at device-local time and re-issued with fresh content on every app foreground.
-_Avoid_: Push notification, alarm (the mockups' "Session alarms" are a separate, unbuilt concept)
+_Avoid_: Push notification, alarm, Session-end alert (see below — event-triggered per session, not daily/repeating)
+
+**Session-end alert**:
+An opt-in, local (on-device, never push) one-shot notification armed the moment a Session starts Running, for whenever that Session reaches Completed while the app isn't in the foreground. Scheduled against the Session's absolute end time so it survives backgrounding, the lock screen, and a full app quit; cancelled if the Session is Paused, Stopped, or completes while the app is foregrounded (the existing completion haptic/chime already covers that case).
+_Avoid_: Reminder (that term is reserved for the two daily notifications above), Session alarm(s)/alarm (the mockups' "Alarmes de Session" depict a different, unbuilt concept: a user-managed list of named, recurring, day-of-week alarms — not this single automatic toggle)
 
 **Presence sentence**:
 One of the bundled, curated "being present" lines the Morning presence reminder carries. Chosen per delivery day so consecutive mornings never repeat.

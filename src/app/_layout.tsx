@@ -13,6 +13,7 @@ import {
   onboardingStorage,
 } from "@/features/onboarding/storage";
 import { SessionCompletionFeedback } from "@/features/timer/SessionCompletionFeedback";
+import { SessionEndAlertScheduler } from "@/features/timer/SessionEndAlertScheduler";
 import { useRefreshRemindersOnForeground } from "@/reminders/useRefreshRemindersOnForeground";
 import { useRecordCompletedSessions } from "@/stats/useRecordCompletedSessions";
 import { useLoadFonts } from "@/theme/useLoadFonts";
@@ -65,6 +66,7 @@ export default function RootLayout() {
         <Stack.Screen name="session-complete" />
       </Stack>
       <SessionCompletionFeedback />
+      <SessionEndAlertScheduler />
     </>
   );
 }

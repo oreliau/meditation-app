@@ -15,11 +15,23 @@ export type DailyNotification = {
   body: string;
 };
 
+export type OneTimeNotification = {
+  // Stable per alert: scheduling again with the same id replaces the
+  // pending one, which is how a moved end time gets rescheduled.
+  id: string;
+  date: number; // absolute epoch ms
+  title: string;
+  body: string;
+};
+
 export interface NotificationsClient {
   getPermission(): Promise<NotificationPermission>;
   requestPermission(): Promise<NotificationPermission>;
   // Repeats every day at hour:minute, device-local time.
   scheduleDaily(notification: DailyNotification): Promise<void>;
+  // Fires once at an absolute time, independent of whether the app is
+  // running, backgrounded, or killed when that time arrives.
+  scheduleAt(notification: OneTimeNotification): Promise<void>;
   cancel(id: string): Promise<void>;
 }
 
