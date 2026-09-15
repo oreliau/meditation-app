@@ -180,9 +180,9 @@ cleanup() {
 }
 trap cleanup EXIT
 # Resolve the app package name up front so the cleanup trap has it even on
-# early exit. app.config.js is a fixture source file always present before Metro starts.
+# early exit. app.json is a fixture source file always present before Metro starts.
 if [[ "$RUNNER" == "dev-build" ]]; then
-  APP_PKG="$(node -e "try{var a=require('$PROJECT_PATH/app.config.js');console.log((a.expo&&a.expo.android&&a.expo.android.package)||'com.exposkilleval.fixture')}catch(e){console.log('com.exposkilleval.fixture')}" 2>/dev/null || echo 'com.exposkilleval.fixture')"
+  APP_PKG="$(node -e "try{var a=require('$PROJECT_PATH/app.json');console.log((a.expo&&a.expo.android&&a.expo.android.package)||'com.exposkilleval.fixture')}catch(e){console.log('com.exposkilleval.fixture')}" 2>/dev/null || echo 'com.exposkilleval.fixture')"
   log_step "app package=$APP_PKG"
 fi
 

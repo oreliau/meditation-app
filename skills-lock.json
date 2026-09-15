@@ -53,7 +53,7 @@
       "source": "expo/skills",
       "sourceType": "github",
       "skillPath": "plugins/expo/skills/expo-animation/SKILL.md",
-      "computedHash": "5b2a06b3419a54e47e68b0c6a6128d9033097d0ea9ee31afaa19b0c035029022"
+      "computedHash": "64068347ac73761d998bf8fe3622dab543362e8d0d89c0ebfeb1fefd85667aff"
     },
     "expo-app-clip": {
       "source": "expo/skills",
@@ -101,7 +101,7 @@
       "source": "expo/skills",
       "sourceType": "github",
       "skillPath": "plugins/expo-experiments/skills/expo-migrate-module/SKILL.md",
-      "computedHash": "dda77f2d6afbbe70e8d6bdb399265e4bb0dc03858aff4d6778f598c1f7e6d5ca"
+      "computedHash": "765f0631685e4f703bd713a3bd45d82ddc2824568fe07ee509b73011e0f9827d"
     },
     "expo-module": {
       "source": "expo/skills",

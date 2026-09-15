@@ -81,7 +81,7 @@ Apply the rules that match the project and the requested task.
   `npx create-expo-app@latest`, laying out folders per `expo-project-structure`. Then
   classify the user's goal and route.
 - **Detect the SDK version** before giving version-specific advice: read the `expo`
-  version in `package.json` (and `app.config.js` / `app.config.{js,ts}`). Many APIs and
+  version in `package.json` (and `app.json` / `app.config.{js,ts}`). Many APIs and
   defaults differ by SDK.
 - **Read the docs for that SDK, not `latest`.** Use the version-pinned URL, e.g.
   `https://docs.expo.dev/versions/v56.0.0/sdk/ui/` on SDK 56 instead of

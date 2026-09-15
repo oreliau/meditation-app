@@ -1,5 +1,7 @@
 pnpm run lint:ci
-npx --yes expo-doctor@latest
-npx --yes react-compiler-healthcheck@latest
-./node_modules/.bin/expo prebuild --clean --no-install
-./node_modules/.bin/expo export --platform web
+pnpm run expo:doctor
+pnpm run react-compiler:healthcheck
+pnpm run typecheck
+pnpm run test:ci
+pnpm run expo:prebuild
+pnpm run expo:export:web
