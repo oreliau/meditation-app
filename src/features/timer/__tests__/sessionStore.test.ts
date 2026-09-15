@@ -169,6 +169,19 @@ describe("createSessionStore", () => {
     expect(store.getSnapshot().remainingSeconds).toBe(12 * 60);
   });
 
+  it("resetToIdle ends a Completed session and returns to Idle without starting a new one", () => {
+    const store = createSessionStore();
+
+    store.play();
+    jest.advanceTimersByTime(12 * 60 * 1_000);
+    expect(store.getSnapshot().status).toBe("Completed");
+
+    store.resetToIdle();
+    expect(store.getSnapshot().status).toBe("Idle");
+    expect(store.getSnapshot().remainingSeconds).toBe(12 * 60);
+    expect(store.getSnapshot().canChangeDuration).toBe(true);
+  });
+
   describe("persistence", () => {
     it("remembers the last-selected duration preset across relaunch", () => {
       mockStorage.getNumber.mockReturnValue(20);
