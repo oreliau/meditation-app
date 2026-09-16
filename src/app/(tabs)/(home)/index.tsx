@@ -36,8 +36,9 @@ const statusCopy: Record<SessionStatus, string> = {
 
 const NotificationBell = () => {
   const { theme } = useUnistyles();
+  const isSessionEndAlertEnabledInitial = isSessionEndAlertEnabled();
   const [isNotificationEnabled, setIsNotificationEnabled] = useState(
-    isSessionEndAlertEnabled(),
+    isSessionEndAlertEnabledInitial,
   );
 
   useEffect(() => {
