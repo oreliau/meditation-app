@@ -46,9 +46,9 @@ export function useTimerSession(
     store.getSnapshot,
     () => serverSnapshot,
   );
-
+  const isVolumeEnabledInitial = getPersistedVolumePreference() ?? true;
   const [isVolumeEnabled, setIsVolumeEnabled] = useState(
-    getPersistedVolumePreference() ?? true,
+    isVolumeEnabledInitial,
   );
 
   const toggleVolume = () => {
