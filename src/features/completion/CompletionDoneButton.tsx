@@ -31,8 +31,9 @@ const styles = StyleSheet.create((theme) => ({
     justifyContent: "center",
     gap: theme.spacing.unit,
     paddingVertical: theme.spacing.gutter,
-    borderRadius: theme.radius.full,
+    borderRadius: { xs: theme.radius.full, lg: theme.radius.md },
     backgroundColor: theme.colors.primary,
+    boxShadow: theme.boxShadow.onPrimaryButton,
   },
   label: {
     fontFamily: theme.typography.titleLg.fontFamily,

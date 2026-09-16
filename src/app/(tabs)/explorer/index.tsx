@@ -17,7 +17,7 @@ function ProgramCard({
   const next = program.sessions[progress.completed];
 
   return (
-    <Link href={`/${program.id}` as never} asChild>
+    <Link href={`/explorer/${program.id}` as never} asChild>
       <Pressable style={styles.card} accessibilityRole="button">
         <View style={styles.cardHeader}>
           <Text style={styles.cardEyebrow}>
@@ -117,6 +117,12 @@ const styles = StyleSheet.create((theme) => ({
     padding: theme.spacing.containerPaddingMobile,
     gap: theme.spacing.gutter,
     paddingBottom: theme.spacing.sectionGap,
+    maxWidth: theme.maxWidth,
+    width: "100%",
+    marginHorizontal: "auto",
+    _web: {
+      paddingTop: 50,
+    },
   },
   headline: {
     fontFamily: theme.typography.headlineMd.fontFamily,

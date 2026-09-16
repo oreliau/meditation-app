@@ -17,7 +17,7 @@ const styles = StyleSheet.create((theme) => ({
     paddingVertical: theme.spacing.unit,
     paddingHorizontal: theme.spacing.unit * 2,
     borderRadius: theme.radius.full,
-    backgroundColor: theme.colors.primaryContainer,
+    backgroundColor: theme.colors.surface,
   },
   toggleLabel: {
     fontFamily: theme.typography.labelMd.fontFamily,

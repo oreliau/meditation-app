@@ -10,6 +10,11 @@ export default function Root({ children }: PropsWithChildren) {
   return (
     <html lang="en">
       <head>
+        <title>Meditation App (by Oréliau Koumedzro)</title>
+        <meta
+          name="description"
+          content="Meditation App by Oréliau Koumedzro"
+        />
         <meta charSet="utf-8" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta

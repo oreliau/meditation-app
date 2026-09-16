@@ -1,4 +1,4 @@
-import { router, Stack, useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import { BackHandler, Text, View } from "react-native";
 import { StyleSheet } from "react-native-unistyles";
@@ -42,55 +42,45 @@ export default function SessionCompleteScreen() {
 
   const handleDone = useCallback(() => {
     getSessionStore().resetToIdle();
-    router.back();
+    router.replace("/");
   }, []);
 
   return (
-    <>
-      <Stack.Screen
-        options={{
-          headerShown: false,
-          presentation: "modal",
-          gestureEnabled: false,
-          animation: "fade",
-        }}
-      />
-      <View style={styles.screen}>
-        {stage === "transition" ? (
-          <CompletionTransition onFinished={handleTransitionFinished} />
-        ) : (
-          <View style={styles.content}>
-            <View style={styles.statusPill}>
-              <View style={styles.statusDot} />
-              <Text style={styles.statusLabel}>Session complete</Text>
-            </View>
-
-            <CompletionOrb />
-
-            <View style={styles.copy}>
-              <Text style={styles.headline}>Moment of stillness</Text>
-              <Text style={styles.subtitle}>
-                Your mind has settled. Carry this quiet with you through the
-                rest of your day.
-              </Text>
-            </View>
-
-            <CompletionStats
-              durationMinutes={durationMinutes}
-              program={
-                program
-                  ? { completed: program.completed, total: program.total }
-                  : undefined
-              }
-            />
-
-            <View style={styles.actions}>
-              <CompletionDoneButton onPress={handleDone} />
-            </View>
+    <View style={styles.screen}>
+      {stage === "transition" ? (
+        <CompletionTransition onFinished={handleTransitionFinished} />
+      ) : (
+        <View style={styles.content}>
+          <View style={styles.statusPill}>
+            <View style={styles.statusDot} />
+            <Text style={styles.statusLabel}>Session complete</Text>
           </View>
-        )}
-      </View>
-    </>
+
+          <CompletionOrb />
+
+          <View style={styles.copy}>
+            <Text style={styles.headline}>Moment of stillness</Text>
+            <Text style={styles.subtitle}>
+              Your mind has settled. Carry this quiet with you through the rest
+              of your day.
+            </Text>
+          </View>
+
+          <CompletionStats
+            durationMinutes={durationMinutes}
+            program={
+              program
+                ? { completed: program.completed, total: program.total }
+                : undefined
+            }
+          />
+
+          <View style={styles.actions}>
+            <CompletionDoneButton onPress={handleDone} />
+          </View>
+        </View>
+      )}
+    </View>
   );
 }
 
@@ -120,7 +110,7 @@ const styles = StyleSheet.create((theme) => ({
     width: 8,
     height: 8,
     borderRadius: theme.radius.full,
-    backgroundColor: theme.colors.tertiary,
+    backgroundColor: theme.colors.success,
   },
   statusLabel: {
     fontFamily: theme.typography.labelMd.fontFamily,
@@ -149,6 +139,8 @@ const styles = StyleSheet.create((theme) => ({
     maxWidth: 280,
   },
   actions: {
-    alignSelf: "stretch",
+    alignSelf: "center",
+    maxWidth: theme.maxWidth,
+    width: "100%",
   },
 }));

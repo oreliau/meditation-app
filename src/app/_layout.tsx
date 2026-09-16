@@ -1,11 +1,11 @@
+import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useState } from "react";
 import { LogBox } from "react-native";
 import { useMMKVListener } from "react-native-mmkv";
-import "../unistyles";
-import { Stack } from "expo-router";
 // import { getSessionStore } from "@/features/timer/sessionStore";
 // import { useSessionWidgets } from "@/features/timer/widgets";
+import "../reminders/setup";
 import { useNavigateToCompletion } from "@/features/completion/useNavigateToCompletion";
 import {
   getHasCompletedOnboarding,
@@ -57,13 +57,19 @@ export default function RootLayout() {
   return (
     <>
       <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Protected guard={!hasCompletedOnboarding}>
-          <Stack.Screen name="onboarding" />
-        </Stack.Protected>
         <Stack.Protected guard={hasCompletedOnboarding}>
           <Stack.Screen name="(tabs)" />
         </Stack.Protected>
-        <Stack.Screen name="session-complete" />
+        <Stack.Protected guard={!hasCompletedOnboarding}>
+          <Stack.Screen name="onboarding" />
+        </Stack.Protected>
+        <Stack.Screen
+          name="session-complete"
+          options={{
+            animation: "fade",
+            presentation: "fullScreenModal",
+          }}
+        />
       </Stack>
       <SessionCompletionFeedback />
       <SessionEndAlertScheduler />

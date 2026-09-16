@@ -206,6 +206,7 @@ export function createSessionStore(): SessionStore {
       durationMinutes = minutes;
       persistDurationMinutes(minutes);
       publish(Date.now());
+      commit(resetToIdle(session), Date.now());
     },
     play() {
       const now = Date.now();
