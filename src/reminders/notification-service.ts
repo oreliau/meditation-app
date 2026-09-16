@@ -22,7 +22,7 @@ function toPermission(
 
 // expo-notifications adapter (native only — see the .web counterpart).
 // Local scheduling only: no push token, no server, so it works in Expo Go.
-export function createExpoNotificationsClient(): NotificationsClient {
+export function createNotificationService(): NotificationsClient {
   // Reminders should also be seen if the app happens to be open at 8:00.
   Notifications.setNotificationHandler({
     handleNotification: async () => ({

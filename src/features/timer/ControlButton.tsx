@@ -1,8 +1,7 @@
 import { SymbolView, type SymbolViewProps } from "expo-symbols";
-import { Pressable } from "react-native";
+import { Pressable, View } from "react-native";
 import { StyleSheet, useUnistyles } from "react-native-unistyles";
 import { spacing } from "@/theme/spacing";
-import { GlassPanel } from "./GlassPanel";
 
 // Cross-platform glyphs: SF Symbols on iOS, Material Symbols on Android/web.
 const controlIcons = {
@@ -14,6 +13,16 @@ const controlIcons = {
   play: { ios: "play.fill", android: "play_arrow", web: "play_arrow" },
   pause: { ios: "pause.fill", android: "pause", web: "pause" },
   stop: { ios: "stop.fill", android: "stop", web: "stop" },
+  volume: {
+    ios: "speaker.wave.2.fill",
+    android: "volume_up",
+    web: "volume_up",
+  },
+  volume_off: {
+    ios: "speaker.slash.fill",
+    android: "volume_off",
+    web: "volume_off",
+  },
 } as const satisfies Record<string, SymbolViewProps["name"]>;
 
 type ControlButtonProps = {
@@ -33,10 +42,13 @@ export function ControlButton({
   primary = false,
 }: ControlButtonProps) {
   const { theme } = useUnistyles();
+  styles.useVariants({
+    size: primary ? "primary" : "secondary",
+    color: primary ? "primary" : "secondary",
+  });
   // 8px-grid sizes: the mockups' 80/64pt buttons with 32/24pt glyphs.
-  const size = spacing.unit * (primary ? 10 : 8);
-  const iconSize = spacing.unit * (primary ? 4 : 3);
-  const tint = primary ? theme.colors.primary : theme.colors.onSurfaceVariant;
+  const iconSize = spacing.unit * (primary ? 4 : 2.5);
+  const tint = primary ? theme.colors.onPrimary : theme.colors.onPrimaryFixed;
 
   return (
     <Pressable
@@ -51,19 +63,14 @@ export function ControlButton({
         disabled && styles.disabled,
       ]}
     >
-      <GlassPanel
-        style={[
-          styles.panel,
-          { width: size, height: size },
-          primary && styles.primaryPanel,
-        ]}
-      >
+      <View style={styles.panel}>
         <SymbolView
           name={controlIcons[icon]}
           size={iconSize}
           tintColor={tint}
+          type="monochrome"
         />
-      </GlassPanel>
+      </View>
     </Pressable>
   );
 }
@@ -82,9 +89,40 @@ const styles = StyleSheet.create((theme) => ({
     borderRadius: theme.radius.full,
     alignItems: "center",
     justifyContent: "center",
-  },
-  primaryPanel: {
-    borderWidth: 1,
-    borderColor: theme.colors.primaryContainer,
+    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+    variants: {
+      size: {
+        primary: {
+          width: 64,
+          height: 64,
+        },
+        secondary: {
+          width: 48,
+          height: 48,
+        },
+      },
+      color: {
+        primary: {
+          backgroundColor: theme.colors.primary,
+          boxShadow: theme.boxShadow.onPrimaryButton,
+          _web: {
+            _hover: {
+              transform: "scale(1.05)",
+            },
+            _active: {
+              transform: "scale(0.95)",
+            },
+          },
+        },
+        secondary: {
+          backgroundColor: "#efece6",
+          _web: {
+            _hover: {
+              backgroundColor: "#e9e6df",
+            },
+          },
+        },
+      },
+    },
   },
 }));

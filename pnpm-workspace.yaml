@@ -54,6 +54,7 @@ minimumReleaseAgeExclude:
   - react-native-webgpu@0.10.0
   - '@expo/router-server@57.0.10'
   - expo-build-properties@57.0.18 || 57.0.19
+  - expo-blur@57.0.3
 trustPolicy: off
 allowBuilds:
   unrs-resolver: false

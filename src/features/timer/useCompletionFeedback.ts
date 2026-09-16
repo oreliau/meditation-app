@@ -5,6 +5,7 @@ import {
 } from "expo-audio";
 import * as Haptics from "expo-haptics";
 import { useEffect, useRef } from "react";
+import { getPersistedVolumePreference } from "./storage";
 
 // PLACEHOLDER tone (ADR-0003): a generated 0.7 s sine "ding", not a designed
 // bell. Swap the asset here when the real sound is specified.
@@ -45,6 +46,10 @@ export function useCompletionFeedback(): () => void {
     const player = playerRef.current;
 
     if (!player) {
+      return;
+    }
+
+    if (!getPersistedVolumePreference()) {
       return;
     }
 

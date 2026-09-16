@@ -110,39 +110,39 @@ A bright, airy environment that feels open and calm — the daytime counterpart 
 #### Primary
 | Token | Hex |
 |-------|-----|
-| primary | #5a5b84 |
+| primary | #99462a |
 | on-primary | #ffffff |
-| primary-container | #c2c2f2 |
-| on-primary-container | #16173d |
-| inverse-primary | #c2c2f2 |
-| primary-fixed | #e1e0ff |
-| primary-fixed-dim | #c2c2f2 |
-| on-primary-fixed | #16173d |
-| on-primary-fixed-variant | #42436b |
+| primary-container | #d97757 |
+| on-primary-container | #541400 |
+| inverse-primary | #ffb59e |
+| primary-fixed | #ffdbd0 |
+| primary-fixed-dim | #ffb59e |
+| on-primary-fixed | #390b00 |
+| on-primary-fixed-variant | #7a2f15 |
 
 #### Secondary
 | Token | Hex |
 |-------|-----|
-| secondary | #61549b |
+| secondary | #85530d |
 | on-secondary | #ffffff |
-| secondary-container | #e8deff |
-| on-secondary-container | #20015d |
-| secondary-fixed | #e8deff |
-| secondary-fixed-dim | #cdbdff |
-| on-secondary-fixed | #20015d |
-| on-secondary-fixed-variant | #4c388a |
+| secondary-container | #fdb96c |
+| on-secondary-container | #774800 |
+| secondary-fixed | #ffddbb |
+| secondary-fixed-dim | #fdb96c |
+| on-secondary-fixed | #2b1700 |
+| on-secondary-fixed-variant | #673d00 |
 
 #### Tertiary
 | Token | Hex |
 |-------|-----|
-| tertiary | #406a69 |
+| tertiary | #695d4a |
 | on-tertiary | #ffffff |
-| tertiary-container | #d4e6e5 |
-| on-tertiary-container | #0e1e1e |
-| tertiary-fixed | #d4e6e5 |
-| tertiary-fixed-dim | #b8cac9 |
-| on-tertiary-fixed | #0e1e1e |
-| on-tertiary-fixed-variant | #3a4a49 |
+| tertiary-container | #9f907b |
+| on-tertiary-container | #332a1a |
+| tertiary-fixed | #f2e0c8 |
+| tertiary-fixed-dim | #d5c4ad |
+| on-tertiary-fixed | #231a0c |
+| on-tertiary-fixed-variant | #504534 |
 
 #### Error
 | Token | Hex |

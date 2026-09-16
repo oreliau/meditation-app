@@ -1,10 +1,14 @@
-import { useSyncExternalStore } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { DEFAULT_DURATION_MINUTES } from "./durations";
 import {
   getSessionStore,
   type SessionSnapshot,
   type SessionStore,
 } from "./sessionStore";
+import {
+  getPersistedVolumePreference,
+  persistVolumePreference,
+} from "./storage";
 
 export type SessionTimer = SessionSnapshot &
   Pick<
@@ -15,7 +19,10 @@ export type SessionTimer = SessionSnapshot &
     | "pause"
     | "stop"
     | "restart"
-  >;
+  > & {
+    isVolumeEnabled: boolean;
+    toggleVolume: () => void;
+  };
 
 // What the server prerender shows before the client store takes over: an
 // Idle session at the default preset.
@@ -40,6 +47,18 @@ export function useTimerSession(
     () => serverSnapshot,
   );
 
+  const [isVolumeEnabled, setIsVolumeEnabled] = useState(
+    getPersistedVolumePreference() ?? true,
+  );
+
+  const toggleVolume = () => {
+    setIsVolumeEnabled((prev) => {
+      const newValue = !prev;
+      return newValue;
+    });
+    persistVolumePreference(!isVolumeEnabled);
+  };
+
   return {
     ...snapshot,
     setDurationMinutes: store.setDurationMinutes,
@@ -47,6 +66,8 @@ export function useTimerSession(
     play: store.play,
     pause: store.pause,
     stop: store.stop,
-    restart: store.restart,
+    restart: store.resetToIdle,
+    isVolumeEnabled,
+    toggleVolume,
   };
 }

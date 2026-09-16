@@ -1,12 +1,12 @@
 // Fixed duration presets offered by the picker, in minutes. The default
 // matches the mockups' static "12:00" display.
 export const DURATION_PRESETS_MINUTES = [
-  3, 5, 10, 12, 15, 20, 30, 45, 60, 90, 120,
+  0.1, 0.5, 3, 5, 10, 12, 15, 20, 30, 45, 60, 90, 120,
 ] as const;
 
 export type DurationMinutes = (typeof DURATION_PRESETS_MINUTES)[number];
 
-export const DEFAULT_DURATION_MINUTES: DurationMinutes = 12;
+export const DEFAULT_DURATION_MINUTES: DurationMinutes = 0.1;
 
 export function isDurationPreset(value: unknown): value is DurationMinutes {
   return (DURATION_PRESETS_MINUTES as readonly number[]).includes(
@@ -35,5 +35,5 @@ export function formatClock(totalSeconds: number): string {
 
   return hours > 0
     ? `${hours}:${pad(minutes)}:${pad(seconds)}`
-    : `${minutes}:${pad(seconds)}`;
+    : `${minutes < 10 ? "0" : ""}${minutes}:${pad(seconds)}`;
 }

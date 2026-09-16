@@ -1,7 +1,8 @@
-import { Host, Picker } from "@expo/ui";
-import { Stack, useLocalSearchParams } from "expo-router";
-import { useEffect } from "react";
-import { ScrollView, Text, View } from "react-native";
+import { Column, Picker } from "@expo/ui";
+import { useLocalSearchParams } from "expo-router";
+import { SymbolView } from "expo-symbols";
+import { useEffect, useState } from "react";
+import { Pressable, ScrollView, Text, View } from "react-native";
 import { StyleSheet, useUnistyles } from "react-native-unistyles";
 import { getProgram } from "@/features/explorer/programs";
 import { ControlButton } from "@/features/timer/ControlButton";
@@ -13,7 +14,14 @@ import {
 import { GlassPanel } from "@/features/timer/GlassPanel";
 import { ProgressRing } from "@/features/timer/ProgressRing";
 import type { SessionStatus } from "@/features/timer/session";
+import {
+  isSessionEndAlertEnabled,
+  setSessionEndAlertEnabled,
+} from "@/features/timer/sessionEndAlertStorage";
 import { useTimerSession } from "@/features/timer/useTimerSession";
+import { AdaptiveBackground } from "@/presentation/adaptive-background/adaptive-background";
+import { PresentationSheet } from "@/presentation/presentation-sheet/presentation-sheet";
+import { ensureNotificationPermission } from "@/reminders/permission";
 import { spacing } from "@/theme/spacing";
 
 // UI copy uses the CONTEXT.md session vocabulary verbatim; only Completed
@@ -26,8 +34,60 @@ const statusCopy: Record<SessionStatus, string> = {
   Completed: "Session complete",
 };
 
-export default function TimerScreen() {
+const NotificationBell = () => {
   const { theme } = useUnistyles();
+  const [isNotificationEnabled, setIsNotificationEnabled] = useState(
+    isSessionEndAlertEnabled(),
+  );
+
+  useEffect(() => {
+    setSessionEndAlertEnabled(isNotificationEnabled);
+  }, [isNotificationEnabled]);
+
+  const handlePress = async () => {
+    if (!isNotificationEnabled) {
+      const granted = await ensureNotificationPermission();
+      if (!granted) {
+        return;
+      }
+      setIsNotificationEnabled(true);
+
+      return;
+    }
+
+    setIsNotificationEnabled(false);
+  };
+
+  return (
+    <Pressable onPress={handlePress}>
+      {isNotificationEnabled ? (
+        <SymbolView
+          name={{
+            ios: "bell",
+            android: "notifications",
+            web: "notifications",
+          }}
+          size={24}
+          tintColor={theme.colors.primary}
+          type="monochrome"
+        />
+      ) : (
+        <SymbolView
+          name={{
+            ios: "bell.slash",
+            android: "notifications_off",
+            web: "notifications_off",
+          }}
+          size={24}
+          tintColor={`${theme.colors.primary}80`}
+          type="monochrome"
+        />
+      )}
+    </Pressable>
+  );
+};
+
+export default function TimerScreen() {
   const { isActive, setDurationMinutes, setProgramContext, ...session } =
     useTimerSession();
   const params = useLocalSearchParams<{
@@ -63,18 +123,7 @@ export default function TimerScreen() {
 
   return (
     <>
-      <Stack.Screen
-        options={{
-          title: "Lumina Flow",
-          headerShadowVisible: false,
-          headerStyle: { backgroundColor: theme.colors.background },
-          headerTintColor: theme.colors.primary,
-          headerTitleStyle: {
-            fontFamily: theme.typography.headlineMdMobile.fontFamily,
-            fontSize: theme.typography.headlineMdMobile.fontSize,
-          },
-        }}
-      />
+      <AdaptiveBackground />
       <ScrollView
         style={styles.screen}
         contentContainerStyle={styles.content}
@@ -94,40 +143,46 @@ export default function TimerScreen() {
           <ProgressRing size={RING_SIZE} progress={session.progress} />
           <View style={styles.innerRing} />
           <GlassPanel style={styles.dial}>
-            <Text
-              style={styles.clock}
-              accessibilityLabel={`${formatClock(session.remainingSeconds)} remaining`}
-            >
-              {formatClock(session.remainingSeconds)}
-            </Text>
+            <NotificationBell />
             <Text style={[styles.label, styles.clockCaption]}>Remaining</Text>
-          </GlassPanel>
-        </View>
+            <PresentationSheet>
+              <PresentationSheet.Trigger>
+                <Text
+                  style={styles.clock}
+                  accessibilityLabel={`${formatClock(session.remainingSeconds)} remaining`}
+                >
+                  {formatClock(session.remainingSeconds)}
+                </Text>
+              </PresentationSheet.Trigger>
 
-        <View
-          style={[
-            styles.pickerBlock,
-            !session.canChangeDuration && styles.pickerLocked,
-          ]}
-        >
-          <Text style={styles.label}>Duration</Text>
-          <Host matchContents style={styles.pickerHost}>
-            <Picker
-              appearance="wheel"
-              selectedValue={session.durationMinutes}
-              onValueChange={setDurationMinutes}
-              enabled={session.canChangeDuration && !session.programContext}
-              testID="duration-picker"
-            >
-              {DURATION_PRESETS_MINUTES.map((minutes) => (
-                <Picker.Item
-                  key={minutes}
-                  label={formatDurationLabel(minutes)}
-                  value={minutes}
-                />
-              ))}
-            </Picker>
-          </Host>
+              <PresentationSheet.Content>
+                {(close) => (
+                  <Column>
+                    <Picker
+                      appearance="wheel"
+                      selectedValue={session.durationMinutes}
+                      onValueChange={(value) => {
+                        setDurationMinutes(value);
+                        close();
+                      }}
+                      enabled={
+                        session.canChangeDuration && !session.programContext
+                      }
+                      testID="duration-picker"
+                    >
+                      {DURATION_PRESETS_MINUTES.map((minutes) => (
+                        <Picker.Item
+                          key={minutes}
+                          label={formatDurationLabel(minutes)}
+                          value={minutes}
+                        />
+                      ))}
+                    </Picker>
+                  </Column>
+                )}
+              </PresentationSheet.Content>
+            </PresentationSheet>
+          </GlassPanel>
         </View>
 
         <View style={styles.controls}>
@@ -143,10 +198,9 @@ export default function TimerScreen() {
             onPress={isRunning ? session.pause : session.play}
           />
           <ControlButton
-            icon="stop"
-            label="Stop"
-            onPress={session.stop}
-            disabled={!isActive}
+            icon={session.isVolumeEnabled ? "volume" : "volume_off"}
+            label="Volume"
+            onPress={session.toggleVolume}
           />
         </View>
       </ScrollView>
@@ -158,10 +212,15 @@ export default function TimerScreen() {
 // steps the mockups happen to use; 288 matches the mobile mockup's w-72.
 const RING_SIZE = spacing.unit * 36;
 
-const styles = StyleSheet.create((theme) => ({
+const styles = StyleSheet.create((theme, rt) => ({
+  pickerHost: {},
   screen: {
     flex: 1,
-    backgroundColor: theme.colors.background,
+  },
+  toggleButton: {
+    position: "absolute",
+    top: 0 + rt.insets.top,
+    right: 0,
   },
   content: {
     flexGrow: 1,
@@ -207,28 +266,17 @@ const styles = StyleSheet.create((theme) => ({
     borderRadius: theme.radius.full,
     alignItems: "center",
     justifyContent: "center",
+    overflow: "hidden",
   },
   clock: {
     fontFamily: theme.typography.displayLg.fontFamily,
-    fontSize: theme.typography.displayLg.fontSize,
-    lineHeight: theme.typography.displayLg.lineHeight,
+    fontSize: 80,
+    lineHeight: 90,
     letterSpacing: theme.typography.displayLg.letterSpacing,
-    color: theme.colors.primary,
-    fontVariant: ["tabular-nums"],
+    color: theme.colors.onSurface,
   },
   clockCaption: {
     marginTop: theme.spacing.unit,
-  },
-  pickerBlock: {
-    alignSelf: "stretch",
-    alignItems: "center",
-    gap: theme.spacing.unit,
-  },
-  pickerLocked: {
-    opacity: 0.4,
-  },
-  pickerHost: {
-    alignSelf: "stretch",
   },
   controls: {
     flexDirection: "row",

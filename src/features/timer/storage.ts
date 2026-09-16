@@ -6,11 +6,14 @@ import type { ProgramContext } from "./sessionStore";
 
 // Holds the live session, chosen preset, and optional Program session context;
 // it still stores no per-session history (ADR-0004).
-export const timerStorage = createMMKV({ id: "aura-timer" });
+export const AURA_TIMER_STORAGE_ID = "aura-timer";
+export const timerStorage = createMMKV({ id: AURA_TIMER_STORAGE_ID });
 
 export const DURATION_MINUTES_KEY = "durationMinutes";
 export const SESSION_KEY = "session";
 export const PROGRAM_CONTEXT_KEY = "programContext";
+export const NOTIFICATION_PREFERENCE_KEY = "notificationPreference";
+export const VOLUME_PREFERENCE_KEY = "volumePreference";
 
 export function getPersistedProgramContext(): ProgramContext | undefined {
   if (!isStorageAvailable()) return undefined;
@@ -104,5 +107,21 @@ function parseSession(value: unknown): Session | undefined {
         : undefined;
     default:
       return undefined;
+  }
+}
+
+export function getPersistedVolumePreference(): boolean | undefined {
+  if (!isStorageAvailable()) {
+    return undefined;
+  }
+
+  const value = timerStorage.getBoolean(VOLUME_PREFERENCE_KEY);
+
+  return typeof value === "boolean" ? value : undefined;
+}
+
+export function persistVolumePreference(enabled: boolean): void {
+  if (isStorageAvailable()) {
+    timerStorage.set(VOLUME_PREFERENCE_KEY, enabled);
   }
 }

@@ -9,7 +9,7 @@ import { useIsFocused } from "expo-router";
 import { useMemo, useRef } from "react";
 import { AppState, useWindowDimensions } from "react-native";
 import { Canvas } from "react-native-webgpu";
-import { common, d, std } from "typegpu";
+import { common, d, std, tgpu } from "typegpu";
 import type { BackgroundThemeValues } from "./background-theme-values";
 
 interface WebGpuBackgroundLayerProps {
@@ -18,12 +18,15 @@ interface WebGpuBackgroundLayerProps {
   onFailure(): void;
 }
 
-const softField = (point: d.v2f, center: d.v2f, radius: number) => {
+const softField = tgpu.fn(
+  [d.vec2f, d.vec2f, d.f32],
+  d.f32,
+)((point, center, radius) => {
   "use gpu";
   return (
     1.0 - std.smoothstep(radius * 0.12, radius, std.distance(point, center))
   );
-};
+});
 
 export default function WebGpuBackgroundLayer({
   themeValues,
