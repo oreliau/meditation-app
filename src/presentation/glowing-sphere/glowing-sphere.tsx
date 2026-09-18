@@ -29,8 +29,8 @@ const WebGpuBackgroundLayer = lazy(
   () => import("./webgpu-glowing-shpere-layer"),
 );
 
-export function GLowingSphere() {
-  const { rt } = useUnistyles();
+export function GLowingSphere({ onReady }: { onReady?: () => void }) {
+  const { rt, theme } = useUnistyles();
   const reducedMotion = useReducedMotion();
   const [gpuFailed, setGpuFailed] = useState(false);
   const themeValues =
@@ -42,6 +42,11 @@ export function GLowingSphere() {
 
   return (
     <View style={styles.root}>
+      <View
+        style={[styles.fallback, { backgroundColor: theme.colors.primary }]}
+        accessibilityElementsHidden
+        importantForAccessibility="no-hide-descendants"
+      />
       <View
         pointerEvents="none"
         style={[
@@ -64,6 +69,7 @@ export function GLowingSphere() {
                   reducedMotion={reducedMotion}
                   size={100}
                   onFailure={handleFailure}
+                  onReady={onReady}
                 />
               </Root>
             </Suspense>
@@ -78,6 +84,15 @@ const styles = StyleSheet.create({
   root: {
     width: 250,
     height: 250,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  fallback: {
+    position: "absolute",
+    width: 132,
+    height: 132,
+    borderRadius: 66,
+    opacity: 0.9,
   },
   container: {
     ...StyleSheet.absoluteFillObject,
