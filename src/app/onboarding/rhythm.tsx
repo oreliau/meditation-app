@@ -1,8 +1,9 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import { Stack, useRouter } from "expo-router";
 import { useState } from "react";
-import { Pressable, ScrollView, Switch, Text, View } from "react-native";
+import { ScrollView, Switch, Text, View } from "react-native";
 import { StyleSheet, useUnistyles } from "react-native-unistyles";
+import { Button } from "@/components/Button";
 import {
   DURATION_PRESET_CONTENT,
   REMINDER_MOMENTS,
@@ -88,9 +89,10 @@ export default function OnboardingRhythmScreen() {
       <Text style={styles.sectionTitle}>BREATHING DURATION</Text>
       <View style={styles.durationGrid}>
         {DURATION_PRESET_CONTENT.map((preset) => (
-          <Pressable
+          <Button
             key={preset.minutes}
             onPress={() => chooseDuration(preset.minutes)}
+            role="radio"
             accessibilityRole="radio"
             accessibilityState={{
               checked: durationMinutes === preset.minutes,
@@ -110,16 +112,17 @@ export default function OnboardingRhythmScreen() {
               {formatDurationLabel(preset.minutes)}
             </Text>
             <Text style={styles.durationTitle}>{preset.title}</Text>
-          </Pressable>
+          </Button>
         ))}
       </View>
 
       <Text style={styles.sectionTitle}>BEST MOMENT</Text>
       <View style={styles.momentRow}>
         {REMINDER_MOMENTS.map((option) => (
-          <Pressable
+          <Button
             key={option.id}
             onPress={() => chooseMoment(option.id)}
+            role="radio"
             accessibilityRole="radio"
             accessibilityState={{ checked: moment === option.id }}
             accessibilityLabel={option.label}
@@ -135,7 +138,7 @@ export default function OnboardingRhythmScreen() {
             />
             <Text style={styles.momentLabel}>{option.label}</Text>
             <Text style={styles.momentTime}>{option.time}</Text>
-          </Pressable>
+          </Button>
         ))}
       </View>
 

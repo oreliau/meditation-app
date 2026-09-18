@@ -1,7 +1,8 @@
 import { Stack, useRouter } from "expo-router";
 import { useState } from "react";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { StyleSheet } from "react-native-unistyles";
+import { Button } from "@/components/Button";
 import { EXPERIENCE_LEVELS, INTENTIONS } from "@/features/onboarding/content";
 import { OnboardingButton } from "@/features/onboarding/OnboardingButton";
 import { OnboardingProgressHeader } from "@/features/onboarding/OnboardingProgressHeader";
@@ -82,9 +83,10 @@ export default function OnboardingIntentionsScreen() {
         </View>
         <View style={styles.experienceSegments}>
           {EXPERIENCE_LEVELS.map((level) => (
-            <Pressable
+            <Button
               key={level.id}
               onPress={() => chooseExperienceLevel(level.id)}
+              role="radio"
               accessibilityRole="radio"
               accessibilityState={{ checked: experienceLevel === level.id }}
               accessibilityLabel={level.label}
@@ -103,7 +105,7 @@ export default function OnboardingIntentionsScreen() {
               >
                 {level.label}
               </Text>
-            </Pressable>
+            </Button>
           ))}
         </View>
       </View>

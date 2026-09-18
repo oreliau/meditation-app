@@ -1,6 +1,7 @@
 import { Link, Stack, useLocalSearchParams } from "expo-router";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { StyleSheet } from "react-native-unistyles";
+import { Button } from "@/components/Button";
 import { getProgram } from "@/features/explorer/programs";
 import {
   getCompletedSessionIds,
@@ -67,9 +68,9 @@ export default function ProgramDetailScreen() {
                   }}
                   asChild
                 >
-                  <Pressable style={styles.startButton}>
+                  <Button style={styles.startButton}>
                     <Text style={styles.startButtonText}>Prepare</Text>
-                  </Pressable>
+                  </Button>
                 </Link>
               )}
             </View>
@@ -78,14 +79,14 @@ export default function ProgramDetailScreen() {
       </View>
 
       {progress.isComplete && (
-        <Pressable
+        <Button
           style={styles.restartButton}
           onPress={() => {
             resetProgramProgress(program.id);
           }}
         >
           <Text style={styles.restartText}>Restart program</Text>
-        </Pressable>
+        </Button>
       )}
     </ScrollView>
   );

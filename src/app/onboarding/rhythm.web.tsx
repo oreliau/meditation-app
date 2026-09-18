@@ -1,8 +1,9 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import { Stack, useRouter } from "expo-router";
 import { useState } from "react";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { StyleSheet, useUnistyles } from "react-native-unistyles";
+import { Button } from "@/components/Button";
 import { DURATION_PRESET_CONTENT } from "@/features/onboarding/content";
 import { OnboardingButton } from "@/features/onboarding/OnboardingButton";
 import { OnboardingProgressHeader } from "@/features/onboarding/OnboardingProgressHeader";
@@ -57,9 +58,10 @@ export default function OnboardingRhythmScreen() {
       <Text style={styles.sectionTitle}>BREATHING DURATION</Text>
       <View style={styles.durationGrid}>
         {DURATION_PRESET_CONTENT.map((preset) => (
-          <Pressable
+          <Button
             key={preset.minutes}
             onPress={() => chooseDuration(preset.minutes)}
+            role="radio"
             accessibilityRole="radio"
             accessibilityState={{
               checked: durationMinutes === preset.minutes,
@@ -79,7 +81,7 @@ export default function OnboardingRhythmScreen() {
               {formatDurationLabel(preset.minutes)}
             </Text>
             <Text style={styles.durationTitle}>{preset.title}</Text>
-          </Pressable>
+          </Button>
         ))}
       </View>
 
