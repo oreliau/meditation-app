@@ -71,10 +71,10 @@ it("pauses on opening, stages multiple choices, and applies only on confirmation
   const ui = render(<TimerScreen />);
   fireEvent.press(ui.getByLabelText("02:00 remaining. Change duration"));
   expect(timer.pause).toHaveBeenCalledTimes(1);
-  expect(ui.getByLabelText("5 min")).toBeDisabled();
+  expect(ui.getByLabelText("5 mins")).toBeDisabled();
   expect(ui.getByLabelText("Resume")).toBeDisabled();
-  fireEvent.press(ui.getByLabelText("15 min"));
-  fireEvent.press(ui.getByLabelText("20 min"));
+  fireEvent.press(ui.getByLabelText("15 mins"));
+  fireEvent.press(ui.getByLabelText("20 mins"));
   expect(timer.setDurationMinutes).not.toHaveBeenCalled();
   fireEvent.press(ui.getByLabelText("Apply"));
   expect(timer.setDurationMinutes).toHaveBeenCalledWith(20);
@@ -85,7 +85,7 @@ it("pauses on opening, stages multiple choices, and applies only on confirmation
 it("discards the draft on Cancel without resuming", () => {
   const ui = render(<TimerScreen />);
   fireEvent.press(ui.getByLabelText("02:00 remaining. Change duration"));
-  fireEvent.press(ui.getByLabelText("20 min"));
+  fireEvent.press(ui.getByLabelText("20 mins"));
   fireEvent.press(ui.getByLabelText("Cancel"));
   expect(timer.setDurationMinutes).not.toHaveBeenCalled();
   expect(timer.play).not.toHaveBeenCalled();
