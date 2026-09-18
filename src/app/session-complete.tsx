@@ -1,6 +1,12 @@
 import { router, useLocalSearchParams } from "expo-router";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { BackHandler, Text, View } from "react-native";
+import Animated, {
+  useAnimatedStyle,
+  useReducedMotion,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 import { StyleSheet } from "react-native-unistyles";
 import { CompletionDoneButton } from "@/features/completion/CompletionDoneButton";
 import { CompletionOrb } from "@/features/completion/CompletionOrb";
@@ -9,9 +15,7 @@ import { CompletionTransition } from "@/features/completion/CompletionTransition
 import { getProgramProgress } from "@/features/explorer/progress";
 import { getSessionStore } from "@/features/timer/sessionStore";
 
-type Stage = "transition" | "success";
 const ORB_READY_WAIT_MS = 250;
-
 // The celebratory takeover shown whenever a session completes naturally
 // (pushed by useNavigateToCompletion, mounted at the app root). Stage 2 (the
 // brief "zen transition") plays automatically, then hands off to stage 3
@@ -27,9 +31,12 @@ export default function SessionCompleteScreen() {
     typeof params.programId === "string" ? params.programId : undefined;
   const program = programId ? getProgramProgress(programId) : undefined;
 
-  const [stage, setStage] = useState<Stage>("transition");
-  const transitionFinished = useRef(false);
-  const orbReady = useRef(false);
+  // Keep both phases mounted and move the handoff onto the UI runtime. This
+  // avoids a React render/remount at the exact moment the celebration ends.
+  const completionProgress = useSharedValue(0);
+  const transitionFinished = useSharedValue(0);
+  const orbReady = useSharedValue(0);
+  const reducedMotion = useReducedMotion();
 
   // Block Android's hardware back button for the whole takeover; iOS's swipe
   // gesture is disabled via this screen's Stack.Screen options below.
@@ -41,70 +48,80 @@ export default function SessionCompleteScreen() {
     return () => subscription.remove();
   }, []);
 
+  const revealCompletion = useCallback(() => {
+    completionProgress.set(
+      withTiming(1, { duration: reducedMotion ? 0 : 220 }),
+    );
+  }, [completionProgress, reducedMotion]);
+
   const handleTransitionFinished = useCallback(() => {
-    transitionFinished.current = true;
-    if (orbReady.current) {
-      setStage("success");
+    transitionFinished.set(1);
+    if (orbReady.get()) {
+      revealCompletion();
       return;
     }
 
-    setTimeout(() => setStage("success"), ORB_READY_WAIT_MS);
-  }, []);
+    setTimeout(revealCompletion, ORB_READY_WAIT_MS);
+  }, [orbReady, revealCompletion, transitionFinished]);
 
   const handleOrbReady = useCallback(() => {
-    orbReady.current = true;
-    if (transitionFinished.current) {
-      setStage("success");
+    orbReady.set(1);
+    if (transitionFinished.get()) {
+      revealCompletion();
     }
-  }, []);
+  }, [orbReady, revealCompletion, transitionFinished]);
 
   const handleDone = useCallback(() => {
+    if (completionProgress.get() < 1) return;
     getSessionStore().resetToIdle();
     router.replace("/");
-  }, []);
+  }, [completionProgress]);
+
+  const transitionStyle = useAnimatedStyle(() => ({
+    opacity: 1 - completionProgress.get(),
+  }));
+  const contentStyle = useAnimatedStyle(() => ({
+    opacity: completionProgress.get(),
+  }));
 
   return (
     <View style={styles.screen}>
-      <View
-        style={[styles.content, { opacity: stage === "success" ? 1 : 0 }]}
-        pointerEvents={stage === "success" ? "auto" : "none"}
-        accessible={stage === "success"}
-      >
-        <View style={styles.statusPill}>
-          <View style={styles.statusDot} />
-          <Text style={styles.statusLabel}>Session complete</Text>
-        </View>
+      <Animated.View style={[styles.phase, contentStyle]}>
+        <View style={styles.content}>
+          <View style={styles.statusPill}>
+            <View style={styles.statusDot} />
+            <Text style={styles.statusLabel}>Session complete</Text>
+          </View>
 
-        {/* Mounted during the transition so WebGPU can initialize before
+          {/* Mounted during the transition so WebGPU can initialize before
               the completion screen becomes visible. */}
-        <CompletionOrb onReady={handleOrbReady} />
+          <CompletionOrb onReady={handleOrbReady} />
 
-        <View style={styles.copy}>
-          <Text style={styles.headline}>Moment of stillness</Text>
-          <Text style={styles.subtitle}>
-            Your mind has settled. Carry this quiet with you through the rest of
-            your day.
-          </Text>
-        </View>
+          <View style={styles.copy}>
+            <Text style={styles.headline}>Moment of stillness</Text>
+            <Text style={styles.subtitle}>
+              Your mind has settled. Carry this quiet with you through the rest
+              of your day.
+            </Text>
+          </View>
 
-        <CompletionStats
-          durationMinutes={durationMinutes}
-          program={
-            program
-              ? { completed: program.completed, total: program.total }
-              : undefined
-          }
-        />
+          <CompletionStats
+            durationMinutes={durationMinutes}
+            program={
+              program
+                ? { completed: program.completed, total: program.total }
+                : undefined
+            }
+          />
 
-        <View style={styles.actions}>
-          <CompletionDoneButton onPress={handleDone} />
+          <View style={styles.actions}>
+            <CompletionDoneButton onPress={handleDone} />
+          </View>
         </View>
-      </View>
-      {stage === "transition" && (
-        <View style={styles.transitionOverlay} pointerEvents="none">
-          <CompletionTransition onFinished={handleTransitionFinished} />
-        </View>
-      )}
+      </Animated.View>
+      <Animated.View style={[styles.phase, transitionStyle]}>
+        <CompletionTransition onFinished={handleTransitionFinished} />
+      </Animated.View>
     </View>
   );
 }
@@ -114,6 +131,9 @@ const styles = StyleSheet.create((theme) => ({
     flex: 1,
     backgroundColor: "transparent",
   },
+  phase: {
+    ...StyleSheet.absoluteFillObject,
+  },
   content: {
     flex: 1,
     alignItems: "center",
@@ -121,9 +141,6 @@ const styles = StyleSheet.create((theme) => ({
     paddingHorizontal: theme.spacing.containerPaddingMobile,
     paddingVertical: theme.spacing.sectionGap,
     gap: theme.spacing.sectionGap / 2,
-  },
-  transitionOverlay: {
-    ...StyleSheet.absoluteFillObject,
   },
   statusPill: {
     flexDirection: "row",
