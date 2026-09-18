@@ -1,5 +1,9 @@
 import { AppState } from "react-native";
-import { DEFAULT_DURATION_MINUTES, type DurationMinutes } from "./durations";
+import {
+  DEFAULT_DURATION_MINUTES,
+  type DurationMinutes,
+  isDurationPreset,
+} from "./durations";
 import {
   idleSession,
   isActive,
@@ -39,8 +43,8 @@ export type SessionSnapshot = {
   // Fraction of the session elapsed, 0..1, for the progress ring.
   progress: number;
   durationMinutes: DurationMinutes;
-  // The picker only applies before a session starts (Idle) or after one has
-  // ended (Stopped/Completed); it's locked while a session is active.
+  // Active standalone sessions can be edited after pausing.
+  elapsedMs: number;
   canChangeDuration: boolean;
   programContext?: ProgramContext;
 };
@@ -92,7 +96,11 @@ function snapshotOf(
     endsAt: session.status === "Running" ? session.endsAt : undefined,
     progress: progress(session, now, minutesToMs(durationMinutes)),
     durationMinutes,
-    canChangeDuration: !isActive(session),
+    elapsedMs: isActive(session)
+      ? minutesToMs(durationMinutes) -
+        remainingMs(session, now, minutesToMs(durationMinutes))
+      : 0,
+    canChangeDuration: session.status !== "Running" && !programContext,
     programContext,
   };
 }
@@ -199,14 +207,21 @@ export function createSessionStore(): SessionStore {
       publish(Date.now());
     },
     setDurationMinutes(minutes) {
-      if (isActive(session)) {
-        return;
-      }
-
+      if (!isDurationPreset(minutes) || session.status === "Running") return;
+      if (session.status === "Paused" && programContext) return;
+      const elapsed =
+        session.status === "Paused"
+          ? minutesToMs(durationMinutes) - session.remainingMs
+          : 0;
+      const remaining = minutesToMs(minutes) - elapsed;
+      if (remaining <= 0) return;
+      const next: Session =
+        session.status === "Paused"
+          ? { status: "Paused", remainingMs: remaining }
+          : resetToIdle(session);
       durationMinutes = minutes;
       persistDurationMinutes(minutes);
-      publish(Date.now());
-      commit(resetToIdle(session), Date.now());
+      commit(next, Date.now());
     },
     play() {
       const now = Date.now();

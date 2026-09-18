@@ -23,7 +23,7 @@ export const idleSession: Session = { status: "Idle" };
 // A session that is underway — Running or Paused — as opposed to one that
 // hasn't started (Idle) or has already ended (Stopped/Completed).
 export function isActive(session: Session): boolean {
-  return session.status === "Running";
+  return session.status === "Running" || session.status === "Paused";
 }
 
 // Play resumes a Paused session where it left off; from any other state it

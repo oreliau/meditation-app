@@ -66,6 +66,7 @@
     "jest-environment-jsdom": "^29.7.0",
     "jest-expo": "~57.0.5",
     "lint-staged": "^17.5.1",
+    "react-test-renderer": "19.2.3",
     "typescript": "~6.0.3",
     "unplugin-typegpu": "^0.12.3"
   },

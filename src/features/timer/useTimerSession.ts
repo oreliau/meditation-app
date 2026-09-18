@@ -32,6 +32,7 @@ const serverSnapshot: SessionSnapshot = {
   remainingSeconds: DEFAULT_DURATION_MINUTES * 60,
   endsAt: undefined,
   progress: 0,
+  elapsedMs: 0,
   durationMinutes: DEFAULT_DURATION_MINUTES,
   canChangeDuration: true,
 };
