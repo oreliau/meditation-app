@@ -11,6 +11,7 @@ const BODY = "Your practice is done. Come back whenever you're ready.";
 // any — lets syncSessionEndAlert stay idempotent across repeated snapshots
 // of the same Running session (it publishes roughly once a second).
 let armedEndsAt: number | undefined;
+let syncQueue = Promise.resolve();
 
 // Keeps exactly one scheduled notification in sync with the session
 // store's current snapshot: armed while Running (rescheduled whenever
@@ -19,7 +20,7 @@ let armedEndsAt: number | undefined;
 // off. Disarming on Completed is what suppresses a redundant system
 // notification when the session finishes while the app is foregrounded,
 // since that's the same commit() that drives the in-app haptic/chime.
-export async function syncSessionEndAlert(
+async function syncSessionEndAlertNow(
   snapshot: SessionSnapshot,
 ): Promise<void> {
   const client = getNotificationsClient();
@@ -43,6 +44,15 @@ export async function syncSessionEndAlert(
       date: snapshot.endsAt,
       title: TITLE,
       body: BODY,
+      data: { kind: "session-end-alert" },
     });
   }
+}
+
+// Scheduling and cancellation share one queue so a foreground completion
+// cannot cancel before an earlier asynchronous schedule has finished.
+export function syncSessionEndAlert(snapshot: SessionSnapshot): Promise<void> {
+  const next = syncQueue.then(() => syncSessionEndAlertNow(snapshot));
+  syncQueue = next.catch(() => {});
+  return next;
 }
