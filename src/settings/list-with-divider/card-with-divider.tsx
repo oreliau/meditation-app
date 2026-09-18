@@ -1,5 +1,6 @@
-import { Pressable, Switch, Text, View } from "react-native";
+import { Switch, Text, View } from "react-native";
 import { StyleSheet, useUnistyles } from "react-native-unistyles";
+import { Button } from "@/components/Button";
 
 export type CardWithDividerProps = {
   title: string;
@@ -22,9 +23,9 @@ const Wrapper = ({
 }) => {
   if (type === "button") {
     return (
-      <Pressable onPress={() => onValueChange(value)} style={styles.row}>
+      <Button onPress={() => onValueChange(value)} style={styles.row}>
         {children}
-      </Pressable>
+      </Button>
     );
   }
   return <View style={styles.row}>{children}</View>;

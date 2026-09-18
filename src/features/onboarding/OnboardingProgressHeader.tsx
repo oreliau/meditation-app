@@ -1,6 +1,7 @@
 import { MaterialIcons } from "@expo/vector-icons";
-import { Pressable, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { StyleSheet, useUnistyles } from "react-native-unistyles";
+import { Button } from "@/components/Button";
 
 const SEGMENTS = [1, 2, 3, 4] as const;
 
@@ -17,7 +18,7 @@ export function OnboardingProgressHeader({ step, label, onBack }: Props) {
 
   return (
     <View style={styles.header}>
-      <Pressable
+      <Button
         onPress={onBack}
         accessibilityRole="button"
         accessibilityLabel="Back"
@@ -28,7 +29,7 @@ export function OnboardingProgressHeader({ step, label, onBack }: Props) {
           size={24}
           color={theme.colors.onSurface}
         />
-      </Pressable>
+      </Button>
 
       <View style={styles.progressTrack}>
         {SEGMENTS.map((segment) => (

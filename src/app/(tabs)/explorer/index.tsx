@@ -1,6 +1,7 @@
 import { Link } from "expo-router";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { StyleSheet } from "react-native-unistyles";
+import { Button } from "@/components/Button";
 import { ADVICE, PROGRAMS, type Program } from "@/features/explorer/programs";
 import { getProgramProgress } from "@/features/explorer/progress";
 import { useExplorerProgress } from "@/features/explorer/useExplorerProgress";
@@ -18,7 +19,7 @@ function ProgramCard({
 
   return (
     <Link href={`/explorer/${program.id}` as never} asChild>
-      <Pressable style={styles.card} accessibilityRole="button">
+      <Button style={styles.card} accessibilityRole="button">
         <View style={styles.cardHeader}>
           <Text style={styles.cardEyebrow}>
             {continueCard ? "Continue" : `${program.sessions.length} sessions`}
@@ -34,7 +35,7 @@ function ProgramCard({
             ? "Completed · Restart"
             : `Next · ${next?.title ?? "Begin"}`}
         </Text>
-      </Pressable>
+      </Button>
     </Link>
   );
 }
@@ -78,9 +79,9 @@ export default function ExplorerScreen() {
                 A few quiet minutes is a good place to begin.
               </Text>
               <Link href="/" asChild>
-                <Pressable>
+                <Button>
                   <Text style={styles.inlineAction}>Begin a session</Text>
-                </Pressable>
+                </Button>
               </Link>
             </>
           ) : (

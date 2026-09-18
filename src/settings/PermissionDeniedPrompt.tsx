@@ -1,5 +1,6 @@
-import { Linking, Pressable, Text, View } from "react-native";
+import { Linking, Text, View } from "react-native";
 import { StyleSheet } from "react-native-unistyles";
+import { Button } from "@/components/Button";
 
 // Inline prompt shown when turning a reminder on was refused by the OS —
 // a toggle that silently stays off would look broken.
@@ -10,13 +11,13 @@ export function PermissionDeniedPrompt() {
         Notifications are turned off for Lumina Flow. Enable them in your device
         settings to receive reminders.
       </Text>
-      <Pressable
+      <Button
         onPress={() => Linking.openSettings()}
         accessibilityRole="button"
         style={styles.action}
       >
         <Text style={styles.actionLabel}>Open device settings</Text>
-      </Pressable>
+      </Button>
     </View>
   );
 }

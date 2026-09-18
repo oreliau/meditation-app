@@ -1,6 +1,7 @@
 import { MaterialIcons } from "@expo/vector-icons";
-import { Pressable, Text } from "react-native";
+import { Text } from "react-native";
 import { StyleSheet, useUnistyles } from "react-native-unistyles";
+import { Button } from "@/components/Button";
 
 type Props = { onPress: () => void };
 
@@ -12,7 +13,7 @@ export function CompletionDoneButton({ onPress }: Props) {
   const { theme } = useUnistyles();
 
   return (
-    <Pressable
+    <Button
       onPress={onPress}
       accessible
       accessibilityRole="button"
@@ -21,7 +22,7 @@ export function CompletionDoneButton({ onPress }: Props) {
     >
       <Text style={styles.label}>Done</Text>
       <MaterialIcons name="check" size={20} color={theme.colors.onPrimary} />
-    </Pressable>
+    </Button>
   );
 }
 

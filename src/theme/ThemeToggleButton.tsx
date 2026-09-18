@@ -1,14 +1,15 @@
-import { Pressable, Text } from "react-native";
+import { Text } from "react-native";
 import { StyleSheet } from "react-native-unistyles";
+import { Button } from "@/components/Button";
 import { useThemeToggle } from "./useThemeToggle";
 
 export function ThemeToggleButton() {
   const { mode, cycle } = useThemeToggle();
 
   return (
-    <Pressable style={styles.toggle} onPress={cycle}>
+    <Button style={styles.toggle} onPress={cycle}>
       <Text style={styles.toggleLabel}>theme: {mode}</Text>
-    </Pressable>
+    </Button>
   );
 }
 
