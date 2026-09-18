@@ -14,16 +14,24 @@ export function isDurationPreset(value: unknown): value is DurationMinutes {
   );
 }
 
-// Picker labels: "{n} min" under an hour, compact "1h" / "1h30" / "2h" above.
+// Picker labels use seconds below a minute and natural units from a minute up.
 export function formatDurationLabel(minutes: number): string {
+  if (minutes < 1) {
+    const seconds = Math.round(minutes * 60);
+    return `${seconds} sec${seconds === 1 ? "" : "s"}`;
+  }
+
   if (minutes < 60) {
-    return `${minutes} min`;
+    return `${minutes} min${minutes === 1 ? "" : "s"}`;
   }
 
   const hours = Math.floor(minutes / 60);
   const rest = minutes % 60;
+  const hourLabel = `${hours} hr${hours === 1 ? "" : "s"}`;
 
-  return rest === 0 ? `${hours}h` : `${hours}h${rest}`;
+  return rest === 0
+    ? hourLabel
+    : `${hourLabel} ${rest} min${rest === 1 ? "" : "s"}`;
 }
 
 // Countdown display: "m:ss" under an hour, "h:mm:ss" from an hour up.
