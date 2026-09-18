@@ -1,16 +1,15 @@
 import {
   useConfigureContext,
-  useFrame,
   useMirroredUniform,
   useRoot,
   useUniform,
 } from "@typegpu/react";
-import { useIsFocused } from "expo-router";
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { AppState, useWindowDimensions } from "react-native";
 import { Canvas } from "react-native-webgpu";
 import { common, d, std, tgpu } from "typegpu";
 import type { BackgroundThemeValues } from "./background-theme-values";
+import { type FrameScheduler, startFrameLoop } from "./frame-loop";
 
 interface WebGpuBackgroundLayerProps {
   themeValues: BackgroundThemeValues;
@@ -35,9 +34,15 @@ export default function WebGpuBackgroundLayer({
 }: WebGpuBackgroundLayerProps) {
   const root = useRoot();
   const { ref, ctxRef } = useConfigureContext();
-  const isFocused = useIsFocused();
-  const lastDrawTime = useRef(Number.NEGATIVE_INFINITY);
+  const needsDraw = useRef(true);
+  const staticFrameId = useRef<number | undefined>(undefined);
+  const drawRef = useRef<(elapsedSeconds: number) => void>(() => {});
+  const scheduleStaticFrameRef = useRef<() => void>(() => {});
+  const [isAppActive, setIsAppActive] = useState(
+    AppState.currentState === "active",
+  );
   const { width, height } = useWindowDimensions();
+  const renderKey = `${width}:${height}:${themeValues.fallbackBackground}:${themeValues.fallbackGradient}`;
   const time = useUniform(d.f32);
   const resolution = useMirroredUniform(d.vec2f, d.vec2f(width, height));
   const background = useMirroredUniform(d.vec4f, themeValues.background);
@@ -102,27 +107,88 @@ export default function WebGpuBackgroundLayer({
     [accentOne, accentThree, accentTwo, background, resolution, root, time],
   );
 
-  useFrame(({ elapsedSeconds }) => {
-    if (!isFocused || AppState.currentState !== "active" || !ctxRef.current) {
+  useEffect(() => {
+    drawRef.current = (elapsedSeconds) => {
+      if (AppState.currentState !== "active" || !ctxRef.current) {
+        return;
+      }
+      if (reducedMotion && !needsDraw.current) {
+        return;
+      }
+      try {
+        time.write(reducedMotion ? 0 : elapsedSeconds);
+        pipeline.withColorAttachment({ view: ctxRef.current }).draw(3);
+        ctxRef.current.present?.();
+        needsDraw.current = false;
+      } catch (error) {
+        console.error("Error during TypeGPU frame draw:", error);
+        onFailure();
+      }
+    };
+  }, [ctxRef, onFailure, pipeline, reducedMotion, time]);
+
+  useEffect(() => {
+    scheduleStaticFrameRef.current = () => {
+      if (staticFrameId.current !== undefined) {
+        return;
+      }
+      staticFrameId.current = requestAnimationFrame(() => {
+        staticFrameId.current = undefined;
+        drawRef.current(0);
+      });
+    };
+
+    return () => {
+      scheduleStaticFrameRef.current = () => {};
+    };
+  }, []);
+
+  useEffect(() => {
+    // The key intentionally invalidates the static frame for size/theme changes.
+    void renderKey;
+    needsDraw.current = true;
+    if (reducedMotion) {
+      scheduleStaticFrameRef.current();
+    }
+  }, [reducedMotion, renderKey]);
+
+  useEffect(() => {
+    if (reducedMotion) {
       return;
     }
-    if (
-      reducedMotion
-        ? lastDrawTime.current !== Number.NEGATIVE_INFINITY
-        : elapsedSeconds - lastDrawTime.current < 1 / 20
-    ) {
+    if (!isAppActive) {
       return;
     }
-    try {
-      time.write(reducedMotion ? 0 : elapsedSeconds);
-      pipeline.withColorAttachment({ view: ctxRef.current }).draw(3);
-      ctxRef.current.present?.();
-      lastDrawTime.current = elapsedSeconds;
-    } catch (error) {
-      console.error("Error during TypeGPU frame draw:", error);
-      onFailure();
-    }
-  });
+    const scheduler: FrameScheduler = {
+      request: (callback) => requestAnimationFrame(callback),
+      cancel: (id) => cancelAnimationFrame(id),
+    };
+    return startFrameLoop({
+      framesPerSecond: 20,
+      reducedMotion: false,
+      draw: (timestamp) => drawRef.current(timestamp / 1000),
+      scheduler,
+    });
+  }, [isAppActive, reducedMotion]);
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener("change", (state) => {
+      setIsAppActive(state === "active");
+      if (state === "active" && reducedMotion) {
+        scheduleStaticFrameRef.current();
+      }
+    });
+    return () => subscription.remove();
+  }, [reducedMotion]);
+
+  useEffect(
+    () => () => {
+      if (staticFrameId.current !== undefined) {
+        cancelAnimationFrame(staticFrameId.current);
+      }
+    },
+    [],
+  );
 
   return <Canvas ref={ref} style={{ flex: 1 }} opaque />;
 }

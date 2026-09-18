@@ -163,6 +163,12 @@
       "skillPath": "plugins/expo/skills/expo-web-to-native/SKILL.md",
       "computedHash": "1535f5a384a7b2c1d23829149bc6d9852154eef3f96f2bff81f6dcc96d58e260"
     },
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "skillPath": "skills/find-skills/SKILL.md",
+      "computedHash": "913b9d37d0d54047dd65222bb8c67b2bf04e3cb87dcad1729068d7a8b2c8c396"
+    },
     "git-guardrails-claude-code": {
       "source": "mattpocock/skills",
       "sourceType": "github",

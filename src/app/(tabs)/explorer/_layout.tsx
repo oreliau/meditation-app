@@ -5,6 +5,7 @@ export default function ExplorerLayout() {
     <Stack
       screenOptions={{
         headerShown: false,
+        contentStyle: { backgroundColor: "transparent" },
       }}
     />
   );

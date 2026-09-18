@@ -93,7 +93,7 @@ export default function ProgramDetailScreen() {
 
 function useProgramDetailStyles() {
   return StyleSheet.create((theme) => ({
-    screen: { flex: 1, backgroundColor: theme.colors.background },
+    screen: { flex: 1, backgroundColor: "transparent" },
     content: {
       padding: theme.spacing.containerPaddingMobile,
       gap: theme.spacing.gutter,
@@ -103,7 +103,7 @@ function useProgramDetailStyles() {
       flex: 1,
       alignItems: "center",
       justifyContent: "center",
-      backgroundColor: theme.colors.background,
+      backgroundColor: "transparent",
     },
     title: {
       fontFamily: theme.typography.headlineMd.fontFamily,

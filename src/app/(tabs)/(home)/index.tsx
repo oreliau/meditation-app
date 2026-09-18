@@ -19,7 +19,6 @@ import {
   setSessionEndAlertEnabled,
 } from "@/features/timer/sessionEndAlertStorage";
 import { useTimerSession } from "@/features/timer/useTimerSession";
-import { AdaptiveBackground } from "@/presentation/adaptive-background/adaptive-background";
 import { PresentationSheet } from "@/presentation/presentation-sheet/presentation-sheet";
 import { ensureNotificationPermission } from "@/reminders/permission";
 import { spacing } from "@/theme/spacing";
@@ -123,89 +122,86 @@ export default function TimerScreen() {
   const isRunning = session.status === "Running";
 
   return (
-    <>
-      <AdaptiveBackground />
-      <ScrollView
-        style={styles.screen}
-        contentContainerStyle={styles.content}
-        keyboardShouldPersistTaps="handled"
+    <ScrollView
+      style={styles.screen}
+      contentContainerStyle={styles.content}
+      keyboardShouldPersistTaps="handled"
+    >
+      <Text
+        style={[
+          styles.label,
+          styles.status,
+          session.status === "Completed" && styles.statusCompleted,
+        ]}
       >
-        <Text
-          style={[
-            styles.label,
-            styles.status,
-            session.status === "Completed" && styles.statusCompleted,
-          ]}
-        >
-          {statusCopy[session.status]}
-        </Text>
+        {statusCopy[session.status]}
+      </Text>
 
-        <View style={styles.ring}>
-          <ProgressRing size={RING_SIZE} progress={session.progress} />
-          <View style={styles.innerRing} />
-          <GlassPanel style={styles.dial}>
-            <NotificationBell />
-            <Text style={[styles.label, styles.clockCaption]}>Remaining</Text>
-            <PresentationSheet>
-              <PresentationSheet.Trigger>
-                <Text
-                  style={styles.clock}
-                  accessibilityLabel={`${formatClock(session.remainingSeconds)} remaining`}
-                >
-                  {formatClock(session.remainingSeconds)}
-                </Text>
-              </PresentationSheet.Trigger>
+      <View style={styles.ring}>
+        <ProgressRing size={RING_SIZE} progress={session.progress} />
+        <View style={styles.innerRing} />
+        <GlassPanel style={styles.dial}>
+          <NotificationBell />
+          <Text style={[styles.label, styles.clockCaption]}>Remaining</Text>
+          <PresentationSheet>
+            <PresentationSheet.Trigger>
+              <Text
+                style={styles.clock}
+                accessibilityLabel={`${formatClock(session.remainingSeconds)} remaining`}
+              >
+                {formatClock(session.remainingSeconds)}
+              </Text>
+            </PresentationSheet.Trigger>
 
-              <PresentationSheet.Content>
-                {(close) => (
-                  <Column>
-                    <Picker
-                      appearance="wheel"
-                      selectedValue={session.durationMinutes}
-                      onValueChange={(value) => {
-                        setDurationMinutes(value);
-                        close();
-                      }}
-                      enabled={
-                        session.canChangeDuration && !session.programContext
-                      }
-                      testID="duration-picker"
-                    >
-                      {DURATION_PRESETS_MINUTES.map((minutes) => (
-                        <Picker.Item
-                          key={minutes}
-                          label={formatDurationLabel(minutes)}
-                          value={minutes}
-                        />
-                      ))}
-                    </Picker>
-                  </Column>
-                )}
-              </PresentationSheet.Content>
-            </PresentationSheet>
-          </GlassPanel>
-        </View>
+            <PresentationSheet.Content>
+              {(close) => (
+                <Column>
+                  <Picker
+                    appearance="wheel"
+                    selectedValue={session.durationMinutes}
+                    onValueChange={(value) => {
+                      setDurationMinutes(value);
+                      close();
+                    }}
+                    enabled={
+                      session.canChangeDuration && !session.programContext
+                    }
+                    testID="duration-picker"
+                  >
+                    {DURATION_PRESETS_MINUTES.map((minutes) => (
+                      <Picker.Item
+                        key={minutes}
+                        label={formatDurationLabel(minutes)}
+                        value={minutes}
+                      />
+                    ))}
+                  </Picker>
+                </Column>
+              )}
+            </PresentationSheet.Content>
+          </PresentationSheet>
+        </GlassPanel>
+      </View>
 
-        <View style={styles.controls}>
-          <ControlButton
-            icon="restart"
-            label="Restart"
-            onPress={session.restart}
-          />
-          <ControlButton
-            primary
-            icon={isRunning ? "pause" : "play"}
-            label={isRunning ? "Pause" : "Play"}
-            onPress={isRunning ? session.pause : session.play}
-          />
-          <ControlButton
-            icon={session.isVolumeEnabled ? "volume" : "volume_off"}
-            label="Volume"
-            onPress={session.toggleVolume}
-          />
-        </View>
-      </ScrollView>
-    </>
+      <View style={styles.controls}>
+        <ControlButton
+          icon="restart"
+          label="Restart"
+          onPress={session.restart}
+        />
+        <ControlButton
+          primary
+          icon={isRunning ? "pause" : "play"}
+          label={isRunning ? "Pause" : "Play"}
+          onPress={isRunning ? session.pause : session.play}
+        />
+        <ControlButton
+          icon={session.isVolumeEnabled ? "volume" : "volume_off"}
+          label="Volume"
+          onPress={session.toggleVolume}
+        />
+      </View>
+    </ScrollView>
   );
 }
 
@@ -217,6 +213,7 @@ const styles = StyleSheet.create((theme, rt) => ({
   pickerHost: {},
   screen: {
     flex: 1,
+    backgroundColor: "transparent",
   },
   toggleButton: {
     position: "absolute",

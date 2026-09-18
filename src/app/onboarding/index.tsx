@@ -87,7 +87,7 @@ export default function OnboardingWelcomeScreen() {
 const styles = StyleSheet.create((theme) => ({
   screen: {
     flex: 1,
-    backgroundColor: theme.colors.background,
+    backgroundColor: "transparent",
   },
   content: {
     maxWidth: 480,

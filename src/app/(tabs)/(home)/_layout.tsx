@@ -1,5 +1,12 @@
 import { Stack } from "expo-router/stack";
 
 export default function TimerLayout() {
-  return <Stack screenOptions={{ headerShown: false }} />;
+  return (
+    <Stack
+      screenOptions={{
+        headerShown: false,
+        contentStyle: { backgroundColor: "transparent" },
+      }}
+    />
+  );
 }

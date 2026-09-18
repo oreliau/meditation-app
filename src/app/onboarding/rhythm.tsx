@@ -214,7 +214,7 @@ export default function OnboardingRhythmScreen() {
 const styles = StyleSheet.create((theme) => ({
   screen: {
     flex: 1,
-    backgroundColor: theme.colors.background,
+    backgroundColor: "transparent",
   },
   content: {
     maxWidth: 480,
