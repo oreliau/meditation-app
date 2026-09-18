@@ -18,6 +18,7 @@ interface WebGpuGlowingSphereLayerProps {
   themeValues: GlowingSphereThemeValues;
   reducedMotion: boolean;
   onFailure(): void;
+  onReady?(): void;
   size: number;
 }
 const MAX_STEPS = 50;
@@ -90,6 +91,7 @@ export default function WebGpuGlowingSphereLayer({
   reducedMotion,
   size,
   onFailure,
+  onReady,
 }: WebGpuGlowingSphereLayerProps) {
   const root = useRoot();
   const { ref, ctxRef } = useConfigureContext({
@@ -97,6 +99,7 @@ export default function WebGpuGlowingSphereLayer({
   });
   const isFocused = useIsFocused();
   const lastDrawTime = useRef(Number.NEGATIVE_INFINITY);
+  const ready = useRef(false);
   const resolution = useMirroredUniform(d.vec2f, d.vec2f(size, size));
   const accentColor = useMirroredUniform(d.vec4f, themeValues.accent);
   const glowIntensityUniform = useMirroredUniform(
@@ -189,6 +192,10 @@ export default function WebGpuGlowingSphereLayer({
       // glowIntensityUniform.write(INITIAL_GLOW_INTENSITY);
       pipeline.withColorAttachment({ view: ctxRef.current }).draw(3);
       ctxRef.current.present?.();
+      if (!ready.current) {
+        ready.current = true;
+        onReady?.();
+      }
       lastDrawTime.current = elapsedSeconds;
     } catch (error) {
       console.error("Error during TypeGPU frame draw:", error);

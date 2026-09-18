@@ -5,10 +5,10 @@ import { GLowingSphere } from "@/presentation/glowing-sphere/glowing-sphere";
 const SIZE = 240;
 const CORE_SIZE = 132;
 
-export function CompletionOrb() {
+export function CompletionOrb({ onReady }: { onReady?: () => void }) {
   return (
     <View style={styles.container}>
-      <GLowingSphere />
+      <GLowingSphere onReady={onReady} />
     </View>
   );
 }
