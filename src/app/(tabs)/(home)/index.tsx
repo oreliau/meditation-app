@@ -1,4 +1,4 @@
-import { Column, Picker } from "@expo/ui";
+import { Button, Column, Host, Row } from "@expo/ui";
 import { useLocalSearchParams } from "expo-router";
 import { SymbolView } from "expo-symbols";
 import { useEffect, useState } from "react";
@@ -8,6 +8,7 @@ import { getProgram } from "@/features/explorer/programs";
 import { ControlButton } from "@/features/timer/ControlButton";
 import {
   DURATION_PRESETS_MINUTES,
+  type DurationMinutes,
   formatClock,
   formatDurationLabel,
 } from "@/features/timer/durations";
@@ -19,7 +20,6 @@ import {
   setSessionEndAlertEnabled,
 } from "@/features/timer/sessionEndAlertStorage";
 import { useTimerSession } from "@/features/timer/useTimerSession";
-import { PresentationSheet } from "@/presentation/presentation-sheet/presentation-sheet";
 import { ensureNotificationPermission } from "@/reminders/permission";
 import { spacing } from "@/theme/spacing";
 
@@ -120,6 +120,20 @@ export default function TimerScreen() {
   ]);
 
   const isRunning = session.status === "Running";
+  const { theme, rt } = useUnistyles();
+  const [draftDuration, setDraftDuration] = useState<DurationMinutes>();
+  const isEditing = draftDuration !== undefined;
+  const canEdit = !session.programContext && !programSession;
+
+  if (!canEdit && draftDuration !== undefined) {
+    setDraftDuration(undefined);
+  }
+
+  const openDurationEditor = () => {
+    if (!canEdit) return;
+    session.pause();
+    setDraftDuration(session.durationMinutes);
+  };
 
   return (
     <ScrollView
@@ -137,62 +151,111 @@ export default function TimerScreen() {
         {statusCopy[session.status]}
       </Text>
 
-      <View style={styles.ring}>
-        <ProgressRing size={RING_SIZE} progress={session.progress} />
-        <View style={styles.innerRing} />
-        <GlassPanel style={styles.dial}>
-          <NotificationBell />
-          <Text style={[styles.label, styles.clockCaption]}>Remaining</Text>
-          <PresentationSheet>
-            <PresentationSheet.Trigger>
-              <Text
-                style={styles.clock}
-                accessibilityLabel={`${formatClock(session.remainingSeconds)} remaining`}
-              >
+      {isEditing ? (
+        <View style={styles.editor}>
+          <Text accessibilityRole="header" style={styles.label}>
+            Total duration
+          </Text>
+          <Text style={styles.editorHint}>
+            {session.status === "Paused"
+              ? "Session paused. Elapsed time is kept."
+              : "Choose your session duration."}
+          </Text>
+          <Host
+            matchContents
+            colorScheme={rt.themeName === "dark" ? "dark" : "light"}
+            seedColor={theme.colors.primary}
+          >
+            <Column spacing={8}>
+              {Array.from(
+                { length: Math.ceil(DURATION_PRESETS_MINUTES.length / 3) },
+                (_, row) => (
+                  <Row key={DURATION_PRESETS_MINUTES[row * 3]} spacing={8}>
+                    {DURATION_PRESETS_MINUTES.slice(row * 3, row * 3 + 3).map(
+                      (minutes) => (
+                        <Button
+                          key={minutes}
+                          label={`${minutes === draftDuration ? "✓ " : ""}${formatDurationLabel(minutes)}`}
+                          variant={
+                            minutes === draftDuration ? "filled" : "outlined"
+                          }
+                          disabled={minutes * 60_000 <= session.elapsedMs}
+                          onPress={() => setDraftDuration(minutes)}
+                        />
+                      ),
+                    )}
+                  </Row>
+                ),
+              )}
+              <Row spacing={16}>
+                <Button
+                  label="Cancel"
+                  variant="text"
+                  onPress={() => setDraftDuration(undefined)}
+                />
+                <Button
+                  label="Apply"
+                  disabled={
+                    !session.canChangeDuration ||
+                    draftDuration * 60_000 <= session.elapsedMs
+                  }
+                  onPress={() => {
+                    setDurationMinutes(draftDuration);
+                    setDraftDuration(undefined);
+                  }}
+                />
+              </Row>
+            </Column>
+          </Host>
+          {session.elapsedMs > 0 && (
+            <Text style={styles.editorHint}>
+              Durations at or below elapsed time are unavailable. Tap Resume
+              when ready.
+            </Text>
+          )}
+        </View>
+      ) : (
+        <View style={styles.ring}>
+          <ProgressRing size={RING_SIZE} progress={session.progress} />
+          <View style={styles.innerRing} />
+          <GlassPanel style={styles.dial}>
+            <NotificationBell />
+            <Text style={[styles.label, styles.clockCaption]}>Remaining</Text>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={`${formatClock(session.remainingSeconds)} remaining. Change duration`}
+              accessibilityHint="Pauses the session and opens duration choices"
+              accessibilityState={{ disabled: !canEdit }}
+              disabled={!canEdit}
+              onPress={openDurationEditor}
+            >
+              <Text style={styles.clock}>
                 {formatClock(session.remainingSeconds)}
               </Text>
-            </PresentationSheet.Trigger>
-
-            <PresentationSheet.Content>
-              {(close) => (
-                <Column>
-                  <Picker
-                    appearance="wheel"
-                    selectedValue={session.durationMinutes}
-                    onValueChange={(value) => {
-                      setDurationMinutes(value);
-                      close();
-                    }}
-                    enabled={
-                      session.canChangeDuration && !session.programContext
-                    }
-                    testID="duration-picker"
-                  >
-                    {DURATION_PRESETS_MINUTES.map((minutes) => (
-                      <Picker.Item
-                        key={minutes}
-                        label={formatDurationLabel(minutes)}
-                        value={minutes}
-                      />
-                    ))}
-                  </Picker>
-                </Column>
-              )}
-            </PresentationSheet.Content>
-          </PresentationSheet>
-        </GlassPanel>
-      </View>
+              {canEdit && <Text style={styles.editLabel}>Change duration</Text>}
+            </Pressable>
+          </GlassPanel>
+        </View>
+      )}
 
       <View style={styles.controls}>
         <ControlButton
           icon="restart"
           label="Restart"
+          disabled={isEditing}
           onPress={session.restart}
         />
         <ControlButton
           primary
           icon={isRunning ? "pause" : "play"}
-          label={isRunning ? "Pause" : "Play"}
+          label={
+            isRunning
+              ? "Pause"
+              : session.status === "Paused"
+                ? "Resume"
+                : "Play"
+          }
+          disabled={isEditing}
           onPress={isRunning ? session.pause : session.play}
         />
         <ControlButton
@@ -210,7 +273,20 @@ export default function TimerScreen() {
 const RING_SIZE = spacing.unit * 36;
 
 const styles = StyleSheet.create((theme, rt) => ({
-  pickerHost: {},
+  editor: {
+    width: "100%",
+    maxWidth: 400,
+    gap: theme.spacing.unit * 2,
+  },
+  editorHint: {
+    color: theme.colors.onSurfaceVariant,
+    textAlign: "center",
+  },
+  editLabel: {
+    color: theme.colors.primary,
+    textAlign: "center",
+    paddingVertical: theme.spacing.unit,
+  },
   screen: {
     flex: 1,
     backgroundColor: "transparent",

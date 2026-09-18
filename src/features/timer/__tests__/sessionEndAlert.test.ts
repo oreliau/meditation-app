@@ -21,6 +21,7 @@ function snapshot(overrides: Partial<SessionSnapshot>): SessionSnapshot {
     isActive: false,
     remainingSeconds: 12 * 60,
     progress: 0,
+    elapsedMs: 0,
     durationMinutes: 12,
     canChangeDuration: true,
     ...overrides,

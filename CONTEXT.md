@@ -36,7 +36,7 @@ The session state where the remaining time is actively counting down.
 The session state where the remaining time is frozen and can be resumed from where it left off.
 
 **Active**:
-A session that is underway — Running or Paused — as opposed to one that hasn't started (Idle) or has already ended (Stopped, Completed). Only an active session can be stopped, and the duration can't be changed while one is active.
+A session that is underway — Running or Paused — as opposed to one that hasn't started (Idle) or has already ended (Stopped, Completed). Only an active session can be stopped. A standalone Session’s total duration can change while Paused, preserving elapsed time; the new duration must exceed elapsed time.
 _Avoid_: In progress, live
 
 **Stopped**:
