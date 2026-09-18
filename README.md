@@ -1,56 +1,123 @@
-# Welcome to your Expo app 👋
+# Meditation App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+<p align="center">
+  <strong>A calm, beautifully considered meditation timer for everyday rituals.</strong>
+  <br />
+  Built as a cross-platform Expo experience for iOS, Android, and the web.
+</p>
 
-## Get started
+<p align="center">
+  <a href="https://github.com/oreliau/meditation-app"><img src="https://img.shields.io/badge/status-active%20development-e07a57?style=flat-square" alt="Active development" /></a>
+  <a href="https://expo.dev/"><img src="https://img.shields.io/badge/Expo-57.0.24-000020?style=flat-square&logo=expo&logoColor=white" alt="Expo 57" /></a>
+  <a href="https://reactnative.dev/"><img src="https://img.shields.io/badge/React%20Native-0.86.3-61DAFB?style=flat-square&logo=react&logoColor=20232A" alt="React Native 0.86.3" /></a>
+  <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-6.0.3-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript" /></a>
+  <a href="https://jestjs.io/"><img src="https://img.shields.io/badge/tests-Jest-C21325?style=flat-square&logo=jest&logoColor=white" alt="Jest tests" /></a>
+</p>
 
-1. Install dependencies
+<p align="center">
+  <a href="#the-idea">The idea</a> ·
+  <a href="#what-is-here">What is here</a> ·
+  <a href="#technology">Technology</a> ·
+  <a href="#run-it-locally">Run it locally</a>
+</p>
 
-   ```bash
-   npm install
-   ```
+## The idea
 
-2. Start the app
+Meditation App is an exploration of what a daily meditation ritual can feel like when the interface gets out of the way. The experience is intentionally quiet: focused sessions, gentle feedback, atmospheric visuals, and enough flexibility to make a practice your own.
 
-   ```bash
-   npx expo start
-   ```
+The project is in active development. The repository contains the working product foundation alongside visual experiments that help shape its direction.
 
-In the output, you'll find options to open the app in a
+## What is here
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- **Focused sessions** — start a meditation timer with preset or custom durations.
+- **A clear session arc** — follow progress in real time and receive completion feedback when the ritual ends.
+- **Exploration flows** — browse meditation journeys and program detail screens.
+- **Atmospheric rendering** — adaptive animated backgrounds and WebGPU experiments for a more immersive experience.
+- **Sound and haptics** — audio cues and tactile feedback where they add meaning.
+- **Personal preferences** — theme switching, local settings, and session-end alerts.
+- **Cross-platform delivery** — one Expo Router codebase targeting iOS, Android, and static web.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## A glimpse of the direction
 
-## Get a fresh project
+These are curated design explorations from the project’s visual direction. They are included as references while the product continues to evolve.
 
-When you're ready, run:
+<p align="center">
+  <img src="docs/stitch_lumina_flow_meditation/aura_sanctuary_explorer_web/screen.png" alt="Meditation App exploration screen showing a calm journey library" width="31%" />
+  &nbsp;
+  <img src="docs/stitch_lumina_flow_meditation/aura_sanctuary_timer_web/screen.png" alt="Meditation App exploration screen showing a meditation timer" width="31%" />
+  &nbsp;
+  <img src="docs/stitch_lumina_flow_meditation/aura_m_ditation_compl_t_e_success_3d/screen.png" alt="Meditation App exploration screen showing session completion" width="31%" />
+</p>
+
+## Technology
+
+| Layer | Tools |
+| --- | --- |
+| App | Expo 57, React Native 0.86, Expo Router |
+| Language | TypeScript |
+| Styling | React Native Unistyles, shared theme tokens |
+| Motion & feedback | Reanimated, Gesture Handler, Expo Haptics |
+| Media | Expo Audio, Expo Image, Expo Notifications |
+| Rendering experiments | WebGPU, TypeGPU, React Native WebGPU |
+| Quality | Jest, Testing Library, Biome, TypeScript |
+
+## Run it locally
+
+### Prerequisites
+
+- Node.js and pnpm
+- Xcode for iOS development
+- Android Studio for Android development
+
+### Start the project
 
 ```bash
-npm run reset-project
+pnpm install
+pnpm start
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+From the Expo CLI, choose a target or run one directly:
 
-### Other setup steps
+```bash
+pnpm ios       # iOS simulator
+pnpm android   # Android emulator
+pnpm web       # Web
+```
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+### Useful checks
 
-## Learn more
+```bash
+pnpm typecheck
+pnpm lint:ci
+pnpm test:ci
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+## Project shape
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```text
+src/
+├── app/          # Expo Router routes and screens
+├── features/     # Timer, completion, and product behaviors
+├── presentation/ # Visual systems and rendering layers
+├── settings/     # Preferences and settings UI
+└── theme/        # Colors, typography, spacing, and runtime theme
+```
 
-## Join the community
+## Roadmap
 
-Join our community of developers creating universal apps.
+- Refine the core meditation experience across native and web targets.
+- Turn the strongest visual explorations into a cohesive product system.
+- Expand session content, soundscapes, and repeatable daily rituals.
+- Continue validating WebGPU visuals on supported platforms and devices.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## Contributing
+
+Ideas, thoughtful issue reports, and small improvements are welcome. Before opening a pull request, please run the typecheck, linter, and test suite locally.
+
+## License
+
+No license has been published yet.
+
+<p align="center">
+  <sub>Made with intention by <a href="https://github.com/oreliau">oreliau</a>.</sub>
+</p>
