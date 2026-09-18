@@ -22,6 +22,7 @@ export type OneTimeNotification = {
   date: number; // absolute epoch ms
   title: string;
   body: string;
+  data?: { kind?: string };
 };
 
 export interface NotificationsClient {
