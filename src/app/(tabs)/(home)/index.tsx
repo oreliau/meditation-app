@@ -105,6 +105,7 @@ export default function TimerScreen() {
 
   useEffect(() => {
     if (programId && sessionId && programSession) {
+      // biome-ignore lint/nursery/useReactCompiler: setProgramContext mutates the external sessionStore, not React state.
       setProgramContext({ programId, sessionId });
       setDurationMinutes(programSession.durationMinutes);
     } else if (!isActive && !programSession) {
