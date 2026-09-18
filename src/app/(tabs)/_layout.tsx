@@ -28,15 +28,24 @@ export default function TabLayout() {
         />
         <NativeTabs.Trigger.Label>Home</NativeTabs.Trigger.Label>
       </NativeTabs.Trigger> */}
-      <NativeTabs.Trigger name="(home)">
+      <NativeTabs.Trigger
+        name="(home)"
+        contentStyle={{ backgroundColor: "transparent" }}
+      >
         <NativeTabs.Trigger.Icon sf="timer" md="timer" />
         <NativeTabs.Trigger.Label>Timer</NativeTabs.Trigger.Label>
       </NativeTabs.Trigger>
-      <NativeTabs.Trigger name="explorer">
+      <NativeTabs.Trigger
+        name="explorer"
+        contentStyle={{ backgroundColor: "transparent" }}
+      >
         <NativeTabs.Trigger.Icon sf="safari" md="explore" />
         <NativeTabs.Trigger.Label>Explore</NativeTabs.Trigger.Label>
       </NativeTabs.Trigger>
-      <NativeTabs.Trigger name="settings">
+      <NativeTabs.Trigger
+        name="settings"
+        contentStyle={{ backgroundColor: "transparent" }}
+      >
         <NativeTabs.Trigger.Icon
           sf={{ default: "gearshape", selected: "gearshape.fill" }}
           md="settings"

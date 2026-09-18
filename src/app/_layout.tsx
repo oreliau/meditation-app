@@ -1,11 +1,13 @@
-import { Stack } from "expo-router";
+import { DefaultTheme, Stack, ThemeProvider } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useState } from "react";
-import { LogBox } from "react-native";
+import { LogBox, View } from "react-native";
 import { useMMKVListener } from "react-native-mmkv";
 // import { getSessionStore } from "@/features/timer/sessionStore";
 // import { useSessionWidgets } from "@/features/timer/widgets";
 import "../reminders/setup";
+import "../unistyles";
+import { useUnistyles } from "react-native-unistyles";
 import { useNavigateToCompletion } from "@/features/completion/useNavigateToCompletion";
 import {
   getHasCompletedOnboarding,
@@ -14,6 +16,7 @@ import {
 } from "@/features/onboarding/storage";
 import { SessionCompletionFeedback } from "@/features/timer/SessionCompletionFeedback";
 import { SessionEndAlertScheduler } from "@/features/timer/SessionEndAlertScheduler";
+import { AdaptiveBackground } from "@/presentation/adaptive-background/adaptive-background";
 import { useRefreshRemindersOnForeground } from "@/reminders/useRefreshRemindersOnForeground";
 import { useRecordCompletedSessions } from "@/stats/useRecordCompletedSessions";
 import { useLoadFonts } from "@/theme/useLoadFonts";
@@ -27,6 +30,7 @@ LogBox.ignoreLogs([
 ]);
 
 export default function RootLayout() {
+  const { rt, theme } = useUnistyles();
   const fontsLoaded = useLoadFonts();
   const [hasCompletedOnboarding, setHasCompletedOnboardingState] = useState(
     getHasCompletedOnboarding,
@@ -54,25 +58,47 @@ export default function RootLayout() {
     return null;
   }
 
+  const navigationTheme = {
+    ...DefaultTheme,
+    dark: rt.themeName === "dark",
+    colors: {
+      ...DefaultTheme.colors,
+      primary: theme.colors.primary,
+      background: "transparent",
+      card: "transparent",
+      text: theme.colors.onBackground,
+      border: theme.colors.outlineVariant,
+      notification: theme.colors.error,
+    },
+  };
+
   return (
-    <>
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Protected guard={hasCompletedOnboarding}>
-          <Stack.Screen name="(tabs)" />
-        </Stack.Protected>
-        <Stack.Protected guard={!hasCompletedOnboarding}>
-          <Stack.Screen name="onboarding" />
-        </Stack.Protected>
-        <Stack.Screen
-          name="session-complete"
-          options={{
-            animation: "fade",
-            presentation: "fullScreenModal",
+    <ThemeProvider value={navigationTheme}>
+      <View style={{ flex: 1 }}>
+        <AdaptiveBackground />
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            contentStyle: { backgroundColor: "transparent" },
           }}
-        />
-      </Stack>
-      <SessionCompletionFeedback />
-      <SessionEndAlertScheduler />
-    </>
+        >
+          <Stack.Protected guard={hasCompletedOnboarding}>
+            <Stack.Screen name="(tabs)" />
+          </Stack.Protected>
+          <Stack.Protected guard={!hasCompletedOnboarding}>
+            <Stack.Screen name="onboarding" />
+          </Stack.Protected>
+          <Stack.Screen
+            name="session-complete"
+            options={{
+              animation: "fade",
+              presentation: "fullScreenModal",
+            }}
+          />
+        </Stack>
+        <SessionCompletionFeedback />
+        <SessionEndAlertScheduler />
+      </View>
+    </ThemeProvider>
   );
 }

@@ -79,7 +79,7 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create((theme) => ({
   screen: {
     flex: 1,
-    backgroundColor: theme.colors.background,
+    backgroundColor: "transparent",
   },
   content: {
     padding: theme.spacing.containerPaddingMobile,

@@ -112,7 +112,7 @@ export default function ExplorerScreen() {
 }
 
 const styles = StyleSheet.create((theme) => ({
-  screen: { flex: 1, backgroundColor: theme.colors.background },
+  screen: { flex: 1, backgroundColor: "transparent" },
   content: {
     padding: theme.spacing.containerPaddingMobile,
     gap: theme.spacing.gutter,
