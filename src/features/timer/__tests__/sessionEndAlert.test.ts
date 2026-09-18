@@ -110,4 +110,28 @@ describe("syncSessionEndAlert", () => {
 
     expect(fake.scheduledOnce.size).toBe(0);
   });
+
+  it("does not let a pending schedule recreate an alert after foreground completion", async () => {
+    setSessionEndAlertEnabled(true);
+    let releaseSchedule!: () => void;
+    const schedulePending = new Promise<void>((resolve) => {
+      releaseSchedule = resolve;
+    });
+    jest
+      .spyOn(fake.client, "scheduleAt")
+      .mockImplementation(async (notification) => {
+        await schedulePending;
+        fake.scheduledOnce.set(notification.id, notification);
+      });
+
+    const arm = syncSessionEndAlert(running(5_000));
+    const complete = syncSessionEndAlert(
+      snapshot({ status: "Completed", remainingSeconds: 0, progress: 1 }),
+    );
+
+    releaseSchedule();
+    await Promise.all([arm, complete]);
+
+    expect(fake.scheduledOnce.size).toBe(0);
+  });
 });

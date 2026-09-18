@@ -1,8 +1,10 @@
 import * as Notifications from "expo-notifications";
+import { AppState } from "react-native";
 import type {
   NotificationPermission,
   NotificationsClient,
 } from "./NotificationsClient";
+import { notificationPresentation } from "./notificationPresentation";
 
 // Android requires a channel for scheduled notifications to be delivered;
 // iOS ignores it.
@@ -25,10 +27,11 @@ function toPermission(
 export function createExpoNotificationsClient(): NotificationsClient {
   // Reminders should also be seen if the app happens to be open at 8:00.
   Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-      shouldShowBanner: true,
-      shouldShowList: true,
-      shouldPlaySound: true,
+    handleNotification: async (notification) => ({
+      ...notificationPresentation(
+        notification.request.content.data as { kind?: string } | undefined,
+        AppState.currentState,
+      ),
       shouldSetBadge: false,
     }),
   });
@@ -71,14 +74,14 @@ export function createExpoNotificationsClient(): NotificationsClient {
       });
     },
 
-    async scheduleAt({ id, date, title, body }) {
+    async scheduleAt({ id, date, title, body, data }) {
       await sessionEndAlertChannelReady;
       // Scheduling with an existing identifier replaces it on iOS but not
       // reliably on Android, so cancel explicitly first.
       await Notifications.cancelScheduledNotificationAsync(id);
       await Notifications.scheduleNotificationAsync({
         identifier: id,
-        content: { title, body },
+        content: { title, body, data },
         trigger: {
           type: Notifications.SchedulableTriggerInputTypes.DATE,
           date,
