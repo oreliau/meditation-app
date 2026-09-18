@@ -1,7 +1,7 @@
 import { DefaultTheme, Stack, ThemeProvider } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useState } from "react";
-import { LogBox, View } from "react-native";
+import { LogBox, Platform, View } from "react-native";
 import { useMMKVListener } from "react-native-mmkv";
 // import { getSessionStore } from "@/features/timer/sessionStore";
 // import { useSessionWidgets } from "@/features/timer/widgets";
@@ -75,7 +75,7 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={navigationTheme}>
       <View style={{ flex: 1 }}>
-        <AdaptiveBackground />
+        {Platform.OS === "web" && <AdaptiveBackground />}
         <Stack
           screenOptions={{
             headerShown: false,

@@ -14,6 +14,7 @@ export function CompletionDoneButton({ onPress }: Props) {
   return (
     <Pressable
       onPress={onPress}
+      accessible
       accessibilityRole="button"
       accessibilityLabel="Done"
       style={styles.button}

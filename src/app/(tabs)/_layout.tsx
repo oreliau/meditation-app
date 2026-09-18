@@ -21,13 +21,6 @@ export default function TabLayout() {
         },
       }}
     >
-      {/* <NativeTabs.Trigger name="(home)" disableTransparentOnScrollEdge>
-        <NativeTabs.Trigger.Icon
-          sf={{ default: "house", selected: "house.fill" }}
-          md="home"
-        />
-        <NativeTabs.Trigger.Label>Home</NativeTabs.Trigger.Label>
-      </NativeTabs.Trigger> */}
       <NativeTabs.Trigger
         name="(home)"
         contentStyle={{ backgroundColor: "transparent" }}
