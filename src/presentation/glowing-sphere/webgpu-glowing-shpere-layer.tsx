@@ -25,7 +25,6 @@ const MAX_STEPS = 50;
 const MAX_DIST = 30;
 const SURF_DIST = 0.0001;
 const SPHERE_RADIUS = 3;
-const INITIAL_GLOW_INTENSITY = 0.09;
 const sphereCenter = d.vec3f(10, 12.5, 20);
 
 const Ray = d.struct({
@@ -104,7 +103,7 @@ export default function WebGpuGlowingSphereLayer({
   const accentColor = useMirroredUniform(d.vec4f, themeValues.accent);
   const glowIntensityUniform = useMirroredUniform(
     d.f32,
-    d.f32(INITIAL_GLOW_INTENSITY),
+    d.f32(themeValues.glow_intensity),
   );
   const sphereAngleUniform = useUniform(d.f32);
 
@@ -128,7 +127,7 @@ export default function WebGpuGlowingSphereLayer({
           sphereAngleUniform.$,
         );
 
-        glow = glow.add(accentColor.$.rgb.mul(std.exp(-scene.dist)));
+        glow = glow.add(accentColor.$.rgb.mul(std.exp(-scene.dist * 2)));
         distOrigin += scene.dist;
 
         if (distOrigin > MAX_DIST) {
@@ -188,7 +187,7 @@ export default function WebGpuGlowingSphereLayer({
       return;
     }
     try {
-      sphereAngleUniform.write(reducedMotion ? 0 : elapsedSeconds / 4);
+      sphereAngleUniform.write(reducedMotion ? 0 : elapsedSeconds);
       // glowIntensityUniform.write(INITIAL_GLOW_INTENSITY);
       pipeline.withColorAttachment({ view: ctxRef.current }).draw(3);
       ctxRef.current.present?.();

@@ -1,4 +1,4 @@
-import { router, useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useCallback, useEffect } from "react";
 import { BackHandler, Text, View } from "react-native";
 import Animated, {
@@ -26,6 +26,7 @@ export default function SessionCompleteScreen() {
     durationMinutes?: string;
     programId?: string;
   }>();
+  const router = useRouter();
   const durationMinutes = Number(params.durationMinutes) || 0;
   const programId =
     typeof params.programId === "string" ? params.programId : undefined;
@@ -56,6 +57,7 @@ export default function SessionCompleteScreen() {
 
   const handleTransitionFinished = useCallback(() => {
     transitionFinished.set(1);
+    console.log("Transition finished", orbReady.get());
     if (orbReady.get()) {
       revealCompletion();
       return;
@@ -71,11 +73,15 @@ export default function SessionCompleteScreen() {
     }
   }, [orbReady, revealCompletion, transitionFinished]);
 
-  const handleDone = useCallback(() => {
+  const handleDone = () => {
     if (completionProgress.get() < 1) return;
     getSessionStore().resetToIdle();
-    router.replace("/");
-  }, [completionProgress]);
+    if (router.canGoBack()) {
+      router.back();
+    } else {
+      router.push("/");
+    }
+  };
 
   const transitionStyle = useAnimatedStyle(() => ({
     opacity: 1 - completionProgress.get(),
@@ -119,7 +125,7 @@ export default function SessionCompleteScreen() {
           </View>
         </View>
       </Animated.View>
-      <Animated.View style={[styles.phase, transitionStyle]}>
+      <Animated.View style={[styles.phaseTransition, transitionStyle]}>
         <CompletionTransition onFinished={handleTransitionFinished} />
       </Animated.View>
     </View>
@@ -132,6 +138,10 @@ const styles = StyleSheet.create((theme) => ({
     backgroundColor: "transparent",
   },
   phase: {
+    flex: 1,
+  },
+  phaseTransition: {
+    pointerEvents: "none",
     ...StyleSheet.absoluteFillObject,
   },
   content: {

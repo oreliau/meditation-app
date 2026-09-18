@@ -2,12 +2,12 @@ type GpuColor = readonly [number, number, number, number];
 
 export interface GlowingSphereThemeValues {
   accent: GpuColor;
-  fallbackBackground: string;
+  glow_intensity: number;
 }
 
 interface BackgroundThemeSource {
   accent: { color: string; opacity: number };
-  background: string;
+  glow_intensity: number;
 }
 
 function hexToRgb(hex: string): readonly [number, number, number] {
@@ -24,22 +24,22 @@ function toGpuColor(hex: string, opacity: number): GpuColor {
 }
 
 function createGlowingSphereThemeValues({
-  background,
   accent,
+  glow_intensity,
 }: BackgroundThemeSource): GlowingSphereThemeValues {
   return {
     accent: toGpuColor(accent.color, accent.opacity),
-    fallbackBackground: background,
+    glow_intensity,
   };
 }
 
 export const glowingsphereThemeValues = {
   light: createGlowingSphereThemeValues({
-    background: "#fffdf9",
     accent: { color: "#d97757", opacity: 0.34 },
+    glow_intensity: 0.1,
   }),
   dark: createGlowingSphereThemeValues({
-    background: "#12121d",
     accent: { color: "#003fff", opacity: 0.34 },
+    glow_intensity: 0.09,
   }),
 } as const satisfies Record<"light" | "dark", GlowingSphereThemeValues>;
