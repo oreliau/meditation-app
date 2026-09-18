@@ -1,6 +1,7 @@
 import { MaterialIcons } from "@expo/vector-icons";
-import { Pressable, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { StyleSheet, useUnistyles } from "react-native-unistyles";
+import { Button } from "@/components/Button";
 import type { IconName } from "./content";
 
 type Props = {
@@ -25,8 +26,9 @@ export function SelectableCard({
   const { theme } = useUnistyles();
 
   return (
-    <Pressable
+    <Button
       onPress={onPress}
+      role={indicator}
       accessibilityRole={indicator === "checkbox" ? "checkbox" : "radio"}
       accessibilityState={{ checked: selected }}
       accessibilityLabel={title}
@@ -54,7 +56,7 @@ export function SelectableCard({
         size={22}
         color={selected ? theme.colors.primary : theme.colors.outline}
       />
-    </Pressable>
+    </Button>
   );
 }
 

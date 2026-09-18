@@ -2,8 +2,9 @@ import { Button, Column, Host, Row } from "@expo/ui";
 import { useLocalSearchParams } from "expo-router";
 import { SymbolView } from "expo-symbols";
 import { useEffect, useState } from "react";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { StyleSheet, useUnistyles } from "react-native-unistyles";
+import { Button as AppButton } from "@/components/Button";
 import { getProgram } from "@/features/explorer/programs";
 import { ControlButton } from "@/features/timer/ControlButton";
 import {
@@ -59,7 +60,7 @@ const NotificationBell = () => {
   };
 
   return (
-    <Pressable onPress={handlePress}>
+    <AppButton onPress={handlePress}>
       {isNotificationEnabled ? (
         <SymbolView
           name={{
@@ -83,7 +84,7 @@ const NotificationBell = () => {
           type="monochrome"
         />
       )}
-    </Pressable>
+    </AppButton>
   );
 };
 
@@ -222,7 +223,7 @@ export default function TimerScreen() {
           <GlassPanel style={styles.dial}>
             <NotificationBell />
             <Text style={[styles.label, styles.clockCaption]}>Remaining</Text>
-            <Pressable
+            <AppButton
               accessibilityRole="button"
               accessibilityLabel={`${formatClock(session.remainingSeconds)} remaining. Change duration`}
               accessibilityHint="Pauses the session and opens duration choices"
@@ -234,7 +235,7 @@ export default function TimerScreen() {
                 {formatClock(session.remainingSeconds)}
               </Text>
               {canEdit && <Text style={styles.editLabel}>Change duration</Text>}
-            </Pressable>
+            </AppButton>
           </GlassPanel>
         </View>
       )}

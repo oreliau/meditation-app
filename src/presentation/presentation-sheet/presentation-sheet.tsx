@@ -1,6 +1,6 @@
 import { BottomSheet } from "@expo/ui";
 import { createContext, useContext, useState } from "react";
-import { Pressable } from "react-native";
+import { Button } from "@/components/Button";
 
 const PresentationSheetContext = createContext<{
   isPresented: boolean;
@@ -23,7 +23,7 @@ function PresentationSheetTrigger({ children }: { children: React.ReactNode }) {
       context.setIsPresented(true);
     }
   };
-  return <Pressable onPress={onPress}>{children}</Pressable>;
+  return <Button onPress={onPress}>{children}</Button>;
 }
 
 function PresentationSheetContent({

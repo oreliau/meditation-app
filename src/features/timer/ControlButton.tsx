@@ -1,6 +1,7 @@
 import { SymbolView, type SymbolViewProps } from "expo-symbols";
-import { Pressable, View } from "react-native";
+import { View } from "react-native";
 import { StyleSheet, useUnistyles } from "react-native-unistyles";
+import { Button } from "@/components/Button";
 import { spacing } from "@/theme/spacing";
 
 // Cross-platform glyphs: SF Symbols on iOS, Material Symbols on Android/web.
@@ -51,7 +52,7 @@ export function ControlButton({
   const tint = primary ? theme.colors.onPrimary : theme.colors.onPrimaryFixed;
 
   return (
-    <Pressable
+    <Button
       accessibilityRole="button"
       accessibilityLabel={label}
       accessibilityState={{ disabled }}
@@ -71,7 +72,7 @@ export function ControlButton({
           type="monochrome"
         />
       </View>
-    </Pressable>
+    </Button>
   );
 }
 

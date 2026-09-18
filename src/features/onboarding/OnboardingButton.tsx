@@ -1,6 +1,7 @@
 import { MaterialIcons } from "@expo/vector-icons";
-import { Pressable, Text } from "react-native";
+import { Text } from "react-native";
 import { StyleSheet, useUnistyles } from "react-native-unistyles";
+import { Button } from "@/components/Button";
 
 type Props = {
   label: string;
@@ -14,7 +15,7 @@ export function OnboardingButton({ label, onPress, disabled = false }: Props) {
   const { theme } = useUnistyles();
 
   return (
-    <Pressable
+    <Button
       onPress={onPress}
       disabled={disabled}
       accessibilityRole="button"
@@ -28,7 +29,7 @@ export function OnboardingButton({ label, onPress, disabled = false }: Props) {
         size={20}
         color={theme.colors.onPrimary}
       />
-    </Pressable>
+    </Button>
   );
 }
 
