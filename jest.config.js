@@ -5,6 +5,7 @@ module.exports = {
     "<rootDir>/jest.setup.js",
     "react-native-unistyles/mocks",
   ],
+  resolver: "react-native-worklets/jest/resolver",
   testMatch: [
     "**/__tests__/**/*.test.{js,ts,tsx}",
     "**/*.{spec,test}.{js,ts,tsx}",

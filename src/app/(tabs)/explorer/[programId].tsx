@@ -29,10 +29,20 @@ export default function ProgramDetailScreen() {
   const nextIndex = progress.completed;
 
   return (
-    <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
-      <Stack.Screen options={{ title: program.title }} />
-      <Text style={styles.title}>{program.title}</Text>
-      <Text style={styles.description}>{program.description}</Text>
+    <ScrollView
+      style={styles.screen}
+      contentContainerStyle={styles.content}
+      bounces={false}
+    >
+      <Stack.Screen
+        options={{
+          headerBackButtonMenuEnabled: true,
+          headerShown: true,
+          headerBackButtonDisplayMode: "minimal",
+          title: `Program: ${program.title}`,
+        }}
+      />
+
       <Text style={styles.progress}>
         {progress.completed} of {progress.total} sessions complete
       </Text>

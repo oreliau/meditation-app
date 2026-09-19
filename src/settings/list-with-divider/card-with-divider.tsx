@@ -1,5 +1,9 @@
 import { Switch, Text, View } from "react-native";
-import { StyleSheet, useUnistyles } from "react-native-unistyles";
+import {
+  StyleSheet,
+  useUnistyles,
+  withUnistyles,
+} from "react-native-unistyles";
 import { Button } from "@/components/Button";
 
 export type CardWithDividerProps = {
@@ -31,6 +35,8 @@ const Wrapper = ({
   return <View style={styles.row}>{children}</View>;
 };
 
+const UniSwitch = withUnistyles(Switch);
+
 export function CardWithDivider({
   title,
   description,
@@ -47,7 +53,7 @@ export function CardWithDivider({
         <Text style={styles.rowDescription}>{description}</Text>
       </View>
       {type === "switch" && (
-        <Switch
+        <UniSwitch
           value={Boolean(value)}
           onValueChange={onValueChange}
           accessibilityLabel={title}
@@ -71,7 +77,9 @@ const styles = StyleSheet.create((theme) => ({
     flexDirection: "row",
     alignItems: "center",
     gap: theme.spacing.gutter,
-    paddingVertical: theme.spacing.gutter,
+    padding: theme.spacing.gutter,
+    flex: 1,
+    width: "100%",
   },
   rowText: {
     flex: 1,
@@ -81,7 +89,7 @@ const styles = StyleSheet.create((theme) => ({
     fontFamily: theme.typography.bodyLg.fontFamily,
     fontSize: theme.typography.bodyLg.fontSize,
     lineHeight: theme.typography.bodyLg.lineHeight,
-    color: theme.colors.onSurface,
+    color: theme.colors.tertiary,
   },
   rowDescription: {
     fontFamily: theme.typography.caption.fontFamily,

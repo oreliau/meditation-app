@@ -21,7 +21,6 @@ export function SectionListWithDivider({
       contentContainerStyle={styles.card}
       keyExtractor={(_, index) => index.toString()}
       renderItem={({ item }) => <CardWithDivider {...item} />}
-      // style
       ItemSeparatorComponent={() => <View style={styles.divider} />}
       {...props}
     />
@@ -30,7 +29,7 @@ export function SectionListWithDivider({
 const styles = StyleSheet.create((theme) => ({
   screen: {
     flex: 1,
-    backgroundColor: theme.colors.background,
+    marginBottom: theme.spacing.gutter,
   },
   content: {
     padding: theme.spacing.containerPaddingMobile,
@@ -40,7 +39,7 @@ const styles = StyleSheet.create((theme) => ({
     fontFamily: theme.typography.headlineMd.fontFamily,
     fontSize: theme.typography.headlineMd.fontSize,
     lineHeight: theme.typography.headlineMd.lineHeight,
-    color: theme.colors.onBackground,
+    color: theme.colors.primary,
   },
   subtitle: {
     fontFamily: theme.typography.bodyMd.fontFamily,
@@ -61,9 +60,8 @@ const styles = StyleSheet.create((theme) => ({
     backgroundColor: theme.colors.outlineVariant,
   },
   card: {
-    paddingHorizontal: theme.spacing.gutter,
     borderRadius: theme.radius.lg,
-    backgroundColor: theme.colors.surfaceContainerLowest,
+    overflow: "hidden",
     borderWidth: 1,
     borderColor: theme.colors.outlineVariant,
   },

@@ -39,3 +39,9 @@ jest.mock("expo-widgets", () => ({
     getInstances: () => [],
   }),
 }));
+
+jest.mock("react-native-worklets", () =>
+  require("react-native-worklets/src/mock"),
+);
+
+require("react-native-reanimated").setUpTests();

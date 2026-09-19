@@ -1,6 +1,6 @@
-import { Stack } from "expo-router";
 import { ScrollView, Text } from "react-native";
 import { StyleSheet } from "react-native-unistyles";
+import { StackHeader } from "@/presentation/stack-header";
 import { useReminderSettings } from "@/reminders/useReminderSettings";
 import { SectionListWithDivider } from "@/settings/list-with-divider/section-list-with-divider";
 import { PermissionDeniedPrompt } from "@/settings/PermissionDeniedPrompt";
@@ -12,13 +12,14 @@ export default function SettingsScreen() {
   const sessionEndAlert = useSessionEndAlertSetting();
   const { mode, cycle } = useThemeToggle();
   return (
-    <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
-      <Stack.Screen />
+    <ScrollView
+      style={styles.screen}
+      contentContainerStyle={styles.content}
+      bounces={false}
+    >
+      <StackHeader title="Settings" description="Shape your inner sanctuary." />
 
-      <Text style={styles.headline}>Settings</Text>
-      <Text style={styles.subtitle}>Shape your inner sanctuary.</Text>
-
-      <Text style={styles.sectionTitle}>Stylew</Text>
+      <Text style={styles.sectionTitle}>Style</Text>
       <SectionListWithDivider
         title="Style"
         data={[

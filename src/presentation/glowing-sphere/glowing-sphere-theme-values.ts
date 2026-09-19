@@ -36,7 +36,7 @@ function createGlowingSphereThemeValues({
 export const glowingsphereThemeValues = {
   light: createGlowingSphereThemeValues({
     accent: { color: "#d97757", opacity: 0.34 },
-    glow_intensity: 0.1,
+    glow_intensity: 0.03,
   }),
   dark: createGlowingSphereThemeValues({
     accent: { color: "#003fff", opacity: 0.34 },

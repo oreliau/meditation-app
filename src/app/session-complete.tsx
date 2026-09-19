@@ -135,7 +135,7 @@ export default function SessionCompleteScreen() {
 const styles = StyleSheet.create((theme) => ({
   screen: {
     flex: 1,
-    backgroundColor: "transparent",
+    backgroundColor: theme.colors.background,
   },
   phase: {
     flex: 1,
