@@ -1,7 +1,7 @@
 import { Button, Column, Host, Row } from "@expo/ui";
 import { useLocalSearchParams } from "expo-router";
 import { SymbolView } from "expo-symbols";
-import { useEffect, useState } from "react";
+import { type ComponentProps, useEffect, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 import Animated, {
   cancelAnimation,
@@ -98,6 +98,127 @@ const NotificationBell = () => {
   );
 };
 
+type TimerSession = Omit<
+  ReturnType<typeof useTimerSession>,
+  "isActive" | "setDurationMinutes" | "setProgramContext"
+>;
+type AnimatedViewStyle = ComponentProps<typeof Animated.View>["style"];
+
+type DurationEditorProps = {
+  draftDuration: DurationMinutes;
+  elapsedMs: number;
+  status: SessionStatus;
+  canChangeDuration: boolean;
+  onSelectDuration: (duration: DurationMinutes) => void;
+  onCancel: () => void;
+  onApply: () => void;
+};
+
+const DurationEditor = ({
+  draftDuration,
+  elapsedMs,
+  status,
+  canChangeDuration,
+  onSelectDuration,
+  onCancel,
+  onApply,
+}: DurationEditorProps) => {
+  const { theme, rt } = useUnistyles();
+
+  return (
+    <View style={styles.editor}>
+      <Text accessibilityRole="header" style={styles.label}>
+        Total duration
+      </Text>
+      <Text style={styles.editorHint}>
+        {status === "Paused"
+          ? "Session paused. Elapsed time is kept."
+          : "Choose your session duration."}
+      </Text>
+      <Host
+        matchContents
+        colorScheme={rt.themeName === "dark" ? "dark" : "light"}
+        seedColor={theme.colors.primary}
+      >
+        <Column spacing={8}>
+          {Array.from(
+            { length: Math.ceil(DURATION_PRESETS_MINUTES.length / 3) },
+            (_, row) => (
+              <Row key={DURATION_PRESETS_MINUTES[row * 3]} spacing={8}>
+                {DURATION_PRESETS_MINUTES.slice(row * 3, row * 3 + 3).map(
+                  (minutes) => (
+                    <Button
+                      key={minutes}
+                      label={`${minutes === draftDuration ? "✓ " : ""}${formatDurationLabel(minutes)}`}
+                      variant={
+                        minutes === draftDuration ? "filled" : "outlined"
+                      }
+                      disabled={minutes * 60_000 <= elapsedMs}
+                      onPress={() => onSelectDuration(minutes)}
+                    />
+                  ),
+                )}
+              </Row>
+            ),
+          )}
+          <Row spacing={16}>
+            <Button label="Cancel" variant="text" onPress={onCancel} />
+            <Button
+              label="Apply"
+              disabled={
+                !canChangeDuration || draftDuration * 60_000 <= elapsedMs
+              }
+              onPress={onApply}
+            />
+          </Row>
+        </Column>
+      </Host>
+      {elapsedMs > 0 && (
+        <Text style={styles.editorHint}>
+          Durations at or below elapsed time are unavailable. Tap Resume when
+          ready.
+        </Text>
+      )}
+    </View>
+  );
+};
+
+type TimerDialProps = {
+  session: TimerSession;
+  canEdit: boolean;
+  animatedStyle: AnimatedViewStyle;
+  onOpenDurationEditor: () => void;
+};
+
+const TimerDial = ({
+  session,
+  canEdit,
+  animatedStyle,
+  onOpenDurationEditor,
+}: TimerDialProps) => (
+  <View style={styles.ring}>
+    <ProgressRing size={RING_SIZE} progress={session.progress} />
+    <Animated.View style={[styles.innerRing, animatedStyle]} />
+    <GlassPanel style={styles.dial}>
+      <NotificationBell />
+      <Text style={[styles.label, styles.clockCaption]}>Remaining</Text>
+      <AppButton
+        accessibilityRole="button"
+        accessibilityLabel={`${formatClock(session.remainingSeconds)} remaining. Change duration`}
+        accessibilityHint="Pauses the session and opens duration choices"
+        accessibilityState={{ disabled: !canEdit }}
+        disabled={!canEdit}
+        onPress={onOpenDurationEditor}
+      >
+        <Text style={styles.clock}>
+          {formatClock(session.remainingSeconds)}
+        </Text>
+        {canEdit && <Text style={styles.editLabel}>Change duration</Text>}
+      </AppButton>
+    </GlassPanel>
+  </View>
+);
+
 export default function TimerScreen() {
   const { isActive, setDurationMinutes, setProgramContext, ...session } =
     useTimerSession();
@@ -153,14 +274,16 @@ export default function TimerScreen() {
   );
 
   const isRunning = session.status === "Running";
-  const { theme, rt } = useUnistyles();
   const [draftDuration, setDraftDuration] = useState<DurationMinutes>();
   const isEditing = draftDuration !== undefined;
   const canEdit = !session.programContext && !programSession;
 
-  if (!canEdit && draftDuration !== undefined) {
-    setDraftDuration(undefined);
-  }
+  useEffect(() => {
+    if (!canEdit && draftDuration !== undefined) {
+      // biome-ignore lint/nursery/useReactCompiler: close an editor that became invalid when program context changed.
+      setDraftDuration(undefined);
+    }
+  }, [canEdit, draftDuration]);
 
   const openDurationEditor = () => {
     if (!canEdit) return;
@@ -178,92 +301,25 @@ export default function TimerScreen() {
         bounces={false}
       >
         {isEditing ? (
-          <View style={styles.editor}>
-            <Text accessibilityRole="header" style={styles.label}>
-              Total duration
-            </Text>
-            <Text style={styles.editorHint}>
-              {session.status === "Paused"
-                ? "Session paused. Elapsed time is kept."
-                : "Choose your session duration."}
-            </Text>
-            <Host
-              matchContents
-              colorScheme={rt.themeName === "dark" ? "dark" : "light"}
-              seedColor={theme.colors.primary}
-            >
-              <Column spacing={8}>
-                {Array.from(
-                  { length: Math.ceil(DURATION_PRESETS_MINUTES.length / 3) },
-                  (_, row) => (
-                    <Row key={DURATION_PRESETS_MINUTES[row * 3]} spacing={8}>
-                      {DURATION_PRESETS_MINUTES.slice(row * 3, row * 3 + 3).map(
-                        (minutes) => (
-                          <Button
-                            key={minutes}
-                            label={`${minutes === draftDuration ? "✓ " : ""}${formatDurationLabel(minutes)}`}
-                            variant={
-                              minutes === draftDuration ? "filled" : "outlined"
-                            }
-                            disabled={minutes * 60_000 <= session.elapsedMs}
-                            onPress={() => setDraftDuration(minutes)}
-                          />
-                        ),
-                      )}
-                    </Row>
-                  ),
-                )}
-                <Row spacing={16}>
-                  <Button
-                    label="Cancel"
-                    variant="text"
-                    onPress={() => setDraftDuration(undefined)}
-                  />
-                  <Button
-                    label="Apply"
-                    disabled={
-                      !session.canChangeDuration ||
-                      draftDuration * 60_000 <= session.elapsedMs
-                    }
-                    onPress={() => {
-                      setDurationMinutes(draftDuration);
-                      setDraftDuration(undefined);
-                    }}
-                  />
-                </Row>
-              </Column>
-            </Host>
-            {session.elapsedMs > 0 && (
-              <Text style={styles.editorHint}>
-                Durations at or below elapsed time are unavailable. Tap Resume
-                when ready.
-              </Text>
-            )}
-          </View>
+          <DurationEditor
+            draftDuration={draftDuration}
+            elapsedMs={session.elapsedMs}
+            status={session.status}
+            canChangeDuration={session.canChangeDuration}
+            onSelectDuration={setDraftDuration}
+            onCancel={() => setDraftDuration(undefined)}
+            onApply={() => {
+              setDurationMinutes(draftDuration);
+              setDraftDuration(undefined);
+            }}
+          />
         ) : (
-          <View style={styles.ring}>
-            <ProgressRing size={RING_SIZE} progress={session.progress} />
-            <Animated.View style={[styles.innerRing, animatedStyle]} />
-            <GlassPanel style={styles.dial}>
-              <NotificationBell />
-              <Text style={[styles.label, styles.clockCaption]}>Remaining</Text>
-              <AppButton
-                accessibilityRole="button"
-                accessibilityLabel={`${formatClock(session.remainingSeconds)} remaining. Change duration`}
-                accessibilityHint="Pauses the session and opens duration choices"
-                accessibilityState={{ disabled: !canEdit }}
-                disabled={!canEdit}
-                onPress={openDurationEditor}
-              >
-                <Text style={styles.clock}>
-                  {formatClock(session.remainingSeconds)}
-                </Text>
-                {canEdit && (
-                  <Text style={styles.editLabel}>Change duration</Text>
-                )}
-              </AppButton>
-            </GlassPanel>
-          </View>
+          <TimerDial
+            session={session}
+            canEdit={canEdit}
+            animatedStyle={animatedStyle}
+            onOpenDurationEditor={openDurationEditor}
+          />
         )}
 
         <View style={styles.controls}>
