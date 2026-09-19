@@ -1,12 +1,18 @@
 import { BlurView } from "expo-blur";
 import { View, type ViewProps } from "react-native";
-import { StyleSheet, useUnistyles } from "react-native-unistyles";
+import {
+  StyleSheet,
+  useUnistyles,
+  withUnistyles,
+} from "react-native-unistyles";
+
+const UniBlurView = withUnistyles(BlurView);
 
 export function GlassPanel({ children, ...props }: ViewProps) {
   const { rt } = useUnistyles();
   return (
     <View {...props}>
-      <BlurView
+      <UniBlurView
         style={styles.blur}
         tint={rt.themeName === "dark" ? "dark" : "light"}
         intensity={88}
@@ -16,12 +22,12 @@ export function GlassPanel({ children, ...props }: ViewProps) {
   );
 }
 
-const styles = StyleSheet.create((_theme) => ({
+const styles = StyleSheet.create({
   glass: {
     overflow: "hidden",
   },
 
   blur: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
   },
-}));
+});

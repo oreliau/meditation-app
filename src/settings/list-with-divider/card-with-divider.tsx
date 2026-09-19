@@ -59,9 +59,9 @@ export function CardWithDivider({
           accessibilityLabel={title}
           trackColor={{
             false: theme.colors.surfaceVariant,
-            true: theme.colors.primary,
+            true: theme.colors.inverseSurface,
           }}
-          thumbColor={theme.colors.surfaceContainerLowest}
+          thumbColor={theme.colors.primary}
         />
       )}
 
@@ -80,6 +80,7 @@ const styles = StyleSheet.create((theme) => ({
     padding: theme.spacing.gutter,
     flex: 1,
     width: "100%",
+    backgroundColor: theme.colors.surfaceContainerLowest,
   },
   rowText: {
     flex: 1,

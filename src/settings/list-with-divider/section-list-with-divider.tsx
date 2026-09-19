@@ -28,7 +28,7 @@ export function SectionListWithDivider({
 }
 const styles = StyleSheet.create((theme) => ({
   screen: {
-    flex: 1,
+    flexGrow: 0,
     marginBottom: theme.spacing.gutter,
   },
   content: {
