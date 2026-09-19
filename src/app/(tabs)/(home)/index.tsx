@@ -3,6 +3,15 @@ import { useLocalSearchParams } from "expo-router";
 import { SymbolView } from "expo-symbols";
 import { useEffect, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
+import Animated, {
+  cancelAnimation,
+  interpolate,
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withSpring,
+  withTiming,
+} from "react-native-reanimated";
 import { StyleSheet, useUnistyles } from "react-native-unistyles";
 import { Button as AppButton } from "@/components/Button";
 import { getProgram } from "@/features/explorer/programs";
@@ -21,12 +30,13 @@ import {
   setSessionEndAlertEnabled,
 } from "@/features/timer/sessionEndAlertStorage";
 import { useTimerSession } from "@/features/timer/useTimerSession";
+import { AdaptiveBackground } from "@/presentation/adaptive-background/adaptive-background";
 import { ensureNotificationPermission } from "@/reminders/permission";
 import { spacing } from "@/theme/spacing";
 
 // UI copy uses the CONTEXT.md session vocabulary verbatim; only Completed
 // gets a fuller phrase since it's the one state with feedback attached.
-const statusCopy: Record<SessionStatus, string> = {
+const _statusCopy: Record<SessionStatus, string> = {
   Idle: "Idle",
   Running: "Running",
   Paused: "Paused",
@@ -95,6 +105,7 @@ export default function TimerScreen() {
     programId?: string;
     sessionId?: string;
   }>();
+  const progress = useSharedValue(0);
   const programId =
     typeof params.programId === "string" ? params.programId : undefined;
   const sessionId =
@@ -103,6 +114,18 @@ export default function TimerScreen() {
     programId && sessionId
       ? getProgram(programId)?.sessions.find((item) => item.id === sessionId)
       : undefined;
+
+  useEffect(() => {
+    if (session.status !== "Running") {
+      progress.set(withSpring(0));
+    } else {
+      progress.set(withRepeat(withTiming(1, { duration: 5_000 }), -1, true));
+    }
+
+    return () => {
+      cancelAnimation(progress);
+    };
+  }, [session.status, progress]);
 
   useEffect(() => {
     if (programId && sessionId && programSession) {
@@ -121,6 +144,14 @@ export default function TimerScreen() {
     setProgramContext,
   ]);
 
+  const animatedStyle = useAnimatedStyle(
+    () => ({
+      transform: [{ scale: interpolate(progress.get(), [0, 1], [1, 1.2]) }],
+      opacity: interpolate(progress.get(), [0, 1], [0, 0.1]),
+    }),
+    [progress],
+  );
+
   const isRunning = session.status === "Running";
   const { theme, rt } = useUnistyles();
   const [draftDuration, setDraftDuration] = useState<DurationMinutes>();
@@ -138,135 +169,131 @@ export default function TimerScreen() {
   };
 
   return (
-    <ScrollView
-      style={styles.screen}
-      contentContainerStyle={styles.content}
-      keyboardShouldPersistTaps="handled"
-    >
-      <Text
-        style={[
-          styles.label,
-          styles.status,
-          session.status === "Completed" && styles.statusCompleted,
-        ]}
+    <View style={{ flex: 1 }}>
+      <AdaptiveBackground />
+      <ScrollView
+        style={styles.screen}
+        contentContainerStyle={styles.content}
+        keyboardShouldPersistTaps="handled"
+        bounces={false}
       >
-        {statusCopy[session.status]}
-      </Text>
-
-      {isEditing ? (
-        <View style={styles.editor}>
-          <Text accessibilityRole="header" style={styles.label}>
-            Total duration
-          </Text>
-          <Text style={styles.editorHint}>
-            {session.status === "Paused"
-              ? "Session paused. Elapsed time is kept."
-              : "Choose your session duration."}
-          </Text>
-          <Host
-            matchContents
-            colorScheme={rt.themeName === "dark" ? "dark" : "light"}
-            seedColor={theme.colors.primary}
-          >
-            <Column spacing={8}>
-              {Array.from(
-                { length: Math.ceil(DURATION_PRESETS_MINUTES.length / 3) },
-                (_, row) => (
-                  <Row key={DURATION_PRESETS_MINUTES[row * 3]} spacing={8}>
-                    {DURATION_PRESETS_MINUTES.slice(row * 3, row * 3 + 3).map(
-                      (minutes) => (
-                        <Button
-                          key={minutes}
-                          label={`${minutes === draftDuration ? "✓ " : ""}${formatDurationLabel(minutes)}`}
-                          variant={
-                            minutes === draftDuration ? "filled" : "outlined"
-                          }
-                          disabled={minutes * 60_000 <= session.elapsedMs}
-                          onPress={() => setDraftDuration(minutes)}
-                        />
-                      ),
-                    )}
-                  </Row>
-                ),
-              )}
-              <Row spacing={16}>
-                <Button
-                  label="Cancel"
-                  variant="text"
-                  onPress={() => setDraftDuration(undefined)}
-                />
-                <Button
-                  label="Apply"
-                  disabled={
-                    !session.canChangeDuration ||
-                    draftDuration * 60_000 <= session.elapsedMs
-                  }
-                  onPress={() => {
-                    setDurationMinutes(draftDuration);
-                    setDraftDuration(undefined);
-                  }}
-                />
-              </Row>
-            </Column>
-          </Host>
-          {session.elapsedMs > 0 && (
-            <Text style={styles.editorHint}>
-              Durations at or below elapsed time are unavailable. Tap Resume
-              when ready.
+        {isEditing ? (
+          <View style={styles.editor}>
+            <Text accessibilityRole="header" style={styles.label}>
+              Total duration
             </Text>
-          )}
-        </View>
-      ) : (
-        <View style={styles.ring}>
-          <ProgressRing size={RING_SIZE} progress={session.progress} />
-          <View style={styles.innerRing} />
-          <GlassPanel style={styles.dial}>
-            <NotificationBell />
-            <Text style={[styles.label, styles.clockCaption]}>Remaining</Text>
-            <AppButton
-              accessibilityRole="button"
-              accessibilityLabel={`${formatClock(session.remainingSeconds)} remaining. Change duration`}
-              accessibilityHint="Pauses the session and opens duration choices"
-              accessibilityState={{ disabled: !canEdit }}
-              disabled={!canEdit}
-              onPress={openDurationEditor}
+            <Text style={styles.editorHint}>
+              {session.status === "Paused"
+                ? "Session paused. Elapsed time is kept."
+                : "Choose your session duration."}
+            </Text>
+            <Host
+              matchContents
+              colorScheme={rt.themeName === "dark" ? "dark" : "light"}
+              seedColor={theme.colors.primary}
             >
-              <Text style={styles.clock}>
-                {formatClock(session.remainingSeconds)}
+              <Column spacing={8}>
+                {Array.from(
+                  { length: Math.ceil(DURATION_PRESETS_MINUTES.length / 3) },
+                  (_, row) => (
+                    <Row key={DURATION_PRESETS_MINUTES[row * 3]} spacing={8}>
+                      {DURATION_PRESETS_MINUTES.slice(row * 3, row * 3 + 3).map(
+                        (minutes) => (
+                          <Button
+                            key={minutes}
+                            label={`${minutes === draftDuration ? "✓ " : ""}${formatDurationLabel(minutes)}`}
+                            variant={
+                              minutes === draftDuration ? "filled" : "outlined"
+                            }
+                            disabled={minutes * 60_000 <= session.elapsedMs}
+                            onPress={() => setDraftDuration(minutes)}
+                          />
+                        ),
+                      )}
+                    </Row>
+                  ),
+                )}
+                <Row spacing={16}>
+                  <Button
+                    label="Cancel"
+                    variant="text"
+                    onPress={() => setDraftDuration(undefined)}
+                  />
+                  <Button
+                    label="Apply"
+                    disabled={
+                      !session.canChangeDuration ||
+                      draftDuration * 60_000 <= session.elapsedMs
+                    }
+                    onPress={() => {
+                      setDurationMinutes(draftDuration);
+                      setDraftDuration(undefined);
+                    }}
+                  />
+                </Row>
+              </Column>
+            </Host>
+            {session.elapsedMs > 0 && (
+              <Text style={styles.editorHint}>
+                Durations at or below elapsed time are unavailable. Tap Resume
+                when ready.
               </Text>
-              {canEdit && <Text style={styles.editLabel}>Change duration</Text>}
-            </AppButton>
-          </GlassPanel>
-        </View>
-      )}
+            )}
+          </View>
+        ) : (
+          <View style={styles.ring}>
+            <ProgressRing size={RING_SIZE} progress={session.progress} />
+            <Animated.View style={[styles.innerRing, animatedStyle]} />
+            <GlassPanel style={styles.dial}>
+              <NotificationBell />
+              <Text style={[styles.label, styles.clockCaption]}>Remaining</Text>
+              <AppButton
+                accessibilityRole="button"
+                accessibilityLabel={`${formatClock(session.remainingSeconds)} remaining. Change duration`}
+                accessibilityHint="Pauses the session and opens duration choices"
+                accessibilityState={{ disabled: !canEdit }}
+                disabled={!canEdit}
+                onPress={openDurationEditor}
+              >
+                <Text style={styles.clock}>
+                  {formatClock(session.remainingSeconds)}
+                </Text>
+                {canEdit && (
+                  <Text style={styles.editLabel}>Change duration</Text>
+                )}
+              </AppButton>
+            </GlassPanel>
+          </View>
+        )}
 
-      <View style={styles.controls}>
-        <ControlButton
-          icon="restart"
-          label="Restart"
-          disabled={isEditing}
-          onPress={session.restart}
-        />
-        <ControlButton
-          primary
-          icon={isRunning ? "pause" : "play"}
-          label={
-            isRunning
-              ? "Pause"
-              : session.status === "Paused"
-                ? "Resume"
-                : "Play"
-          }
-          disabled={isEditing}
-          onPress={isRunning ? session.pause : session.play}
-        />
-        <ControlButton
-          icon={session.isVolumeEnabled ? "volume" : "volume_off"}
-          label="Volume"
-          onPress={session.toggleVolume}
-        />
-      </View>
-    </ScrollView>
+        <View style={styles.controls}>
+          <ControlButton
+            icon="restart"
+            label="Restart"
+            disabled={isEditing}
+            onPress={session.restart}
+          />
+          <ControlButton
+            primary
+            icon={isRunning ? "pause" : "play"}
+            label={
+              isRunning
+                ? "Pause"
+                : session.status === "Paused"
+                  ? "Resume"
+                  : "Play"
+            }
+            disabled={isEditing}
+            onPress={isRunning ? session.pause : session.play}
+          />
+          <ControlButton
+            icon={session.isVolumeEnabled ? "volume" : "volume_off"}
+            label="Volume"
+            onPress={session.toggleVolume}
+          />
+        </View>
+      </ScrollView>
+    </View>
   );
 }
 
@@ -330,9 +357,12 @@ const styles = StyleSheet.create((theme, rt) => ({
   },
   innerRing: {
     position: "absolute",
-    inset: theme.spacing.gutter,
+    inset: 0,
     borderRadius: theme.radius.full,
-    borderWidth: 1,
+    width: RING_SIZE,
+    height: RING_SIZE,
+    borderWidth: 2,
+    // borderColor: "red",
     borderColor: theme.colors.tertiary,
     opacity: 0.2,
   },

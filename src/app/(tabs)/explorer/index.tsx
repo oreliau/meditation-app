@@ -2,10 +2,10 @@ import { Link } from "expo-router";
 import { ScrollView, Text, View } from "react-native";
 import { StyleSheet } from "react-native-unistyles";
 import { Button } from "@/components/Button";
-import { ADVICE, PROGRAMS, type Program } from "@/features/explorer/programs";
+import { PROGRAMS, type Program } from "@/features/explorer/programs";
 import { getProgramProgress } from "@/features/explorer/progress";
 import { useExplorerProgress } from "@/features/explorer/useExplorerProgress";
-import { getDailyStats } from "@/stats/dailyStats";
+import { StackHeader } from "@/presentation/stack-header";
 
 function ProgramCard({
   program,
@@ -42,70 +42,33 @@ function ProgramCard({
 
 export default function ExplorerScreen() {
   useExplorerProgress();
-  const dailyStats = getDailyStats();
   const continuing = PROGRAMS.find((program) => {
     const progress = getProgramProgress(program.id);
     return progress.completed > 0 && !progress.isComplete;
   });
 
   return (
-    <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
-      <Text style={styles.headline}>Explore</Text>
-      <Text style={styles.subtitle}>Find a practice for this moment.</Text>
+    <ScrollView
+      style={styles.screen}
+      contentContainerStyle={styles.content}
+      bounces={false}
+    >
+      <StackHeader
+        title="Explore"
+        description="Find a practice for this moment."
+      />
 
-      {continuing && (
+      {continuing ? (
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Continue your practice</Text>
           <ProgramCard program={continuing} continueCard />
         </View>
-      )}
+      ) : null}
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Available programs</Text>
         {PROGRAMS.map((program) => (
           <ProgramCard key={program.id} program={program} />
-        ))}
-      </View>
-
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Today’s practice</Text>
-        <View style={styles.summaryCard}>
-          {dailyStats.sessionCount === 0 ? (
-            <>
-              <Text style={styles.summaryTitle}>
-                No sessions completed today
-              </Text>
-              <Text style={styles.summaryBody}>
-                A few quiet minutes is a good place to begin.
-              </Text>
-              <Link href="/" asChild>
-                <Button>
-                  <Text style={styles.inlineAction}>Begin a session</Text>
-                </Button>
-              </Link>
-            </>
-          ) : (
-            <>
-              <Text style={styles.summaryTitle}>
-                {dailyStats.sessionCount} completed session
-                {dailyStats.sessionCount === 1 ? "" : "s"}
-              </Text>
-              <Text style={styles.summaryBody}>
-                {Math.round(dailyStats.totalDurationSeconds / 60)} minutes of
-                practice today.
-              </Text>
-            </>
-          )}
-        </View>
-      </View>
-
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Advice</Text>
-        {ADVICE.map((advice) => (
-          <View key={advice.id} style={styles.adviceCard}>
-            <Text style={styles.adviceTitle}>{advice.title}</Text>
-            <Text style={styles.adviceBody}>{advice.body}</Text>
-          </View>
         ))}
       </View>
     </ScrollView>
@@ -138,7 +101,7 @@ const styles = StyleSheet.create((theme) => ({
     color: theme.colors.onSurfaceVariant,
     marginBottom: theme.spacing.gutter,
   },
-  section: { gap: theme.spacing.gutter },
+  section: { gap: theme.spacing.gutter, marginBottom: theme.spacing.gutter },
   sectionTitle: {
     fontFamily: theme.typography.titleLg.fontFamily,
     fontSize: theme.typography.titleLg.fontSize,

@@ -116,7 +116,7 @@ export default function WebGpuBackgroundLayer({
         return;
       }
       try {
-        time.write(reducedMotion ? 0 : elapsedSeconds);
+        time.write(reducedMotion ? 0 : elapsedSeconds * 2);
         pipeline.withColorAttachment({ view: ctxRef.current }).draw(3);
         ctxRef.current.present?.();
         needsDraw.current = false;

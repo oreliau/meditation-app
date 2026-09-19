@@ -17,6 +17,7 @@ module.exports = {
       icon: "./assets/meditation-app.icon",
       deploymentTarget: "17.0",
       bundleIdentifier: iosBundleIdentifier,
+      supportsTablet: true,
       infoPlist: {
         ITSAppUsesNonExemptEncryption: false,
       },
@@ -41,7 +42,7 @@ module.exports = {
       [
         "expo-splash-screen",
         {
-          backgroundColor: "#208AEF",
+          backgroundColor: "#fbf9f5",
           image: "./assets/images/splash-icon.png",
           imageWidth: 76,
         },
@@ -62,15 +63,6 @@ module.exports = {
       "expo-audio",
       "expo-asset",
       "expo-status-bar",
-      [
-        "expo-build-properties",
-        {
-          android: {
-            minSdkVersion: 26,
-          },
-        },
-      ],
-      "react-native-webgpu",
       [
         "expo-build-properties",
         {
