@@ -18,6 +18,7 @@
   <a href="#the-idea">The idea</a> ·
   <a href="#what-is-here">What is here</a> ·
   <a href="#technology">Technology</a> ·
+  <a href="#agent-assisted-delivery">Agent-assisted delivery</a> ·
   <a href="#run-it-locally">Run it locally</a>
 </p>
 
@@ -60,6 +61,74 @@ These are curated design explorations from the project’s visual direction. The
 | Media | Expo Audio, Expo Image, Expo Notifications |
 | Rendering experiments | WebGPU, TypeGPU, React Native WebGPU |
 | Quality | Jest, Testing Library, Biome, TypeScript |
+
+## Agent-assisted delivery
+
+Feature work follows a context-first workflow. In this README, **RAG** means
+repository-aware context retrieval, not a production vector-search system: the
+agent gathers the relevant sandbox configuration, repository instructions,
+skills, ADRs, GitHub issues, and code before making changes. This repository
+does not currently implement embeddings or a vector database.
+
+```mermaid
+flowchart TD
+    A[Feature idea] --> B[Start an isolated Docker sandbox]
+    B --> C[Read sandbox kits, templates, and repository context]
+    C --> D[Run /grill-with-docs]
+    D --> E[Answer the interview and capture decisions]
+    E --> F{How large is the work?}
+    F -->|Small, one session| G[Use ADR or captured context]
+    F -->|Multi-session| H[Run /to-tickets]
+    H --> I[Create GitHub issues with dependencies]
+    G --> J[Delegate to a fresh implementation sub-agent]
+    I --> J
+    J --> K[Implement from the ADR or issue]
+    K --> L[Run strict local quality checks]
+    L --> M[Run /code-review]
+    M --> N{Findings remain?}
+    N -->|Yes| J
+    N -->|No| O[Run /pull-request]
+    O --> P[GitHub PR and CI validation]
+```
+
+Start a named sandbox with either the Codex or Claude kit:
+
+```bash
+pnpm codex:sbx --name FEATURE_NAME
+pnpm claude:sbx --name FEATURE_NAME
+```
+
+The scripts select a kit from [`sandbox/kits/`](sandbox/kits/) and a Docker
+environment from [`sandbox/templates/`](sandbox/templates/). The kit and
+template define the agent runtime, credentials, network permissions, and
+package-manager setup. Keep secrets out of the repository and use only the
+credentials exposed by the sandbox configuration.
+
+Inside the sandbox, use `/grill-with-docs` to interrogate the feature and
+record the decisions that matter. For a small feature that fits in one session,
+the resulting ADR or captured context is enough to hand off the work. For a
+larger feature, use `/to-tickets` to turn the decisions into dependency-aware
+GitHub issues; each issue should be small enough for one fresh implementation
+context.
+
+Implementation is delegated to a fresh sub-agent per issue or ADR. When the
+work is complete, run the repository checks before `/code-review`:
+
+```bash
+pnpm lint:ci
+pnpm typecheck
+pnpm test:ci
+```
+
+If review finds a problem, send the work back through implementation and review
+again. Only after the findings are resolved should `/pull-request` create the
+GitHub pull request.
+
+Husky and GitHub Actions are the quality boundary for this process: staged
+changes should be formatted and linted locally, while the pre-push/CI path must
+run strict linting, TypeScript checking, and the Jest suite. A pull request is
+ready only when those checks pass. Branch protection and required-status-check
+settings must be enabled in GitHub to make that policy non-bypassable.
 
 ## Run it locally
 
