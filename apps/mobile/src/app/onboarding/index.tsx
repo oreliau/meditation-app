@@ -1,5 +1,4 @@
 import { MaterialIcons } from "@expo/vector-icons";
-import type { IconName } from "@meditation-app/onboarding";
 import { Stack, useRouter } from "expo-router";
 import { ScrollView, Text, View } from "react-native";
 import { StyleSheet, useUnistyles } from "react-native-unistyles";

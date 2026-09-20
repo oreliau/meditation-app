@@ -1,4 +1,3 @@
-import { createTranslator, getInitialLanguage } from "@/i18n";
 import { getNotificationsClient } from "./NotificationsClient";
 import { PRESENCE_SENTENCES } from "./presenceSentences";
 import { nextDeliveryDayNumber, sentenceIndexForDay } from "./rotation";
@@ -25,7 +24,6 @@ function morningSentenceOffset(): number {
 // foreground, so the pending notification's content keeps moving day to
 // day (see rotation.ts for the no-repeat guarantee).
 export async function scheduleMorningReminder(): Promise<void> {
-  const t = createTranslator(getInitialLanguage());
   const index = sentenceIndexForDay(
     nextDeliveryDayNumber(
       new Date(),
@@ -39,8 +37,8 @@ export async function scheduleMorningReminder(): Promise<void> {
     id: MORNING_REMINDER_ID,
     hour: MORNING_REMINDER_HOUR,
     minute: MORNING_REMINDER_MINUTE,
-    title: t("morningPresence"),
-    body: t(PRESENCE_SENTENCES[index] ?? PRESENCE_SENTENCES[0]),
+    title: "Morning presence",
+    body: PRESENCE_SENTENCES[index] ?? PRESENCE_SENTENCES[0],
   });
 }
 

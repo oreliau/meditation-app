@@ -9,6 +9,7 @@
     "@meditation-app/notifications": "workspace:*",
     "@meditation-app/onboarding": "workspace:*",
     "@meditation-app/stats": "workspace:*",
+    "@meditation-app/storage": "workspace:*",
     "@meditation-app/theme": "workspace:*",
     "@meditation-app/timer": "workspace:*",
     "@meditation-app/widgets": "workspace:*",

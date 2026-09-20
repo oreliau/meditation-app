@@ -17,6 +17,7 @@ import { StyleSheet, useUnistyles } from "react-native-unistyles";
 import { Button } from "@/components/Button";
 import { OnboardingButton } from "@/features/onboarding/OnboardingButton";
 import { OnboardingProgressHeader } from "@/features/onboarding/OnboardingProgressHeader";
+import { useI18n } from "@/i18n";
 
 const ONBOARDING_DEFAULT_DURATION: DurationMinutes = 5;
 

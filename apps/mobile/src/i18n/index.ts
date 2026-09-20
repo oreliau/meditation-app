@@ -1,3 +1,4 @@
+import { isStorageAvailable } from "@meditation-app/storage";
 import React, {
   createContext,
   useCallback,
@@ -8,7 +9,6 @@ import React, {
 } from "react";
 import { Platform } from "react-native";
 import { createMMKV } from "react-native-mmkv";
-import { isStorageAvailable } from "@/storage/isStorageAvailable";
 import { loadPolyfills } from "./polyfills";
 
 export const SUPPORTED_LANGUAGES = [
