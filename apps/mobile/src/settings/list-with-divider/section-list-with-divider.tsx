@@ -5,15 +5,9 @@ import {
   type CardWithDividerProps,
 } from "./card-with-divider";
 
-interface SectionListWithDividerProps
-  extends Omit<FlatListProps<CardWithDividerProps>, "renderItem"> {
-  title: string;
-}
-
 export function SectionListWithDivider({
-  title,
   ...props
-}: SectionListWithDividerProps) {
+}: Omit<FlatListProps<CardWithDividerProps>, "renderItem">) {
   return (
     <FlatList
       scrollEnabled={false}
@@ -29,6 +23,7 @@ export function SectionListWithDivider({
 const styles = StyleSheet.create((theme) => ({
   screen: {
     flexGrow: 0,
+    flexShrink: 0,
     marginBottom: theme.spacing.gutter,
   },
   content: {

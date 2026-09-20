@@ -1,4 +1,5 @@
 import { isStorageAvailable } from "@meditation-app/storage";
+import { getLocales } from "expo-localization";
 import React, {
   createContext,
   useCallback,
@@ -58,6 +59,7 @@ const en: Messages = {
     "Let me know when my session finishes, even if I've stepped away",
   language: "Language",
   languageDescription: "Choose the language used by Lumina Flow",
+  languageCode: "{language}",
   explore: "Explore",
   exploreDescription: "Find a practice for this moment.",
   prepare: "Prepare",
@@ -527,7 +529,7 @@ export function resolveLanguage(locale: string | undefined): SupportedLanguage {
   const canonical = canonicalLocale(locale ?? "");
   if (!canonical) return "en";
   const exact = SUPPORTED_LANGUAGES.find(
-    (value) => value.toLowerCase() === canonical.toLowerCase(),
+    (value) => String(value).toLowerCase() === canonical.toLowerCase(),
   );
   if (exact) return exact;
   const base = new Intl.Locale(canonical).language;
@@ -540,7 +542,7 @@ export function getDeviceLocale(): string {
   if (Platform.OS === "web" && typeof navigator !== "undefined") {
     return navigator.language;
   }
-  return Intl.DateTimeFormat().resolvedOptions().locale;
+  return getLocales()[0].languageCode || "en";
 }
 
 export function getInitialLocale(): string {

@@ -57,6 +57,7 @@ export default {
       "expo-audio",
       "expo-asset",
       "expo-status-bar",
+      "expo-localization",
       ...(notificationsApp.plugins ?? []),
       [
         "expo-build-properties",

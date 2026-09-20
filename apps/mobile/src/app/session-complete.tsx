@@ -2,7 +2,7 @@ import { getProgramProgress } from "@meditation-app/explorer";
 import { getSessionStore } from "@meditation-app/timer";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useCallback, useEffect } from "react";
-import { BackHandler, Text, View } from "react-native";
+import { BackHandler, Platform, Text, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useReducedMotion,
@@ -44,6 +44,7 @@ export default function SessionCompleteScreen() {
   // Block Android's hardware back button for the whole takeover; iOS's swipe
   // gesture is disabled via this screen's Stack.Screen options below.
   useEffect(() => {
+    if (Platform.OS !== "android") return;
     const subscription = BackHandler.addEventListener(
       "hardwareBackPress",
       () => true,

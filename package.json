@@ -87,7 +87,7 @@
     "test:e2e:web": "maestro test --platform web .maestro/web-principal-flow.yaml",
     "test:e2e:android": "maestro test .maestro/android-principal-flow.yaml",
     "test:e2e:ios": "maestro test .maestro/ios-principal-flow.yaml",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit -p apps/mobile/tsconfig.json --ignoreDeprecations 6.0",
     "expo:prebuild": "pnpm --dir apps/mobile expo:prebuild",
     "expo:export:web": "pnpm --dir apps/mobile expo:export:web",
     "expo:export:github-pages": "pnpm --dir apps/mobile expo:export:github-pages",

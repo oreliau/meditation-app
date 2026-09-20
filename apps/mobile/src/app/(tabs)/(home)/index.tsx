@@ -311,7 +311,7 @@ export default function TimerScreen() {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.container}>
       <AdaptiveBackground />
       <ScrollView
         style={styles.screen}
@@ -377,6 +377,10 @@ export default function TimerScreen() {
 const RING_SIZE = spacing.unit * 36;
 
 const styles = StyleSheet.create((theme, rt) => ({
+  container: {
+    flex: 1,
+    backgroundColor: theme.colors.background,
+  },
   editor: {
     width: "100%",
     maxWidth: 400,
