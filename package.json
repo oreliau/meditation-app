@@ -74,7 +74,7 @@
     "web": "expo start --web",
     "lint": "biome check . --fix",
     "lint:ci": "biome ci .",
-    "test": "jest",
+    "test": "jest --cache",
     "test:ci": "jest --ci --coverage",
     "test:watch": "jest --watch",
     "test:e2e:web": "maestro test --platform web .maestro/web-principal-flow.yaml",
