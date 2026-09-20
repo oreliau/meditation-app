@@ -58,3 +58,7 @@ docs/adr/
 
 .env
 .vscode/mcp.json
+.pnpm-store/
+apps/mobile/ios/
+apps/mobile/android/
+apps/mobile/dist/
