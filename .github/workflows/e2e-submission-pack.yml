@@ -28,9 +28,10 @@ jobs:
           mkdir -p artifacts
           pnpm web -- --port 8081 > artifacts/maestro-web-server.log 2>&1 &
           for attempt in $(seq 1 60); do
-            curl --fail --silent http://127.0.0.1:8081/meditation-app >/dev/null && break
+            curl --fail --silent http://127.0.0.1:8081/ >/dev/null && break
             sleep 1
           done
+          curl --fail --silent http://127.0.0.1:8081/ >/dev/null
           mkdir -p artifacts/maestro
           curl -Ls https://get.maestro.mobile.dev | bash
           Xvfb :99 -screen 0 1280x768x24 >/tmp/maestro-xvfb.log 2>&1 &
