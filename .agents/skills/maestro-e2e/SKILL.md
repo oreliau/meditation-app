@@ -11,6 +11,7 @@ Use Maestro as the single E2E driver for this repository's native and web target
 
 - Put mobile flows in `.maestro/` with the target app's bundle/package `appId`.
 - Put browser flows in `.maestro/` with a top-level `url:` before the `---` command separator. Use `maestro test --platform web <flow>`; start the local browser with `maestro start-device --platform web` when running outside Maestro Cloud.
+- Keep local-server and deployed-site web flows separate so CI cannot accidentally validate the wrong origin. The deployed GitHub Pages flow must target the public URL explicitly.
 - Reset state at the start of an isolated scenario with `launchApp: { clearState: true }`. Validate persistence by launching again without clearing state.
 - Prefer visible text, accessibility roles, and stable `testID` values. Add a `testID` only when the accessible identity is ambiguous or changes during a state transition.
 - Use Maestro's built-in waiting (`assertVisible`, `extendedWaitUntil`) for asynchronous UI. Keep waits tied to observable product state.
@@ -21,6 +22,8 @@ Use Maestro as the single E2E driver for this repository's native and web target
 The principal flow is: complete the four-step Onboarding, reach Home, select the existing 6-second duration, start a Session, observe natural Completed feedback, dismiss it, verify Today’s practice, and relaunch to verify Onboarding persistence.
 
 Keep Chromium on the same Maestro flow contract as Android/iOS. Chromium and Android run as PR gates; iPad and iPhone 18 Pro run in the manual/release submission workflow. Fail Apple preflight when the requested simulator is unavailable instead of substituting a device.
+
+The deployed GitHub Pages flow runs from `.maestro/web-github-pages-flow.yaml` in the twice-daily scheduled workflow. Its cron is UTC and should remain paired with `workflow_dispatch` for immediate verification.
 
 Run the relevant flow directly while developing:
 
