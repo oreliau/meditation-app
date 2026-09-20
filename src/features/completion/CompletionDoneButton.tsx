@@ -18,6 +18,7 @@ export function CompletionDoneButton({ onPress }: Props) {
       accessible
       accessibilityRole="button"
       accessibilityLabel="Done"
+      testID="completion-done"
       style={styles.button}
     >
       <Text style={styles.label}>Done</Text>

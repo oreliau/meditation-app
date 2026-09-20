@@ -21,6 +21,7 @@ export function OnboardingButton({ label, onPress, disabled = false }: Props) {
       accessibilityRole="button"
       accessibilityLabel={label}
       accessibilityState={{ disabled }}
+      testID="onboarding-continue"
       style={[styles.button, disabled && styles.buttonDisabled]}
     >
       <Text style={styles.label}>{label}</Text>

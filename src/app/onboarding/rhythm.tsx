@@ -98,6 +98,7 @@ export default function OnboardingRhythmScreen() {
               checked: durationMinutes === preset.minutes,
             }}
             accessibilityLabel={`${formatDurationLabel(preset.minutes)} — ${preset.title}`}
+            testID={`duration-${preset.minutes}-minutes`}
             style={[
               styles.durationCard,
               durationMinutes === preset.minutes && styles.durationCardSelected,

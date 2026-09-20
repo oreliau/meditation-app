@@ -32,6 +32,7 @@ export function SelectableCard({
       accessibilityRole={indicator === "checkbox" ? "checkbox" : "radio"}
       accessibilityState={{ checked: selected }}
       accessibilityLabel={title}
+      testID={`option-${title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}
       style={[styles.card, selected && styles.cardSelected]}
     >
       <View style={styles.iconCircle}>

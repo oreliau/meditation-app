@@ -56,6 +56,7 @@ export function ControlButton({
       accessibilityRole="button"
       accessibilityLabel={label}
       accessibilityState={{ disabled }}
+      testID={`session-${label.toLowerCase()}`}
       disabled={disabled}
       onPress={onPress}
       style={({ pressed }) => [

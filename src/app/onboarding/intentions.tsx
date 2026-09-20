@@ -90,6 +90,7 @@ export default function OnboardingIntentionsScreen() {
               accessibilityRole="radio"
               accessibilityState={{ checked: experienceLevel === level.id }}
               accessibilityLabel={level.label}
+              testID={`option-${level.id}`}
               style={[
                 styles.experienceSegment,
                 experienceLevel === level.id &&

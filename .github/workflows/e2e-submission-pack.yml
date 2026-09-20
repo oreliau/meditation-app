@@ -1,0 +1,171 @@
+name: E2E submission screenshot pack
+
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+env:
+  EXPO_NO_TELEMETRY: "1"
+
+jobs:
+  chromium:
+    name: Chromium submission screenshots
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 12.4.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: |
+          mkdir -p artifacts
+          pnpm web -- --port 8081 > artifacts/maestro-web-server.log 2>&1 &
+          for attempt in $(seq 1 60); do
+            curl --fail --silent http://127.0.0.1:8081/meditation-app >/dev/null && break
+            sleep 1
+          done
+          mkdir -p artifacts/maestro
+          curl -Ls https://get.maestro.mobile.dev | bash
+          /home/runner/.maestro/bin/maestro start-device --platform web
+          /home/runner/.maestro/bin/maestro test --platform web .maestro/web-principal-flow.yaml \
+            --format junit --output artifacts/maestro/chromium.xml
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: e2e-submission-chromium
+          path: artifacts/
+          if-no-files-found: warn
+
+  android:
+    name: Android submission screenshots
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 12.4.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: android-actions/setup-android@v3
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec expo prebuild --platform android --no-install
+      - run: ./gradlew assembleDebug
+        working-directory: android
+      - run: curl -Ls https://get.maestro.mobile.dev | bash
+      - uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: Pixel_6
+          script: >-
+            adb install android/app/build/outputs/apk/debug/app-debug.apk &&
+            /home/runner/.maestro/bin/maestro test .maestro/android-principal-flow.yaml
+              --format junit --output artifacts/maestro/android.xml
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: e2e-submission-android
+          path: artifacts/
+          if-no-files-found: warn
+
+  ios:
+    name: iOS and iPad submission screenshots
+    runs-on: [self-hosted, macOS, preview-runner]
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 12.4.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec expo prebuild --platform ios --no-install
+      - name: Verify required Apple simulators
+        run: |
+          set -euo pipefail
+          xcrun simctl list devices available | grep -F "iPhone 18 Pro" >/dev/null
+          xcrun simctl list devices available | grep -F "iPad" >/dev/null
+      - run: bundle exec pod install
+      - run: |
+          xcodebuild \
+            -workspace ios/meditation-app.xcworkspace \
+            -scheme meditation-app \
+            -sdk iphonesimulator \
+            -configuration Debug \
+            -derivedDataPath "$RUNNER_TEMP/meditation-derived" \
+            build
+      - run: curl -Ls https://get.maestro.mobile.dev | bash
+      - name: Run iPhone 18 Pro flow
+        run: |
+          set -euo pipefail
+          xcrun simctl shutdown all || true
+          xcrun simctl boot "iPhone 18 Pro" || true
+          xcrun simctl bootstatus "iPhone 18 Pro" -b
+          xcrun simctl install booted "$RUNNER_TEMP/meditation-derived/Build/Products/Debug-iphonesimulator/meditation-app.app"
+          /Users/runner/.maestro/bin/maestro test .maestro/ios-principal-flow.yaml \
+            --format junit --output artifacts/maestro/iphone-18-pro.xml
+      - name: Run iPad flow
+        run: |
+          set -euo pipefail
+          IPAD_NAME="$(xcrun simctl list devices available | sed -n 's/.*(iPad[^()]*) (.*/\1/p' | head -n 1)"
+          test -n "$IPAD_NAME"
+          xcrun simctl shutdown all || true
+          xcrun simctl boot "$IPAD_NAME" || true
+          xcrun simctl bootstatus "$IPAD_NAME" -b
+          xcrun simctl install booted "$RUNNER_TEMP/meditation-derived/Build/Products/Debug-iphonesimulator/meditation-app.app"
+          /Users/runner/.maestro/bin/maestro test .maestro/ios-principal-flow.yaml \
+            --format junit --output artifacts/maestro/ipad.xml
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: e2e-submission-apple
+          path: artifacts/
+          if-no-files-found: warn
+
+  package:
+    name: Package submission screenshots
+    needs: [chromium, android, ios]
+    if: always() && needs.chromium.result == 'success' && needs.android.result == 'success' && needs.ios.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: e2e-submission-chromium
+          path: pack/chromium
+      - uses: actions/download-artifact@v4
+        with:
+          name: e2e-submission-android
+          path: pack/android
+      - uses: actions/download-artifact@v4
+        with:
+          name: e2e-submission-apple
+          path: pack/apple
+      - run: zip -r submission-screenshots.zip pack
+      - uses: actions/upload-artifact@v4
+        with:
+          name: meditation-app-submission-screenshots
+          path: submission-screenshots.zip

@@ -1,0 +1,49 @@
+appId: com.oreliaukmz.meditationapp
+name: Principal meditation journey (iOS)
+tags:
+  - smoke
+  - screenshots
+
+onFlowStart:
+  - launchApp:
+      clearState: true
+
+onFlowComplete:
+  - stopApp
+
+---
+
+- assertVisible: "Find your inner sanctuary"
+- takeScreenshot: ios-01-welcome
+- tapOn: "Begin my journey"
+- tapOn: "Ease stress & anxiety"
+- tapOn: "Continue"
+- tapOn: "Beginner"
+- tapOn: "Continue"
+- tapOn: "3 mins — Guided meditation"
+- tapOn: "Morning"
+- tapOn: "Confirm my rhythm"
+- tapOn: "Amber Dawn"
+- tapOn: "Enter the Sanctuary"
+- assertVisible: "Idle"
+- takeScreenshot: ios-02-home
+- tapOn:
+    id: session-duration
+- tapOn: "6 secs"
+- tapOn: "Apply"
+- tapOn:
+    id: session-play
+- assertVisible: "Running"
+- takeScreenshot: ios-03-running
+- extendedWaitUntil:
+    visible: "Moment of stillness"
+    timeout: 15000
+- takeScreenshot: ios-04-completed
+- tapOn:
+    id: completion-done
+- assertVisible: "Idle"
+- tapOn:
+    text: "Explore"
+- assertVisible: "1 completed session"
+- launchApp
+- assertNotVisible: "Find your inner sanctuary"
