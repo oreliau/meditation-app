@@ -1,11 +1,9 @@
+import { createTranslator, getInitialLanguage } from "@/i18n";
 import { getNotificationsClient } from "@/reminders/NotificationsClient";
 import { isSessionEndAlertEnabled } from "./sessionEndAlertStorage";
 import type { SessionSnapshot } from "./sessionStore";
 
 export const SESSION_END_ALERT_ID = "session-end-alert";
-
-const TITLE = "Session complete";
-const BODY = "Your practice is done. Come back whenever you're ready.";
 
 // The endsAt this module currently has scheduled a notification for, if
 // any — lets syncSessionEndAlert stay idempotent across repeated snapshots
@@ -38,12 +36,13 @@ async function syncSessionEndAlertNow(
   }
 
   if (snapshot.endsAt !== armedEndsAt) {
+    const t = createTranslator(getInitialLanguage());
     armedEndsAt = snapshot.endsAt;
     await client.scheduleAt({
       id: SESSION_END_ALERT_ID,
       date: snapshot.endsAt,
-      title: TITLE,
-      body: BODY,
+      title: t("sessionComplete"),
+      body: t("sessionCompleteBody"),
       data: { kind: "session-end-alert" },
     });
   }

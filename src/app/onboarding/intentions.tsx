@@ -15,9 +15,11 @@ import {
   setExperienceLevel,
   setIntentions,
 } from "@/features/onboarding/storage";
+import { useI18n } from "@/i18n";
 
 export default function OnboardingIntentionsScreen() {
   const router = useRouter();
+  const { t } = useI18n();
   const [selected, setSelected] = useState<IntentionId[]>(getIntentions);
   const [experienceLevel, setExperienceLevelState] =
     useState<ExperienceLevelId>(() => getExperienceLevel() ?? "beginner");
@@ -45,20 +47,17 @@ export default function OnboardingIntentionsScreen() {
 
       <OnboardingProgressHeader
         step={2}
-        label="INTENTIONS"
+        label={t("intentions")}
         onBack={() => router.back()}
       />
 
-      <Text style={styles.stepEyebrow}>STEP 2 OF 4</Text>
-      <Text style={styles.headline}>What&rsquo;s your main intention?</Text>
-      <Text style={styles.subtitle}>
-        We&rsquo;ll tailor your sessions, soundscapes, and immersive visuals to
-        your mood.
-      </Text>
+      <Text style={styles.stepEyebrow}>{t("step2of4")}</Text>
+      <Text style={styles.headline}>{t("mainIntention")}</Text>
+      <Text style={styles.subtitle}>{t("intentionDescription")}</Text>
 
       <View style={styles.hint}>
         <Text style={styles.hintText}>
-          ✨ Multiple choices allowed to shape your ritual.
+          {t("multipleIntentions")}
         </Text>
       </View>
 
@@ -67,8 +66,8 @@ export default function OnboardingIntentionsScreen() {
           <SelectableCard
             key={intention.id}
             icon={intention.icon}
-            title={intention.title}
-            description={intention.description}
+            title={t(intention.title)}
+            description={t(intention.description)}
             selected={selected.includes(intention.id)}
             indicator="checkbox"
             onPress={() => toggleIntention(intention.id)}
@@ -78,8 +77,10 @@ export default function OnboardingIntentionsScreen() {
 
       <View style={styles.experienceCard}>
         <View style={styles.experienceHeader}>
-          <Text style={styles.experienceTitle}>Experience level</Text>
-          <Text style={styles.experienceDescriptor}>{descriptor}</Text>
+          <Text style={styles.experienceTitle}>{t("experienceLevel")}</Text>
+          <Text style={styles.experienceDescriptor}>
+            {descriptor && t(descriptor)}
+          </Text>
         </View>
         <View style={styles.experienceSegments}>
           {EXPERIENCE_LEVELS.map((level) => (
@@ -89,7 +90,7 @@ export default function OnboardingIntentionsScreen() {
               role="radio"
               accessibilityRole="radio"
               accessibilityState={{ checked: experienceLevel === level.id }}
-              accessibilityLabel={level.label}
+              accessibilityLabel={t(level.label)}
               testID={`option-${level.id}`}
               style={[
                 styles.experienceSegment,
@@ -104,7 +105,7 @@ export default function OnboardingIntentionsScreen() {
                     styles.experienceSegmentLabelSelected,
                 ]}
               >
-                {level.label}
+                {t(level.label)}
               </Text>
             </Button>
           ))}
@@ -114,14 +115,13 @@ export default function OnboardingIntentionsScreen() {
       {selected.includes("sleep") && (
         <View style={styles.tip}>
           <Text style={styles.tipText}>
-            Your sanctuary adapts to sunset to support your body&rsquo;s natural
-            melatonin production.
+            {t("sunsetAdaptation")}
           </Text>
         </View>
       )}
 
       <OnboardingButton
-        label="Continue"
+        label={t("continue")}
         disabled={selected.length === 0}
         onPress={() => router.push("/onboarding/rhythm")}
       />

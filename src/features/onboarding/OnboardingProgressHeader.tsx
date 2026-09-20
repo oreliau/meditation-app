@@ -2,6 +2,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Text, View } from "react-native";
 import { StyleSheet, useUnistyles } from "react-native-unistyles";
 import { Button } from "@/components/Button";
+import { useI18n } from "@/i18n";
 
 const SEGMENTS = [1, 2, 3, 4] as const;
 
@@ -15,13 +16,14 @@ type Props = {
 // bar (filled up to the current step), and the step's short section label.
 export function OnboardingProgressHeader({ step, label, onBack }: Props) {
   const { theme } = useUnistyles();
+  const { t } = useI18n();
 
   return (
     <View style={styles.header}>
       <Button
         onPress={onBack}
         accessibilityRole="button"
-        accessibilityLabel="Back"
+        accessibilityLabel={t("back")}
         hitSlop={12}
       >
         <MaterialIcons

@@ -2,6 +2,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Text } from "react-native";
 import { StyleSheet, useUnistyles } from "react-native-unistyles";
 import { Button } from "@/components/Button";
+import { useI18n } from "@/i18n";
 
 type Props = { onPress: () => void };
 
@@ -11,17 +12,18 @@ type Props = { onPress: () => void };
 // shouldn't depend on the onboarding feature.
 export function CompletionDoneButton({ onPress }: Props) {
   const { theme } = useUnistyles();
+  const { t } = useI18n();
 
   return (
     <Button
       onPress={onPress}
       accessible
       accessibilityRole="button"
-      accessibilityLabel="Done"
+      accessibilityLabel={t("done")}
       testID="completion-done"
       style={styles.button}
     >
-      <Text style={styles.label}>Done</Text>
+      <Text style={styles.label}>{t("done")}</Text>
       <MaterialIcons name="check" size={20} color={theme.colors.onPrimary} />
     </Button>
   );

@@ -9,17 +9,19 @@ import {
   resetProgramProgress,
 } from "@/features/explorer/progress";
 import { useExplorerProgress } from "@/features/explorer/useExplorerProgress";
+import { formatNumber, useI18n } from "@/i18n";
 
 export default function ProgramDetailScreen() {
   const { programId } = useLocalSearchParams<{ programId: string }>();
   const styles = useProgramDetailStyles();
   const program = getProgram(programId);
+  const { language, t } = useI18n();
   useExplorerProgress(programId);
 
   if (!program) {
     return (
       <View style={styles.center}>
-        <Text style={styles.title}>Program not found</Text>
+        <Text style={styles.title}>{t("programNotFound")}</Text>
       </View>
     );
   }
@@ -39,12 +41,16 @@ export default function ProgramDetailScreen() {
           headerBackButtonMenuEnabled: true,
           headerShown: true,
           headerBackButtonDisplayMode: "minimal",
-          title: `Program: ${program.title}`,
+          title: `${t("program")}: ${program.title}`,
         }}
       />
 
       <Text style={styles.progress}>
-        {progress.completed} of {progress.total} sessions complete
+        {t("progressComplete", {
+          completed: formatNumber(progress.completed, language),
+          total: formatNumber(progress.total, language),
+          sessions: t("sessions"),
+        })}
       </Text>
 
       <View style={styles.sessions}>
@@ -62,12 +68,12 @@ export default function ProgramDetailScreen() {
                 </Text>
               </View>
               <View style={styles.sessionCopy}>
-                <Text style={styles.sessionTitle}>{session.title}</Text>
+                <Text style={styles.sessionTitle}>{t(session.title)}</Text>
                 <Text style={styles.sessionDescription}>
-                  {session.description}
+                  {t(session.description)}
                 </Text>
                 <Text style={styles.sessionDuration}>
-                  {session.durationMinutes} min
+                  {formatNumber(session.durationMinutes, language)} {t("min")}
                 </Text>
               </View>
               {isNext && (
@@ -79,7 +85,7 @@ export default function ProgramDetailScreen() {
                   asChild
                 >
                   <Button style={styles.startButton}>
-                    <Text style={styles.startButtonText}>Prepare</Text>
+                    <Text style={styles.startButtonText}>{t("prepare")}</Text>
                   </Button>
                 </Link>
               )}
@@ -95,7 +101,7 @@ export default function ProgramDetailScreen() {
             resetProgramProgress(program.id);
           }}
         >
-          <Text style={styles.restartText}>Restart program</Text>
+          <Text style={styles.restartText}>{t("restartProgram")}</Text>
         </Button>
       )}
     </ScrollView>
