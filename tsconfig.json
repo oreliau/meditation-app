@@ -4,8 +4,8 @@
     "strict": true,
     "types": ["jest", "@webgpu/types"],
     "paths": {
-      "@/*": ["./src/*"],
-      "@/assets/*": ["./assets/*"]
+      "@/*": ["./apps/mobile/src/*"],
+      "@/assets/*": ["./apps/mobile/assets/*"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"]

@@ -1,0 +1,13 @@
+{
+  "name": "@meditation-app/storage",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "react-native-mmkv": "^4.3.2"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./app": "./src/app.ts"
+  }
+}

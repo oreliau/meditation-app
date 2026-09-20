@@ -58,3 +58,4 @@ docs/adr/
 
 .env
 .vscode/mcp.json
+.pnpm-store/

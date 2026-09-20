@@ -1,0 +1,16 @@
+{
+  "name": "@meditation-app/audio-feedback",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@meditation-app/timer": "workspace:*",
+    "expo-audio": "~57.0.5",
+    "expo-haptics": "~57.0.3",
+    "react": "19.2.3"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./app": "./src/app.ts"
+  }
+}
