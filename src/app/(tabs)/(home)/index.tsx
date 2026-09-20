@@ -30,6 +30,7 @@ import {
   setSessionEndAlertEnabled,
 } from "@/features/timer/sessionEndAlertStorage";
 import { useTimerSession } from "@/features/timer/useTimerSession";
+import { useI18n } from "@/i18n";
 import { AdaptiveBackground } from "@/presentation/adaptive-background/adaptive-background";
 import { ensureNotificationPermission } from "@/reminders/permission";
 import { spacing } from "@/theme/spacing";
@@ -124,16 +125,15 @@ const DurationEditor = ({
   onApply,
 }: DurationEditorProps) => {
   const { theme, rt } = useUnistyles();
+  const { t } = useI18n();
 
   return (
     <View style={styles.editor}>
       <Text accessibilityRole="header" style={styles.label}>
-        Total duration
+        {t("totalDuration")}
       </Text>
       <Text style={styles.editorHint}>
-        {status === "Paused"
-          ? "Session paused. Elapsed time is kept."
-          : "Choose your session duration."}
+        {status === "Paused" ? t("sessionPaused") : t("chooseDuration")}
       </Text>
       <Host
         matchContents
@@ -162,9 +162,9 @@ const DurationEditor = ({
             ),
           )}
           <Row spacing={16}>
-            <Button label="Cancel" variant="text" onPress={onCancel} />
+            <Button label={t("cancel")} variant="text" onPress={onCancel} />
             <Button
-              label="Apply"
+              label={t("apply")}
               disabled={
                 !canChangeDuration || draftDuration * 60_000 <= elapsedMs
               }
@@ -174,10 +174,7 @@ const DurationEditor = ({
         </Column>
       </Host>
       {elapsedMs > 0 && (
-        <Text style={styles.editorHint}>
-          Durations at or below elapsed time are unavailable. Tap Resume when
-          ready.
-        </Text>
+        <Text style={styles.editorHint}>{t("durationUnavailable")}</Text>
       )}
     </View>
   );
@@ -196,31 +193,54 @@ const TimerDial = ({
   animatedStyle,
   onOpenDurationEditor,
 }: TimerDialProps) => (
-  <View style={styles.ring}>
-    <ProgressRing size={RING_SIZE} progress={session.progress} />
-    <Animated.View style={[styles.innerRing, animatedStyle]} />
-    <GlassPanel style={styles.dial}>
-      <NotificationBell />
-      <Text style={[styles.label, styles.clockCaption]}>Remaining</Text>
-      <AppButton
-        accessibilityRole="button"
-        accessibilityLabel={`${formatClock(session.remainingSeconds)} remaining. Change duration`}
-        accessibilityHint="Pauses the session and opens duration choices"
-        accessibilityState={{ disabled: !canEdit }}
-        testID="session-duration"
-        disabled={!canEdit}
-        onPress={onOpenDurationEditor}
-      >
-        <Text style={styles.clock}>
-          {formatClock(session.remainingSeconds)}
-        </Text>
-        {canEdit && <Text style={styles.editLabel}>Change duration</Text>}
-      </AppButton>
-    </GlassPanel>
-  </View>
+  <TimerDialContent
+    session={session}
+    canEdit={canEdit}
+    animatedStyle={animatedStyle}
+    onOpenDurationEditor={onOpenDurationEditor}
+  />
 );
 
+const TimerDialContent = ({
+  session,
+  canEdit,
+  animatedStyle,
+  onOpenDurationEditor,
+}: TimerDialProps) => {
+  const { t } = useI18n();
+
+  return (
+    <View style={styles.ring}>
+      <ProgressRing size={RING_SIZE} progress={session.progress} />
+      <Animated.View style={[styles.innerRing, animatedStyle]} />
+      <GlassPanel style={styles.dial}>
+        <NotificationBell />
+        <Text style={[styles.label, styles.clockCaption]}>
+          {t("remaining")}
+        </Text>
+        <AppButton
+          accessibilityRole="button"
+          accessibilityLabel={`${formatClock(session.remainingSeconds)} ${t("remaining")}. ${t("changeDuration")}`}
+          accessibilityHint={t("durationHint")}
+          accessibilityState={{ disabled: !canEdit }}
+          testID="session-duration"
+          disabled={!canEdit}
+          onPress={onOpenDurationEditor}
+        >
+          <Text style={styles.clock}>
+            {formatClock(session.remainingSeconds)}
+          </Text>
+          {canEdit && (
+            <Text style={styles.editLabel}>{t("changeDuration")}</Text>
+          )}
+        </AppButton>
+      </GlassPanel>
+    </View>
+  );
+};
+
 export default function TimerScreen() {
+  const { t } = useI18n();
   const { isActive, setDurationMinutes, setProgramContext, ...session } =
     useTimerSession();
   const params = useLocalSearchParams<{
@@ -326,7 +346,7 @@ export default function TimerScreen() {
         <View style={styles.controls}>
           <ControlButton
             icon="restart"
-            label="Restart"
+            label={t("restart")}
             disabled={isEditing}
             onPress={session.restart}
           />
@@ -335,17 +355,17 @@ export default function TimerScreen() {
             icon={isRunning ? "pause" : "play"}
             label={
               isRunning
-                ? "Pause"
+                ? t("pause")
                 : session.status === "Paused"
-                  ? "Resume"
-                  : "Play"
+                  ? t("resume")
+                  : t("play")
             }
             disabled={isEditing}
             onPress={isRunning ? session.pause : session.play}
           />
           <ControlButton
             icon={session.isVolumeEnabled ? "volume" : "volume_off"}
-            label="Volume"
+            label={t("volume")}
             onPress={session.toggleVolume}
           />
         </View>

@@ -1,7 +1,9 @@
 import { ScrollView, Text } from "react-native";
 import { StyleSheet } from "react-native-unistyles";
+import { useI18n } from "@/i18n";
 import { StackHeader } from "@/presentation/stack-header";
 import { useReminderSettings } from "@/reminders/useReminderSettings";
+import { LanguageSetting } from "@/settings/LanguageSetting";
 import { SectionListWithDivider } from "@/settings/list-with-divider/section-list-with-divider";
 import { PermissionDeniedPrompt } from "@/settings/PermissionDeniedPrompt";
 import { useSessionEndAlertSetting } from "@/settings/useSessionEndAlertSetting";
@@ -11,21 +13,25 @@ export default function SettingsScreen() {
   const reminders = useReminderSettings();
   const sessionEndAlert = useSessionEndAlertSetting();
   const { mode, cycle } = useThemeToggle();
+  const { t } = useI18n();
   return (
     <ScrollView
       style={styles.screen}
       contentContainerStyle={styles.content}
       bounces={false}
     >
-      <StackHeader title="Settings" description="Shape your inner sanctuary." />
+      <StackHeader
+        title={t("settings")}
+        description={t("settingsDescription")}
+      />
 
-      <Text style={styles.sectionTitle}>Style</Text>
+      <Text style={styles.sectionTitle}>{t("style")}</Text>
       <SectionListWithDivider
-        title="Style"
+        title={t("style")}
         data={[
           {
-            title: "Theme",
-            description: "Choose your preferred app theme",
+            title: t("theme"),
+            description: t("themeDescription"),
             type: "button",
             value: mode,
             onValueChange: cycle,
@@ -33,13 +39,13 @@ export default function SettingsScreen() {
         ]}
       />
 
-      <Text style={styles.sectionTitle}>Mindful notifications</Text>
+      <Text style={styles.sectionTitle}>{t("mindfulNotifications")}</Text>
       <SectionListWithDivider
-        title="Mindful notifications"
+        title={t("mindfulNotifications")}
         data={[
           {
-            title: "Morning presence reminder",
-            description: "A gentle invitation to be present, every day at 8:00",
+            title: t("morningReminder"),
+            description: t("morningDescription"),
             value: reminders.morningEnabled,
             onValueChange: (value) => {
               if (typeof value !== "boolean") return;
@@ -47,8 +53,8 @@ export default function SettingsScreen() {
             },
           },
           {
-            title: "Evening summary",
-            description: "A reflection on today's practice, every day at 18:00",
+            title: t("eveningSummary"),
+            description: t("eveningDescription"),
             value: reminders.eveningEnabled,
             onValueChange: (value) => {
               if (typeof value !== "boolean") return;
@@ -56,9 +62,8 @@ export default function SettingsScreen() {
             },
           },
           {
-            title: "Session-end alert",
-            description:
-              "Let me know when my session finishes, even if I've stepped away",
+            title: t("sessionEndAlert"),
+            description: t("sessionEndDescription"),
             value: sessionEndAlert.enabled,
             onValueChange: (value) => {
               if (typeof value !== "boolean") return;
@@ -73,6 +78,7 @@ export default function SettingsScreen() {
           </>
         )}
       />
+      <LanguageSetting />
     </ScrollView>
   );
 }

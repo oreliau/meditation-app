@@ -22,27 +22,26 @@ export const INTENTIONS: {
   {
     id: "stress-anxiety",
     icon: "spa",
-    title: "Ease stress & anxiety",
-    description:
-      "Slow racing thoughts and soothe the body with gentle anchors.",
+    title: "intentionStress",
+    description: "intentionStressDescription",
   },
   {
     id: "sleep",
     icon: "bedtime",
-    title: "Deep, restorative sleep",
-    description: "Soft sounds, slow 432 Hz frequencies, and muscle release.",
+    title: "intentionSleep",
+    description: "intentionSleepDescription",
   },
   {
     id: "focus-clarity",
     icon: "self-improvement",
-    title: "Focus & mental clarity",
-    description: "Morning heart coherence and relief from cognitive overload.",
+    title: "intentionFocus",
+    description: "intentionFocusDescription",
   },
   {
     id: "daily-presence",
     icon: "air",
-    title: "A daily practice of presence",
-    description: "Short 5-10 minute rituals anchored in your natural rhythm.",
+    title: "intentionPresence",
+    description: "intentionPresenceDescription",
   },
 ];
 
@@ -51,9 +50,9 @@ export const EXPERIENCE_LEVELS: {
   label: string;
   descriptor: string;
 }[] = [
-  { id: "beginner", label: "Beginner", descriptor: "Curious beginner" },
-  { id: "regular", label: "Regular", descriptor: "Committed practitioner" },
-  { id: "guide", label: "Zen guide", descriptor: "Seasoned guide" },
+  { id: "beginner", label: "beginner", descriptor: "beginnerDescriptor" },
+  { id: "regular", label: "regular", descriptor: "regularDescriptor" },
+  { id: "guide", label: "guide", descriptor: "guideDescriptor" },
 ];
 
 export const DURATION_PRESET_CONTENT: {
@@ -61,10 +60,10 @@ export const DURATION_PRESET_CONTENT: {
   icon: IconName;
   title: string;
 }[] = [
-  { minutes: 3, icon: "bolt", title: "Quick pause" },
-  { minutes: 5, icon: "air", title: "Gentle breathing" },
-  { minutes: 10, icon: "self-improvement", title: "Guided meditation" },
-  { minutes: 20, icon: "water-drop", title: "Deep immersion" },
+  { minutes: 3, icon: "bolt", title: "quickPause" },
+  { minutes: 5, icon: "air", title: "gentleBreathing" },
+  { minutes: 10, icon: "self-improvement", title: "guidedMeditation" },
+  { minutes: 20, icon: "water-drop", title: "deepImmersion" },
 ];
 
 export type ReminderMoment = "morning" | "evening";
@@ -75,8 +74,8 @@ export const REMINDER_MOMENTS: {
   label: string;
   time: string;
 }[] = [
-  { id: "morning", icon: "wb-sunny", label: "Morning", time: "8:00" },
-  { id: "evening", icon: "nightlight", label: "Evening", time: "18:00" },
+  { id: "morning", icon: "wb-sunny", label: "morning", time: "8:00" },
+  { id: "evening", icon: "nightlight", label: "evening", time: "18:00" },
 ];
 
 export const SOUNDSCAPES: {
@@ -89,22 +88,22 @@ export const SOUNDSCAPES: {
   {
     id: "amber-dawn",
     icon: "wb-twilight",
-    title: "Amber Dawn",
-    description: "Tibetan bowl, sacred resonance",
+    title: "amberDawn",
+    description: "amberDawnDescription",
     hz: 432,
   },
   {
     id: "silent-river",
     icon: "water",
-    title: "Silent River",
-    description: "Clear water flows & gentle currents",
+    title: "silentRiver",
+    description: "silentRiverDescription",
     hz: 528,
   },
   {
     id: "misty-forest",
     icon: "park",
-    title: "Misty Forest",
-    description: "Rustling leaves & distant birdsong",
+    title: "mistyForest",
+    description: "mistyForestDescription",
     hz: 396,
   },
 ];

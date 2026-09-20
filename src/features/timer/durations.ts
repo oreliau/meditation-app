@@ -1,3 +1,10 @@
+import {
+  createTranslator,
+  formatNumber,
+  getInitialLanguage,
+  pluralCategory,
+} from "@/i18n";
+
 // Fixed duration presets offered by the picker, in minutes. The default
 // matches the mockups' static "12:00" display.
 export const DURATION_PRESETS_MINUTES = [
@@ -16,22 +23,24 @@ export function isDurationPreset(value: unknown): value is DurationMinutes {
 
 // Picker labels use seconds below a minute and natural units from a minute up.
 export function formatDurationLabel(minutes: number): string {
+  const language = getInitialLanguage();
+  const t = createTranslator(language);
+  const unit = (value: number, singular: string, plural: string) =>
+    `${formatNumber(value, language)} ${pluralCategory(value, language) === "one" ? t(singular) : t(plural)}`;
   if (minutes < 1) {
     const seconds = Math.round(minutes * 60);
-    return `${seconds} sec${seconds === 1 ? "" : "s"}`;
+    return unit(seconds, "sec", "secs");
   }
 
   if (minutes < 60) {
-    return `${minutes} min${minutes === 1 ? "" : "s"}`;
+    return unit(minutes, "min", "mins");
   }
 
   const hours = Math.floor(minutes / 60);
   const rest = minutes % 60;
-  const hourLabel = `${hours} hr${hours === 1 ? "" : "s"}`;
+  const hourLabel = unit(hours, "hr", "hrs");
 
-  return rest === 0
-    ? hourLabel
-    : `${hourLabel} ${rest} min${rest === 1 ? "" : "s"}`;
+  return rest === 0 ? hourLabel : `${hourLabel} ${unit(rest, "min", "mins")}`;
 }
 
 // Countdown display: "m:ss" under an hour, "h:mm:ss" from an hour up.

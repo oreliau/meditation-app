@@ -2,31 +2,31 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Stack, useRouter } from "expo-router";
 import { ScrollView, Text, View } from "react-native";
 import { StyleSheet, useUnistyles } from "react-native-unistyles";
-import type { IconName } from "@/features/onboarding/content";
 import { GradientOrb } from "@/features/onboarding/GradientOrb";
 import { OnboardingButton } from "@/features/onboarding/OnboardingButton";
-
-const FEATURES: { icon: IconName; title: string; description: string }[] = [
-  {
-    icon: "air",
-    title: "Generative shaders & sound",
-    description: "Reactive visual & audio compositions",
-  },
-  {
-    icon: "self-improvement",
-    title: "Heart coherence & gentle rhythms",
-    description: "Fluid harmonization of your inner state",
-  },
-  {
-    icon: "nightlight",
-    title: "A distraction-free space",
-    description: "Zero notifications, pure contemplation",
-  },
-];
+import { useI18n } from "@/i18n";
 
 export default function OnboardingWelcomeScreen() {
   const { theme } = useUnistyles();
   const router = useRouter();
+  const { t } = useI18n();
+  const features = [
+    {
+      icon: "air" as const,
+      title: t("featureShaders"),
+      description: t("featureShadersDescription"),
+    },
+    {
+      icon: "self-improvement" as const,
+      title: t("featureRhythms"),
+      description: t("featureRhythmsDescription"),
+    },
+    {
+      icon: "nightlight" as const,
+      title: t("featureDistractionFree"),
+      description: t("featureDistractionFreeDescription"),
+    },
+  ];
 
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
@@ -34,19 +34,16 @@ export default function OnboardingWelcomeScreen() {
 
       <View style={styles.eyebrowRow}>
         <MaterialIcons name="spa" size={16} color={theme.colors.primary} />
-        <Text style={styles.eyebrow}>AURA SANCTUARY</Text>
+        <Text style={styles.eyebrow}>{t("auraSanctuary")}</Text>
       </View>
 
-      <Text style={styles.headline}>Find your inner sanctuary</Text>
-      <Text style={styles.subtitle}>
-        A sensory meditation experience, guided by light and conscious
-        breathing.
-      </Text>
+      <Text style={styles.headline}>{t("findSanctuary")}</Text>
+      <Text style={styles.subtitle}>{t("welcomeDescription")}</Text>
 
-      <GradientOrb label="Breathe" />
+      <GradientOrb label={t("breathe")} />
 
       <View style={styles.features}>
-        {FEATURES.map((feature) => (
+        {features.map((feature) => (
           <View key={feature.title} style={styles.featureRow}>
             <View style={styles.featureIcon}>
               <MaterialIcons
@@ -66,7 +63,7 @@ export default function OnboardingWelcomeScreen() {
       </View>
 
       <OnboardingButton
-        label="Begin my journey"
+        label={t("beginJourney")}
         onPress={() => router.push("/onboarding/intentions")}
       />
 
@@ -76,9 +73,7 @@ export default function OnboardingWelcomeScreen() {
           size={14}
           color={theme.colors.onSurfaceVariant}
         />
-        <Text style={styles.footerText}>
-          Crafted with care for your peace of mind
-        </Text>
+        <Text style={styles.footerText}>{t("craftedWithCare")}</Text>
       </View>
     </ScrollView>
   );

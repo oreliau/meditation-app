@@ -5,6 +5,7 @@ import { Button } from "@/components/Button";
 import { ADVICE, PROGRAMS, type Program } from "@/features/explorer/programs";
 import { getProgramProgress } from "@/features/explorer/progress";
 import { useExplorerProgress } from "@/features/explorer/useExplorerProgress";
+import { useI18n } from "@/i18n";
 import { StackHeader } from "@/presentation/stack-header";
 import { getDailyStats } from "@/stats/dailyStats";
 
@@ -15,6 +16,7 @@ function ProgramCard({
   program: Program;
   continueCard?: boolean;
 }) {
+  const { t } = useI18n();
   const progress = getProgramProgress(program.id);
   const next = program.sessions[progress.completed];
 
@@ -23,18 +25,20 @@ function ProgramCard({
       <Button style={styles.card} accessibilityRole="button">
         <View style={styles.cardHeader}>
           <Text style={styles.cardEyebrow}>
-            {continueCard ? "Continue" : `${program.sessions.length} sessions`}
+            {continueCard
+              ? t("continue")
+              : `${program.sessions.length} ${t("sessions")}`}
           </Text>
           <Text style={styles.cardProgress}>
             {progress.completed}/{progress.total}
           </Text>
         </View>
-        <Text style={styles.cardTitle}>{program.title}</Text>
-        <Text style={styles.cardDescription}>{program.description}</Text>
+        <Text style={styles.cardTitle}>{t(program.title)}</Text>
+        <Text style={styles.cardDescription}>{t(program.description)}</Text>
         <Text style={styles.cardAction}>
           {progress.isComplete
-            ? "Completed · Restart"
-            : `Next · ${next?.title ?? "Begin"}`}
+            ? `${t("completed")} · ${t("restart")}`
+            : `${t("next")} · ${next ? t(next.title) : t("begin")}`}
         </Text>
       </Button>
     </Link>
@@ -42,6 +46,7 @@ function ProgramCard({
 }
 
 export default function ExplorerScreen() {
+  const { t } = useI18n();
   useExplorerProgress();
   const dailyStats = getDailyStats();
   const continuing = PROGRAMS.find((program) => {
@@ -55,20 +60,17 @@ export default function ExplorerScreen() {
       contentContainerStyle={styles.content}
       bounces={false}
     >
-      <StackHeader
-        title="Explore"
-        description="Find a practice for this moment."
-      />
+      <StackHeader title={t("explore")} description={t("exploreDescription")} />
 
       {continuing ? (
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Continue your practice</Text>
+          <Text style={styles.sectionTitle}>{t("continuePractice")}</Text>
           <ProgramCard program={continuing} continueCard />
         </View>
       ) : null}
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Available programs</Text>
+        <Text style={styles.sectionTitle}>{t("availablePrograms")}</Text>
         {PROGRAMS.map((program) => (
           <ProgramCard key={program.id} program={program} />
         ))}

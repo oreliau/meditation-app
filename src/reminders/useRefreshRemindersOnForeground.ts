@@ -4,8 +4,9 @@ import { refreshReminders } from "./refreshReminders";
 
 // Rotates the content of every enabled reminder each time the app comes to
 // the foreground (and once at launch). Mount once, in the root layout.
-export function useRefreshRemindersOnForeground(): void {
+export function useRefreshRemindersOnForeground(enabled = true): void {
   useEffect(() => {
+    if (!enabled) return;
     refreshReminders().catch(() => {});
     const subscription = AppState.addEventListener("change", (state) => {
       if (state === "active") {
@@ -13,5 +14,5 @@ export function useRefreshRemindersOnForeground(): void {
       }
     });
     return () => subscription.remove();
-  }, []);
+  }, [enabled]);
 }

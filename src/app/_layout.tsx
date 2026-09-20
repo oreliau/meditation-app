@@ -16,6 +16,7 @@ import {
 } from "@/features/onboarding/storage";
 import { SessionCompletionFeedback } from "@/features/timer/SessionCompletionFeedback";
 import { SessionEndAlertScheduler } from "@/features/timer/SessionEndAlertScheduler";
+import { getInitialLocale, I18nProvider, loadPolyfills } from "@/i18n";
 import { AdaptiveBackground } from "@/presentation/adaptive-background/adaptive-background";
 import { useRefreshRemindersOnForeground } from "@/reminders/useRefreshRemindersOnForeground";
 import { useRecordCompletedSessions } from "@/stats/useRecordCompletedSessions";
@@ -32,12 +33,16 @@ LogBox.ignoreLogs([
 export default function RootLayout() {
   const { rt, theme } = useUnistyles();
   const fontsLoaded = useLoadFonts();
+  const [intlLoaded, setIntlLoaded] = useState(false);
   const [hasCompletedOnboarding, setHasCompletedOnboardingState] = useState(
     getHasCompletedOnboarding,
   );
   useRecordCompletedSessions();
   useNavigateToCompletion();
-  useRefreshRemindersOnForeground();
+  useRefreshRemindersOnForeground(intlLoaded);
+  useEffect(() => {
+    loadPolyfills(getInitialLocale()).finally(() => setIntlLoaded(true));
+  }, []);
   // useSessionWidgets(getSessionStore());
 
   // Reacts to onboarding's finish step flipping the persisted flag, so the
@@ -54,7 +59,7 @@ export default function RootLayout() {
     }
   }, [fontsLoaded]);
 
-  if (!fontsLoaded) {
+  if (!fontsLoaded || !intlLoaded) {
     return null;
   }
 
@@ -73,32 +78,34 @@ export default function RootLayout() {
   };
 
   return (
-    <ThemeProvider value={navigationTheme}>
-      <View style={{ flex: 1 }}>
-        {Platform.OS === "web" && <AdaptiveBackground />}
-        <Stack
-          screenOptions={{
-            headerShown: false,
-            contentStyle: { backgroundColor: "transparent" },
-          }}
-        >
-          <Stack.Protected guard={hasCompletedOnboarding}>
-            <Stack.Screen name="(tabs)" />
-          </Stack.Protected>
-          <Stack.Protected guard={!hasCompletedOnboarding}>
-            <Stack.Screen name="onboarding" />
-          </Stack.Protected>
-          <Stack.Screen
-            name="session-complete"
-            options={{
-              animation: "fade",
-              presentation: "fullScreenModal",
+    <I18nProvider>
+      <ThemeProvider value={navigationTheme}>
+        <View style={{ flex: 1 }}>
+          {Platform.OS === "web" && <AdaptiveBackground />}
+          <Stack
+            screenOptions={{
+              headerShown: false,
+              contentStyle: { backgroundColor: "transparent" },
             }}
-          />
-        </Stack>
-        <SessionCompletionFeedback />
-        <SessionEndAlertScheduler />
-      </View>
-    </ThemeProvider>
+          >
+            <Stack.Protected guard={hasCompletedOnboarding}>
+              <Stack.Screen name="(tabs)" />
+            </Stack.Protected>
+            <Stack.Protected guard={!hasCompletedOnboarding}>
+              <Stack.Screen name="onboarding" />
+            </Stack.Protected>
+            <Stack.Screen
+              name="session-complete"
+              options={{
+                animation: "fade",
+                presentation: "fullScreenModal",
+              }}
+            />
+          </Stack>
+          <SessionCompletionFeedback />
+          <SessionEndAlertScheduler />
+        </View>
+      </ThemeProvider>
+    </I18nProvider>
   );
 }

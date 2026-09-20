@@ -19,6 +19,7 @@ import {
   getPersistedDurationMinutes,
   persistDurationMinutes,
 } from "@/features/timer/storage";
+import { useI18n } from "@/i18n";
 import { useReminderSettings } from "@/reminders/useReminderSettings";
 
 const ONBOARDING_DEFAULT_DURATION: DurationMinutes = 5;
@@ -26,6 +27,7 @@ const ONBOARDING_DEFAULT_DURATION: DurationMinutes = 5;
 export default function OnboardingRhythmScreen() {
   const { theme } = useUnistyles();
   const router = useRouter();
+  const { t } = useI18n();
   const reminders = useReminderSettings();
 
   const [durationMinutes, setDurationMinutes] = useState<DurationMinutes>(
@@ -76,17 +78,15 @@ export default function OnboardingRhythmScreen() {
 
       <OnboardingProgressHeader
         step={3}
-        label="DAILY RHYTHM"
+        label={t("dailyRhythm")}
         onBack={() => router.back()}
       />
 
-      <Text style={styles.stepEyebrow}>STEP 3 OF 4</Text>
-      <Text style={styles.headline}>Let&rsquo;s build your daily ritual</Text>
-      <Text style={styles.subtitle}>
-        Consistency comes from gentleness, not constraint.
-      </Text>
+      <Text style={styles.stepEyebrow}>{t("step3of4")}</Text>
+      <Text style={styles.headline}>{t("buildRitual")}</Text>
+      <Text style={styles.subtitle}>{t("ritualDescription")}</Text>
 
-      <Text style={styles.sectionTitle}>BREATHING DURATION</Text>
+      <Text style={styles.sectionTitle}>{t("breathingDuration")}</Text>
       <View style={styles.durationGrid}>
         {DURATION_PRESET_CONTENT.map((preset) => (
           <Button
@@ -97,7 +97,7 @@ export default function OnboardingRhythmScreen() {
             accessibilityState={{
               checked: durationMinutes === preset.minutes,
             }}
-            accessibilityLabel={`${formatDurationLabel(preset.minutes)} — ${preset.title}`}
+            accessibilityLabel={`${formatDurationLabel(preset.minutes)} — ${t(preset.title)}`}
             testID={`duration-${preset.minutes}-minutes`}
             style={[
               styles.durationCard,
@@ -112,12 +112,12 @@ export default function OnboardingRhythmScreen() {
             <Text style={styles.durationLabel}>
               {formatDurationLabel(preset.minutes)}
             </Text>
-            <Text style={styles.durationTitle}>{preset.title}</Text>
+            <Text style={styles.durationTitle}>{t(preset.title)}</Text>
           </Button>
         ))}
       </View>
 
-      <Text style={styles.sectionTitle}>BEST MOMENT</Text>
+      <Text style={styles.sectionTitle}>{t("bestMoment")}</Text>
       <View style={styles.momentRow}>
         {REMINDER_MOMENTS.map((option) => (
           <Button
@@ -126,7 +126,7 @@ export default function OnboardingRhythmScreen() {
             role="radio"
             accessibilityRole="radio"
             accessibilityState={{ checked: moment === option.id }}
-            accessibilityLabel={option.label}
+            accessibilityLabel={t(option.label)}
             style={[
               styles.momentCard,
               moment === option.id && styles.momentCardSelected,
@@ -137,7 +137,7 @@ export default function OnboardingRhythmScreen() {
               size={20}
               color={theme.colors.onSurfaceVariant}
             />
-            <Text style={styles.momentLabel}>{option.label}</Text>
+            <Text style={styles.momentLabel}>{t(option.label)}</Text>
             <Text style={styles.momentTime}>{option.time}</Text>
           </Button>
         ))}
@@ -152,16 +152,15 @@ export default function OnboardingRhythmScreen() {
           />
         </View>
         <View style={styles.reminderText}>
-          <Text style={styles.reminderTitle}>Gentle reminders</Text>
+          <Text style={styles.reminderTitle}>{t("gentleReminders")}</Text>
           <Text style={styles.reminderDescription}>
-            Receive a soft bell at your chosen moment, bringing you back to the
-            present without pressure.
+            {t("reminderDescription")}
           </Text>
         </View>
         <Switch
           value={remindersOn}
           onValueChange={toggleReminders}
-          accessibilityLabel="Gentle reminders"
+          accessibilityLabel={t("gentleReminders")}
           trackColor={{
             false: theme.colors.surfaceVariant,
             true: theme.colors.primary,
@@ -172,14 +171,13 @@ export default function OnboardingRhythmScreen() {
 
       {reminders.permissionDenied && (
         <Text style={styles.permissionDenied}>
-          Notifications are turned off for Lumina Flow. You can enable them
-          later in Settings.
+          {t("notificationsDisabledLater")}
         </Text>
       )}
 
       {remindersOn && momentContent && (
         <View style={styles.preview}>
-          <Text style={styles.previewLabel}>LOCK SCREEN PREVIEW</Text>
+          <Text style={styles.previewLabel}>{t("lockScreenPreview")}</Text>
           <View style={styles.previewCard}>
             <MaterialIcons
               name="notifications"
@@ -191,12 +189,14 @@ export default function OnboardingRhythmScreen() {
                 ZENDO • {momentContent.time}
               </Text>
               <Text style={styles.previewTitle}>
-                {moment === "morning" ? "Morning presence" : "Evening summary"}
+                {moment === "morning"
+                  ? t("morningPresence")
+                  : t("eveningSummary")}
               </Text>
               <Text style={styles.previewBody}>
                 {moment === "morning"
-                  ? "A gentle invitation to be present today."
-                  : "A reflection on today's practice."}
+                  ? t("morningDescriptionToday")
+                  : t("todayPracticeDescription")}
               </Text>
             </View>
           </View>
@@ -204,13 +204,11 @@ export default function OnboardingRhythmScreen() {
       )}
 
       <OnboardingButton
-        label="Confirm my rhythm"
+        label={t("confirmRhythm")}
         onPress={() => router.push("/onboarding/soundscape")}
       />
 
-      <Text style={styles.footerNote}>
-        You can change this anytime in Settings.
-      </Text>
+      <Text style={styles.footerNote}>{t("changeAnytime")}</Text>
     </ScrollView>
   );
 }

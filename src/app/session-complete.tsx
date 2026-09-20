@@ -14,6 +14,7 @@ import { CompletionStats } from "@/features/completion/CompletionStats";
 import { CompletionTransition } from "@/features/completion/CompletionTransition";
 import { getProgramProgress } from "@/features/explorer/progress";
 import { getSessionStore } from "@/features/timer/sessionStore";
+import { useI18n } from "@/i18n";
 
 const ORB_READY_WAIT_MS = 250;
 // The celebratory takeover shown whenever a session completes naturally
@@ -31,6 +32,7 @@ export default function SessionCompleteScreen() {
   const programId =
     typeof params.programId === "string" ? params.programId : undefined;
   const program = programId ? getProgramProgress(programId) : undefined;
+  const { t } = useI18n();
 
   // Keep both phases mounted and move the handoff onto the UI runtime. This
   // avoids a React render/remount at the exact moment the celebration ends.
@@ -96,7 +98,7 @@ export default function SessionCompleteScreen() {
         <View style={styles.content}>
           <View style={styles.statusPill}>
             <View style={styles.statusDot} />
-            <Text style={styles.statusLabel}>Session complete</Text>
+            <Text style={styles.statusLabel}>{t("sessionComplete")}</Text>
           </View>
 
           {/* Mounted during the transition so WebGPU can initialize before
@@ -104,11 +106,8 @@ export default function SessionCompleteScreen() {
           <CompletionOrb onReady={handleOrbReady} />
 
           <View style={styles.copy}>
-            <Text style={styles.headline}>Moment of stillness</Text>
-            <Text style={styles.subtitle}>
-              Your mind has settled. Carry this quiet with you through the rest
-              of your day.
-            </Text>
+            <Text style={styles.headline}>{t("momentOfStillness")}</Text>
+            <Text style={styles.subtitle}>{t("stillnessDescription")}</Text>
           </View>
 
           <CompletionStats

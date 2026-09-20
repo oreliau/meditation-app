@@ -15,15 +15,26 @@ import {
 } from "@/features/onboarding/storage";
 import { formatDurationLabel } from "@/features/timer/durations";
 import { getPersistedDurationMinutes } from "@/features/timer/storage";
+import { formatList, formatNumber, useI18n } from "@/i18n";
 
 export default function OnboardingSoundscapeScreen() {
   const router = useRouter();
+  const { language, t } = useI18n();
   const [soundscape, setSoundscapeState] = useState<SoundscapeId>(
     () => getSoundscape() ?? SOUNDSCAPES[0].id,
   );
 
   const durationMinutes = getPersistedDurationMinutes();
-  const intentionCount = getIntentions().length;
+  const intentionLabels = getIntentions().map((id) =>
+    t(
+      {
+        "stress-anxiety": "intentionStress",
+        sleep: "intentionSleep",
+        "focus-clarity": "intentionFocus",
+        "daily-presence": "intentionPresence",
+      }[id],
+    ),
+  );
 
   function chooseSoundscape(id: SoundscapeId) {
     setSoundscapeState(id);
@@ -43,22 +54,21 @@ export default function OnboardingSoundscapeScreen() {
 
       <OnboardingProgressHeader
         step={4}
-        label="SOUNDSCAPE"
+        label={t("soundscape")}
         onBack={() => router.back()}
       />
 
-      <Text style={styles.stepEyebrow}>FINAL STEP</Text>
-      <Text style={styles.headline}>Your sanctuary is ready</Text>
-      <Text style={styles.subtitle}>
-        Choose the soundscape that will accompany your first session.
-      </Text>
+      <Text style={styles.stepEyebrow}>{t("finalStep")}</Text>
+      <Text style={styles.headline}>{t("sanctuaryReady")}</Text>
+      <Text style={styles.subtitle}>{t("soundscapeDescription")}</Text>
 
       {durationMinutes !== undefined && (
         <View style={styles.summary}>
           <Text style={styles.summaryText}>
-            Your setup: {formatDurationLabel(durationMinutes)} ritual
-            {intentionCount > 0
-              ? ` · ${intentionCount} intention${intentionCount > 1 ? "s" : ""}`
+            {t("yourSetup")} {formatDurationLabel(durationMinutes)}{" "}
+            {t("ritual")}
+            {intentionLabels.length > 0
+              ? ` · ${formatList(intentionLabels, language)}`
               : ""}
           </Text>
         </View>
@@ -69,8 +79,8 @@ export default function OnboardingSoundscapeScreen() {
           <SelectableCard
             key={option.id}
             icon={option.icon}
-            title={option.title}
-            description={`${option.hz} Hz · ${option.description}`}
+            title={t(option.title)}
+            description={`${formatNumber(option.hz, language)} Hz · ${t(option.description)}`}
             selected={soundscape === option.id}
             indicator="radio"
             onPress={() => chooseSoundscape(option.id)}
@@ -78,7 +88,7 @@ export default function OnboardingSoundscapeScreen() {
         ))}
       </View>
 
-      <OnboardingButton label="Enter the Sanctuary" onPress={finish} />
+      <OnboardingButton label={t("enterSanctuary")} onPress={finish} />
     </ScrollView>
   );
 }

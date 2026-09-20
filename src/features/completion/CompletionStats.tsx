@@ -3,6 +3,7 @@ import { Text, View } from "react-native";
 import { StyleSheet, useUnistyles } from "react-native-unistyles";
 import { formatClock } from "@/features/timer/durations";
 import { GlassPanel } from "@/features/timer/GlassPanel";
+import { useI18n } from "@/i18n";
 
 type Props = {
   durationMinutes: number;
@@ -14,18 +15,19 @@ type Props = {
 // always shown; Program progress only when the session had one. No streak or
 // heart-rate cards — neither has a backing data source anywhere in the app.
 export function CompletionStats({ durationMinutes, program }: Props) {
+  const { t } = useI18n();
   return (
     <View style={styles.row}>
       <StatCard
         icon="schedule"
         value={formatClock(durationMinutes * 60)}
-        label="Meditation"
+        label={t("meditation")}
       />
       {program && (
         <StatCard
           icon="auto-awesome"
           value={`${program.completed}/${program.total}`}
-          label="Program"
+          label={t("program")}
         />
       )}
     </View>

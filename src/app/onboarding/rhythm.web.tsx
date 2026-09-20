@@ -19,6 +19,7 @@ import {
   getPersistedDurationMinutes,
   persistDurationMinutes,
 } from "@/features/timer/storage";
+import { useI18n } from "@/i18n";
 
 const ONBOARDING_DEFAULT_DURATION: DurationMinutes = 5;
 
@@ -33,6 +34,7 @@ const ONBOARDING_DEFAULT_DURATION: DurationMinutes = 5;
 export default function OnboardingRhythmScreen() {
   const { theme } = useUnistyles();
   const router = useRouter();
+  const { t } = useI18n();
 
   const [durationMinutes, setDurationMinutes] = useState<DurationMinutes>(
     () => getPersistedDurationMinutes() ?? ONBOARDING_DEFAULT_DURATION,
@@ -50,17 +52,15 @@ export default function OnboardingRhythmScreen() {
 
       <OnboardingProgressHeader
         step={3}
-        label="DAILY RHYTHM"
+        label={t("dailyRhythm")}
         onBack={() => router.back()}
       />
 
-      <Text style={styles.stepEyebrow}>STEP 3 OF 4</Text>
-      <Text style={styles.headline}>Let&rsquo;s build your daily ritual</Text>
-      <Text style={styles.subtitle}>
-        Consistency comes from gentleness, not constraint.
-      </Text>
+      <Text style={styles.stepEyebrow}>{t("step3of4")}</Text>
+      <Text style={styles.headline}>{t("buildRitual")}</Text>
+      <Text style={styles.subtitle}>{t("ritualDescription")}</Text>
 
-      <Text style={styles.sectionTitle}>BREATHING DURATION</Text>
+      <Text style={styles.sectionTitle}>{t("breathingDuration")}</Text>
       <View style={styles.durationGrid}>
         {DURATION_PRESET_CONTENT.map((preset) => (
           <Button
@@ -71,7 +71,7 @@ export default function OnboardingRhythmScreen() {
             accessibilityState={{
               checked: durationMinutes === preset.minutes,
             }}
-            accessibilityLabel={`${formatDurationLabel(preset.minutes)} — ${preset.title}`}
+            accessibilityLabel={`${formatDurationLabel(preset.minutes)} — ${t(preset.title)}`}
             style={[
               styles.durationCard,
               durationMinutes === preset.minutes && styles.durationCardSelected,
@@ -85,7 +85,7 @@ export default function OnboardingRhythmScreen() {
             <Text style={styles.durationLabel}>
               {formatDurationLabel(preset.minutes)}
             </Text>
-            <Text style={styles.durationTitle}>{preset.title}</Text>
+            <Text style={styles.durationTitle}>{t(preset.title)}</Text>
           </Button>
         ))}
       </View>
@@ -112,13 +112,11 @@ export default function OnboardingRhythmScreen() {
       </View>
 
       <OnboardingButton
-        label="Confirm my rhythm"
+        label={t("confirmRhythm")}
         onPress={() => router.push("/onboarding/soundscape")}
       />
 
-      <Text style={styles.footerNote}>
-        You can change this anytime in the app.
-      </Text>
+      <Text style={styles.footerNote}>{t("changeAnytimeApp")}</Text>
     </ScrollView>
   );
 }
