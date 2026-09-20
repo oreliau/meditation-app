@@ -40,6 +40,19 @@ jest.mock("expo-widgets", () => ({
   }),
 }));
 
+jest.mock("expo-haptics", () => ({
+  ImpactFeedbackStyle: {
+    Light: "light",
+    Medium: "medium",
+    Heavy: "heavy",
+    Rigid: "rigid",
+    Soft: "soft",
+  },
+  impactAsync: jest.fn().mockResolvedValue(undefined),
+  notificationAsync: jest.fn().mockResolvedValue(undefined),
+  selectionAsync: jest.fn().mockResolvedValue(undefined),
+}));
+
 jest.mock("react-native-worklets", () =>
   require("react-native-worklets/src/mock"),
 );
