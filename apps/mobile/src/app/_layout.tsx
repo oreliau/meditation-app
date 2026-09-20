@@ -6,7 +6,7 @@ import {
 import { DefaultTheme, Stack, ThemeProvider } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useState } from "react";
-import { LogBox, Platform, View } from "react-native";
+import { LogBox } from "react-native";
 import { useMMKVListener } from "react-native-mmkv";
 // import { getSessionStore } from "@meditation-app/timer";
 // import { useSessionWidgets } from "@/features/timer/widgets";
@@ -26,7 +26,6 @@ import { useNavigateToCompletion } from "@/features/completion/useNavigateToComp
 import { SessionCompletionFeedback } from "@/features/timer/SessionCompletionFeedback";
 import { SessionEndAlertScheduler } from "@/features/timer/SessionEndAlertScheduler";
 import { getInitialLocale, I18nProvider, loadPolyfills } from "@/i18n";
-import { AdaptiveBackground } from "@/presentation/adaptive-background/adaptive-background";
 
 initializeNotifications();
 setDailyStatsReader(getDailyStats);
@@ -88,31 +87,28 @@ export default function RootLayout() {
   return (
     <I18nProvider>
       <ThemeProvider value={navigationTheme}>
-        <View style={{ flex: 1 }}>
-          {Platform.OS === "web" && <AdaptiveBackground />}
-          <Stack
-            screenOptions={{
-              headerShown: false,
-              contentStyle: { backgroundColor: "transparent" },
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            contentStyle: { backgroundColor: "transparent" },
+          }}
+        >
+          <Stack.Protected guard={hasCompletedOnboarding}>
+            <Stack.Screen name="(tabs)" />
+          </Stack.Protected>
+          <Stack.Protected guard={!hasCompletedOnboarding}>
+            <Stack.Screen name="onboarding" />
+          </Stack.Protected>
+          <Stack.Screen
+            name="session-complete"
+            options={{
+              animation: "fade",
+              presentation: "fullScreenModal",
             }}
-          >
-            <Stack.Protected guard={hasCompletedOnboarding}>
-              <Stack.Screen name="(tabs)" />
-            </Stack.Protected>
-            <Stack.Protected guard={!hasCompletedOnboarding}>
-              <Stack.Screen name="onboarding" />
-            </Stack.Protected>
-            <Stack.Screen
-              name="session-complete"
-              options={{
-                animation: "fade",
-                presentation: "fullScreenModal",
-              }}
-            />
-          </Stack>
-          <SessionCompletionFeedback />
-          <SessionEndAlertScheduler />
-        </View>
+          />
+        </Stack>
+        <SessionCompletionFeedback />
+        <SessionEndAlertScheduler />
       </ThemeProvider>
     </I18nProvider>
   );

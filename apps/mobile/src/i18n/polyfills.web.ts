@@ -116,7 +116,8 @@ async function loadMissingIntl(): Promise<boolean> {
   return true;
 }
 
-export async function loadPolyfills(locale: string): Promise<void> {
+export async function loadPolyfills(locale?: string): Promise<void> {
+  if (!locale) return;
   const needsLocaleData = await loadMissingIntl();
   const normalized =
     locale.toLowerCase() === "zh-cn"

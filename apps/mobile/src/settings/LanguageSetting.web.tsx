@@ -11,7 +11,6 @@ export function LanguageSetting() {
   const styles = useLanguageStyles();
   return (
     <label style={styles.container}>
-      <span style={styles.label}>{t("language")}</span>
       <select
         aria-label={t("language")}
         value={language}

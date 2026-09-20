@@ -42,6 +42,7 @@ export default function ProgramDetailScreen() {
           headerShown: true,
           headerBackButtonDisplayMode: "minimal",
           title: `${t("program")}: ${program.title}`,
+          headerBackground: () => <View style={styles.screen} />,
         }}
       />
 
@@ -110,7 +111,7 @@ export default function ProgramDetailScreen() {
 
 function useProgramDetailStyles() {
   return StyleSheet.create((theme) => ({
-    screen: { flex: 1, backgroundColor: "transparent" },
+    screen: { flex: 1, backgroundColor: theme.colors.background },
     content: {
       padding: theme.spacing.containerPaddingMobile,
       gap: theme.spacing.gutter,

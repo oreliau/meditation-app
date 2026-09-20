@@ -1,10 +1,16 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import { Text } from "react-native";
-import { StyleSheet, useUnistyles } from "react-native-unistyles";
+import {
+  StyleSheet,
+  useUnistyles,
+  withUnistyles,
+} from "react-native-unistyles";
 import { Button } from "@/components/Button";
 import { useI18n } from "@/i18n";
 
 type Props = { onPress: () => void };
+
+const UniButton = withUnistyles(Button);
 
 // The completion screen's single CTA (see the completion-screen interview:
 // no share/journal actions — neither has a backing feature yet). Same primary
@@ -15,7 +21,7 @@ export function CompletionDoneButton({ onPress }: Props) {
   const { t } = useI18n();
 
   return (
-    <Button
+    <UniButton
       onPress={onPress}
       accessible
       accessibilityRole="button"
@@ -25,7 +31,7 @@ export function CompletionDoneButton({ onPress }: Props) {
     >
       <Text style={styles.label}>{t("done")}</Text>
       <MaterialIcons name="check" size={20} color={theme.colors.onPrimary} />
-    </Button>
+    </UniButton>
   );
 }
 

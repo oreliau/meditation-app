@@ -14,6 +14,7 @@ export default function SettingsScreen() {
   const sessionEndAlert = useSessionEndAlertSetting();
   const { mode, cycle } = useThemeToggle();
   const { t } = useI18n();
+
   return (
     <ScrollView
       style={styles.screen}
@@ -25,9 +26,11 @@ export default function SettingsScreen() {
         description={t("settingsDescription")}
       />
 
+      <Text style={styles.sectionTitle}>{t("language")}</Text>
+      <LanguageSetting />
+
       <Text style={styles.sectionTitle}>{t("style")}</Text>
       <SectionListWithDivider
-        title={t("style")}
         data={[
           {
             title: t("theme"),
@@ -41,7 +44,6 @@ export default function SettingsScreen() {
 
       <Text style={styles.sectionTitle}>{t("mindfulNotifications")}</Text>
       <SectionListWithDivider
-        title={t("mindfulNotifications")}
         data={[
           {
             title: t("morningReminder"),
@@ -78,7 +80,6 @@ export default function SettingsScreen() {
           </>
         )}
       />
-      <LanguageSetting />
     </ScrollView>
   );
 }
@@ -86,7 +87,7 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create((theme) => ({
   screen: {
     flexGrow: 1,
-    backgroundColor: "transparent",
+    backgroundColor: theme.colors.background,
   },
   content: {
     flex: 1,
