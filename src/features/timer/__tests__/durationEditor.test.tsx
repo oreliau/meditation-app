@@ -13,7 +13,7 @@ jest.mock("../ProgressRing", () => ({ ProgressRing: () => null }));
 jest.mock("../GlassPanel", () => ({
   GlassPanel: jest.requireActual("react-native").View,
 }));
-jest.mock("@/reminders/permission", () => ({
+jest.mock("@meditation-app/notifications", () => ({
   ensureNotificationPermission: jest.fn(),
 }));
 jest.mock("@expo/ui", () => {

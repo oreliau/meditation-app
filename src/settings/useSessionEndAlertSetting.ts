@@ -1,3 +1,4 @@
+import { ensureNotificationPermission } from "@meditation-app/notifications";
 import { useState } from "react";
 import { syncSessionEndAlert } from "@/features/timer/sessionEndAlert";
 import {
@@ -5,7 +6,6 @@ import {
   setSessionEndAlertEnabled,
 } from "@/features/timer/sessionEndAlertStorage";
 import { getSessionStore } from "@/features/timer/sessionStore";
-import { ensureNotificationPermission } from "@/reminders/permission";
 
 export type SessionEndAlertSetting = {
   enabled: boolean;

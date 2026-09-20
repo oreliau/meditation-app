@@ -1,4 +1,4 @@
-import { setNotificationsClient } from "@/reminders/NotificationsClient";
+import { setNotificationsClient } from "@meditation-app/notifications";
 import { createFakeNotificationsClient } from "@/test/fakeNotificationsClient";
 import { SESSION_END_ALERT_ID, syncSessionEndAlert } from "../sessionEndAlert";
 import {

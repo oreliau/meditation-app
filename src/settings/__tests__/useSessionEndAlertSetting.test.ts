@@ -1,3 +1,4 @@
+import { setNotificationsClient } from "@meditation-app/notifications";
 import { act, renderHook } from "@testing-library/react";
 import { SESSION_END_ALERT_ID } from "@/features/timer/sessionEndAlert";
 import {
@@ -5,7 +6,6 @@ import {
   setSessionEndAlertEnabled,
 } from "@/features/timer/sessionEndAlertStorage";
 import { getSessionStore } from "@/features/timer/sessionStore";
-import { setNotificationsClient } from "@/reminders/NotificationsClient";
 import { createFakeNotificationsClient } from "@/test/fakeNotificationsClient";
 import { useSessionEndAlertSetting } from "../useSessionEndAlertSetting";
 

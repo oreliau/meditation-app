@@ -1,0 +1,15 @@
+{
+  "name": "@meditation-app/notifications",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "expo": "~57.0.24",
+    "expo-notifications": "~57.0.20",
+    "react": "19.2.3",
+    "react-native": "0.86.3"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}

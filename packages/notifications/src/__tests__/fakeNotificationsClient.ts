@@ -3,11 +3,8 @@ import type {
   NotificationPermission,
   NotificationsClient,
   OneTimeNotification,
-} from "@meditation-app/notifications";
+} from "../NotificationsClient";
 
-// Records scheduling calls and lets a test script the OS permission
-// answers; `scheduled`/`scheduledOnce` reflect what would currently be
-// pending.
 export function createFakeNotificationsClient(
   initial: NotificationPermission = "undetermined",
 ) {

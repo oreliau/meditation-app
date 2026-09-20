@@ -1,10 +1,14 @@
+const {
+  app: notificationsApp,
+} = require("./packages/notifications/src/app.ts");
+
 const androidPackage =
   process.env.ANDROID_PACKAGE_NAME || "com.oreliaukmz.meditationapp";
 const androidVersionCode = process.env.ANDROID_VERSION_CODE || 1;
 const iosBundleIdentifier =
   process.env.IOS_BUNDLE_IDENTIFIER || "com.oreliaukmz.meditationapp";
 
-module.exports = {
+export default {
   expo: {
     name: "meditation-app",
     slug: "meditation-app",
@@ -63,6 +67,7 @@ module.exports = {
       "expo-audio",
       "expo-asset",
       "expo-status-bar",
+      ...(notificationsApp.plugins ?? []),
       [
         "expo-build-properties",
         {

@@ -3,6 +3,7 @@
   "main": "index.ts",
   "version": "1.0.0",
   "dependencies": {
+    "@meditation-app/notifications": "workspace:*",
     "@expo-google-fonts/inter": "^0.4.2",
     "@expo-google-fonts/playfair-display": "^0.4.2",
     "@expo/ui": "~57.0.19",

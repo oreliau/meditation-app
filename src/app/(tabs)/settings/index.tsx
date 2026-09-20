@@ -1,8 +1,8 @@
+import { useReminderSettings } from "@meditation-app/notifications";
 import { ScrollView, Text } from "react-native";
 import { StyleSheet } from "react-native-unistyles";
 import { useI18n } from "@/i18n";
 import { StackHeader } from "@/presentation/stack-header";
-import { useReminderSettings } from "@/reminders/useReminderSettings";
 import { LanguageSetting } from "@/settings/LanguageSetting";
 import { SectionListWithDivider } from "@/settings/list-with-divider/section-list-with-divider";
 import { PermissionDeniedPrompt } from "@/settings/PermissionDeniedPrompt";

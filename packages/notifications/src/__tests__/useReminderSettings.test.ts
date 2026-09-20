@@ -1,18 +1,20 @@
 import { act, renderHook } from "@testing-library/react";
-import { recordSessionCompleted, statsStorage } from "@/stats/dailyStats";
-import { createFakeNotificationsClient } from "@/test/fakeNotificationsClient";
+import { setDailyStatsReader } from "../eveningReminder";
 import { setNotificationsClient } from "../NotificationsClient";
 import { PRESENCE_SENTENCES } from "../presenceSentences";
 import { refreshReminders } from "../refreshReminders";
 import { remindersStorage, setReminderEnabled } from "../storage";
 import { useReminderSettings } from "../useReminderSettings";
+import { createFakeNotificationsClient } from "./fakeNotificationsClient";
 
 let fake: ReturnType<typeof createFakeNotificationsClient>;
+let dailyStats = { sessionCount: 0, totalDurationSeconds: 0 };
 
 beforeEach(() => {
   remindersStorage.clearAll();
-  statsStorage.clearAll();
+  dailyStats = { sessionCount: 0, totalDurationSeconds: 0 };
   fake = createFakeNotificationsClient();
+  setDailyStatsReader(() => dailyStats);
   setNotificationsClient(fake.client);
 });
 
@@ -181,8 +183,7 @@ describe("Evening summary toggle", () => {
       "The day isn't over yet. A few quiet breaths before bed still count.",
     );
 
-    recordSessionCompleted(600);
-    recordSessionCompleted(300);
+    dailyStats = { sessionCount: 2, totalDurationSeconds: 900 };
     await refreshReminders();
 
     expect(fake.scheduled.get("evening-summary")?.body).toBe(

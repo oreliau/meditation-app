@@ -4,6 +4,18 @@ A meditation app styled by the **Aura** design system (`DESIGN.md`): color, typo
 
 ## Language
 
+**Capability module**:
+A reusable product capability with one public boundary, such as notifications or fonts. It owns the behavior and platform integration required to provide that capability.
+_Avoid_: Utility folder, shared bucket
+
+**Product module**:
+A cohesive user-facing area such as the timer, onboarding, Explorer, or stats. It owns the domain behavior and UI needed for that area but does not own application routes.
+_Avoid_: Screen module, feature folder
+
+**Local notification**:
+An on-device notification scheduled by the app without a remote push service. This includes Daily reminders and Session-end alerts.
+_Avoid_: Push notification, remote notification
+
 **Aura**:
 The name of this app's design system — the token set (colors, typography, spacing, elevation) defined in `DESIGN.md`. Not a theme name on its own.
 _Avoid_: Using "Aura" alone to mean a specific theme; "design system" (use the proper name)

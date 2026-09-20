@@ -1,4 +1,5 @@
 import { Button, Column, Host, Row } from "@expo/ui";
+import { ensureNotificationPermission } from "@meditation-app/notifications";
 import { useLocalSearchParams } from "expo-router";
 import { SymbolView } from "expo-symbols";
 import { type ComponentProps, useEffect, useState } from "react";
@@ -32,7 +33,6 @@ import {
 import { useTimerSession } from "@/features/timer/useTimerSession";
 import { useI18n } from "@/i18n";
 import { AdaptiveBackground } from "@/presentation/adaptive-background/adaptive-background";
-import { ensureNotificationPermission } from "@/reminders/permission";
 import { spacing } from "@/theme/spacing";
 
 // UI copy uses the CONTEXT.md session vocabulary verbatim; only Completed

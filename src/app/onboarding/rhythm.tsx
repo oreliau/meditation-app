@@ -1,4 +1,5 @@
 import { MaterialIcons } from "@expo/vector-icons";
+import { useReminderSettings } from "@meditation-app/notifications";
 import { Stack, useRouter } from "expo-router";
 import { useState } from "react";
 import { ScrollView, Switch, Text, View } from "react-native";
@@ -20,7 +21,6 @@ import {
   persistDurationMinutes,
 } from "@/features/timer/storage";
 import { useI18n } from "@/i18n";
-import { useReminderSettings } from "@/reminders/useReminderSettings";
 
 const ONBOARDING_DEFAULT_DURATION: DurationMinutes = 5;
 

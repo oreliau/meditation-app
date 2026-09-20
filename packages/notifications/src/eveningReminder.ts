@@ -1,4 +1,16 @@
-import { getDailyStats } from "@/stats/dailyStats";
+import type { DailyStats } from "./eveningSummary";
+
+export type DailyStatsReader = () => DailyStats;
+
+let readDailyStats: DailyStatsReader = () => ({
+  sessionCount: 0,
+  totalDurationSeconds: 0,
+});
+
+export function setDailyStatsReader(reader: DailyStatsReader): void {
+  readDailyStats = reader;
+}
+
 import { composeEveningSummary } from "./eveningSummary";
 import { getNotificationsClient } from "./NotificationsClient";
 
@@ -11,7 +23,7 @@ export const EVENING_REMINDER_MINUTE = 0;
 // the toggle is turned on and on every app foreground, so by 18:00 the
 // pending message reflects whatever the user did today.
 export async function scheduleEveningReminder(): Promise<void> {
-  const { title, body } = composeEveningSummary(getDailyStats());
+  const { title, body } = composeEveningSummary(readDailyStats());
   await getNotificationsClient().scheduleDaily({
     id: EVENING_REMINDER_ID,
     hour: EVENING_REMINDER_HOUR,
