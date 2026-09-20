@@ -23,6 +23,8 @@ jobs:
         run: curl -Ls https://get.maestro.mobile.dev | bash
       - name: Run deployed web journey
         run: |
+          Xvfb :99 -screen 0 1280x768x24 >/tmp/maestro-xvfb.log 2>&1 &
+          export DISPLAY=:99
           /home/runner/.maestro/bin/maestro start-device --platform web
           /home/runner/.maestro/bin/maestro test --platform web .maestro/web-github-pages-flow.yaml \
             --format junit --output artifacts/maestro/github-pages.xml \
