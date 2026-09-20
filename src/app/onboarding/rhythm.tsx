@@ -189,7 +189,9 @@ export default function OnboardingRhythmScreen() {
                 ZENDO • {momentContent.time}
               </Text>
               <Text style={styles.previewTitle}>
-                  {moment === "morning" ? t("morningPresence") : t("eveningSummary")}
+                {moment === "morning"
+                  ? t("morningPresence")
+                  : t("eveningSummary")}
               </Text>
               <Text style={styles.previewBody}>
                 {moment === "morning"
@@ -206,9 +208,7 @@ export default function OnboardingRhythmScreen() {
         onPress={() => router.push("/onboarding/soundscape")}
       />
 
-      <Text style={styles.footerNote}>
-        {t("changeAnytime")}
-      </Text>
+      <Text style={styles.footerNote}>{t("changeAnytime")}</Text>
     </ScrollView>
   );
 }

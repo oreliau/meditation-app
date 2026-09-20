@@ -133,9 +133,7 @@ const DurationEditor = ({
         {t("totalDuration")}
       </Text>
       <Text style={styles.editorHint}>
-        {status === "Paused"
-          ? t("sessionPaused")
-          : t("chooseDuration")}
+        {status === "Paused" ? t("sessionPaused") : t("chooseDuration")}
       </Text>
       <Host
         matchContents
@@ -176,9 +174,7 @@ const DurationEditor = ({
         </Column>
       </Host>
       {elapsedMs > 0 && (
-        <Text style={styles.editorHint}>
-          {t("durationUnavailable")}
-        </Text>
+        <Text style={styles.editorHint}>{t("durationUnavailable")}</Text>
       )}
     </View>
   );
@@ -214,28 +210,32 @@ const TimerDialContent = ({
   const { t } = useI18n();
 
   return (
-  <View style={styles.ring}>
-    <ProgressRing size={RING_SIZE} progress={session.progress} />
-    <Animated.View style={[styles.innerRing, animatedStyle]} />
-    <GlassPanel style={styles.dial}>
-      <NotificationBell />
-      <Text style={[styles.label, styles.clockCaption]}>{t("remaining")}</Text>
-      <AppButton
-        accessibilityRole="button"
-        accessibilityLabel={`${formatClock(session.remainingSeconds)} ${t("remaining")}. ${t("changeDuration")}`}
-        accessibilityHint={t("durationHint")}
-        accessibilityState={{ disabled: !canEdit }}
-        testID="session-duration"
-        disabled={!canEdit}
-        onPress={onOpenDurationEditor}
-      >
-        <Text style={styles.clock}>
-          {formatClock(session.remainingSeconds)}
+    <View style={styles.ring}>
+      <ProgressRing size={RING_SIZE} progress={session.progress} />
+      <Animated.View style={[styles.innerRing, animatedStyle]} />
+      <GlassPanel style={styles.dial}>
+        <NotificationBell />
+        <Text style={[styles.label, styles.clockCaption]}>
+          {t("remaining")}
         </Text>
-        {canEdit && <Text style={styles.editLabel}>{t("changeDuration")}</Text>}
-      </AppButton>
-    </GlassPanel>
-  </View>
+        <AppButton
+          accessibilityRole="button"
+          accessibilityLabel={`${formatClock(session.remainingSeconds)} ${t("remaining")}. ${t("changeDuration")}`}
+          accessibilityHint={t("durationHint")}
+          accessibilityState={{ disabled: !canEdit }}
+          testID="session-duration"
+          disabled={!canEdit}
+          onPress={onOpenDurationEditor}
+        >
+          <Text style={styles.clock}>
+            {formatClock(session.remainingSeconds)}
+          </Text>
+          {canEdit && (
+            <Text style={styles.editLabel}>{t("changeDuration")}</Text>
+          )}
+        </AppButton>
+      </GlassPanel>
+    </View>
   );
 };
 

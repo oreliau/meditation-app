@@ -56,9 +56,7 @@ export default function OnboardingIntentionsScreen() {
       <Text style={styles.subtitle}>{t("intentionDescription")}</Text>
 
       <View style={styles.hint}>
-        <Text style={styles.hintText}>
-          {t("multipleIntentions")}
-        </Text>
+        <Text style={styles.hintText}>{t("multipleIntentions")}</Text>
       </View>
 
       <View style={styles.cards}>
@@ -114,9 +112,7 @@ export default function OnboardingIntentionsScreen() {
 
       {selected.includes("sleep") && (
         <View style={styles.tip}>
-          <Text style={styles.tipText}>
-            {t("sunsetAdaptation")}
-          </Text>
+          <Text style={styles.tipText}>{t("sunsetAdaptation")}</Text>
         </View>
       )}
 
