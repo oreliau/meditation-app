@@ -19,8 +19,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
-        with:
-          version: 12.4.1
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -37,7 +35,8 @@ jobs:
           curl -Ls https://get.maestro.mobile.dev | bash
           /home/runner/.maestro/bin/maestro start-device --platform web
           /home/runner/.maestro/bin/maestro test --platform web .maestro/web-principal-flow.yaml \
-            --format junit --output artifacts/maestro/chromium.xml
+            --format junit --output artifacts/maestro/chromium.xml \
+            --test-output-dir artifacts/maestro/screenshots/chromium
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -52,8 +51,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
-        with:
-          version: 12.4.1
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -68,6 +65,7 @@ jobs:
       - run: ./gradlew assembleDebug
         working-directory: android
       - run: curl -Ls https://get.maestro.mobile.dev | bash
+      - run: mkdir -p artifacts/maestro/screenshots/android
       - uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 35
@@ -78,6 +76,7 @@ jobs:
             adb install android/app/build/outputs/apk/debug/app-debug.apk &&
             /home/runner/.maestro/bin/maestro test .maestro/android-principal-flow.yaml
               --format junit --output artifacts/maestro/android.xml
+              --test-output-dir artifacts/maestro/screenshots/android
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -89,11 +88,11 @@ jobs:
     name: iOS and iPad submission screenshots
     runs-on: [self-hosted, macOS, preview-runner]
     timeout-minutes: 45
+    env:
+      IPAD_SIMULATOR_NAME: "iPad Pro 13-inch (M4)"
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
-        with:
-          version: 12.4.1
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -108,7 +107,7 @@ jobs:
         run: |
           set -euo pipefail
           xcrun simctl list devices available | grep -F "iPhone 18 Pro" >/dev/null
-          xcrun simctl list devices available | grep -F "iPad" >/dev/null
+          xcrun simctl list devices available | grep -F "$IPAD_SIMULATOR_NAME" >/dev/null
       - run: bundle exec pod install
       - run: |
           xcodebuild \
@@ -119,26 +118,27 @@ jobs:
             -derivedDataPath "$RUNNER_TEMP/meditation-derived" \
             build
       - run: curl -Ls https://get.maestro.mobile.dev | bash
+      - run: mkdir -p artifacts/maestro/screenshots/iphone-18-pro artifacts/maestro/screenshots/ipad
       - name: Run iPhone 18 Pro flow
         run: |
           set -euo pipefail
           xcrun simctl shutdown all || true
-          xcrun simctl boot "iPhone 18 Pro" || true
+          xcrun simctl boot "iPhone 18 Pro"
           xcrun simctl bootstatus "iPhone 18 Pro" -b
           xcrun simctl install booted "$RUNNER_TEMP/meditation-derived/Build/Products/Debug-iphonesimulator/meditation-app.app"
           /Users/runner/.maestro/bin/maestro test .maestro/ios-principal-flow.yaml \
-            --format junit --output artifacts/maestro/iphone-18-pro.xml
+            --format junit --output artifacts/maestro/iphone-18-pro.xml \
+            --test-output-dir artifacts/maestro/screenshots/iphone-18-pro
       - name: Run iPad flow
         run: |
           set -euo pipefail
-          IPAD_NAME="$(xcrun simctl list devices available | sed -n 's/.*(iPad[^()]*) (.*/\1/p' | head -n 1)"
-          test -n "$IPAD_NAME"
           xcrun simctl shutdown all || true
-          xcrun simctl boot "$IPAD_NAME" || true
-          xcrun simctl bootstatus "$IPAD_NAME" -b
+          xcrun simctl boot "$IPAD_SIMULATOR_NAME"
+          xcrun simctl bootstatus "$IPAD_SIMULATOR_NAME" -b
           xcrun simctl install booted "$RUNNER_TEMP/meditation-derived/Build/Products/Debug-iphonesimulator/meditation-app.app"
           /Users/runner/.maestro/bin/maestro test .maestro/ios-principal-flow.yaml \
-            --format junit --output artifacts/maestro/ipad.xml
+            --format junit --output artifacts/maestro/ipad.xml \
+            --test-output-dir artifacts/maestro/screenshots/ipad
       - uses: actions/upload-artifact@v4
         if: always()
         with:

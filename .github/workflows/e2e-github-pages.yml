@@ -25,7 +25,8 @@ jobs:
         run: |
           /home/runner/.maestro/bin/maestro start-device --platform web
           /home/runner/.maestro/bin/maestro test --platform web .maestro/web-github-pages-flow.yaml \
-            --format junit --output artifacts/maestro/github-pages.xml
+            --format junit --output artifacts/maestro/github-pages.xml \
+            --test-output-dir artifacts/maestro/screenshots/github-pages
       - uses: actions/upload-artifact@v4
         if: always()
         with:

@@ -4,7 +4,11 @@ import { useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { StyleSheet, useUnistyles } from "react-native-unistyles";
 import { Button } from "@/components/Button";
-import { DURATION_PRESET_CONTENT } from "@/features/onboarding/content";
+import {
+  DURATION_PRESET_CONTENT,
+  REMINDER_MOMENTS,
+  type ReminderMoment,
+} from "@/features/onboarding/content";
 import { OnboardingButton } from "@/features/onboarding/OnboardingButton";
 import { OnboardingProgressHeader } from "@/features/onboarding/OnboardingProgressHeader";
 import {
@@ -33,6 +37,7 @@ export default function OnboardingRhythmScreen() {
   const [durationMinutes, setDurationMinutes] = useState<DurationMinutes>(
     () => getPersistedDurationMinutes() ?? ONBOARDING_DEFAULT_DURATION,
   );
+  const [moment, setMoment] = useState<ReminderMoment>("morning");
 
   function chooseDuration(minutes: DurationMinutes) {
     setDurationMinutes(minutes);
@@ -81,6 +86,27 @@ export default function OnboardingRhythmScreen() {
               {formatDurationLabel(preset.minutes)}
             </Text>
             <Text style={styles.durationTitle}>{preset.title}</Text>
+          </Button>
+        ))}
+      </View>
+
+      <Text style={styles.sectionTitle}>BEST MOMENT</Text>
+      <View style={styles.momentRow}>
+        {REMINDER_MOMENTS.map((option) => (
+          <Button
+            key={option.id}
+            onPress={() => setMoment(option.id)}
+            role="radio"
+            accessibilityRole="radio"
+            accessibilityState={{ checked: moment === option.id }}
+            accessibilityLabel={option.label}
+            style={[
+              styles.momentCard,
+              moment === option.id && styles.momentCardSelected,
+            ]}
+          >
+            <Text style={styles.momentLabel}>{option.label}</Text>
+            <Text style={styles.momentTime}>{option.time}</Text>
           </Button>
         ))}
       </View>
@@ -154,6 +180,33 @@ const styles = StyleSheet.create((theme) => ({
   durationCardSelected: {
     backgroundColor: theme.colors.primaryContainer,
     borderColor: theme.colors.primary,
+  },
+  momentRow: {
+    flexDirection: "row",
+    gap: theme.spacing.unit,
+  },
+  momentCard: {
+    flex: 1,
+    padding: theme.spacing.gutter,
+    borderRadius: theme.radius.lg,
+    backgroundColor: theme.colors.surfaceContainer,
+    alignItems: "center",
+    gap: theme.spacing.unit / 4,
+  },
+  momentCardSelected: {
+    backgroundColor: theme.colors.primaryContainer,
+    borderWidth: 1,
+    borderColor: theme.colors.primary,
+  },
+  momentLabel: {
+    fontFamily: theme.typography.titleLg.fontFamily,
+    fontSize: theme.typography.titleLg.fontSize,
+    color: theme.colors.onSurface,
+  },
+  momentTime: {
+    fontFamily: theme.typography.bodyMd.fontFamily,
+    fontSize: theme.typography.bodyMd.fontSize,
+    color: theme.colors.onSurfaceVariant,
   },
   durationLabel: {
     fontFamily: theme.typography.labelMd.fontFamily,

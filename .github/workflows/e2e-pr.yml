@@ -19,8 +19,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
-        with:
-          version: 12.4.1
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -37,7 +35,8 @@ jobs:
           curl -Ls https://get.maestro.mobile.dev | bash
           /home/runner/.maestro/bin/maestro start-device --platform web
           /home/runner/.maestro/bin/maestro test --platform web .maestro/web-principal-flow.yaml \
-            --format junit --output artifacts/maestro/chromium.xml
+            --format junit --output artifacts/maestro/chromium.xml \
+            --test-output-dir artifacts/maestro/screenshots/chromium
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -52,8 +51,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
-        with:
-          version: 12.4.1
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -68,6 +65,7 @@ jobs:
       - run: ./gradlew assembleDebug
         working-directory: android
       - run: curl -Ls https://get.maestro.mobile.dev | bash
+      - run: mkdir -p artifacts/maestro/screenshots/android
       - uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 35
@@ -78,6 +76,7 @@ jobs:
             adb install android/app/build/outputs/apk/debug/app-debug.apk &&
             /home/runner/.maestro/bin/maestro test .maestro/android-principal-flow.yaml
               --format junit --output artifacts/maestro/android.xml
+              --test-output-dir artifacts/maestro/screenshots/android
       - uses: actions/upload-artifact@v4
         if: always()
         with:

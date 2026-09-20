@@ -17,7 +17,7 @@ tags:
 - tapOn: "Continue"
 - tapOn: "Beginner"
 - tapOn: "Continue"
-- tapOn: "3 mins — Guided meditation"
+- tapOn: "3 mins — Quick pause"
 - tapOn: "Morning"
 - tapOn: "Confirm my rhythm"
 - tapOn: "Amber Dawn"
@@ -40,6 +40,7 @@ tags:
     id: completion-done
 - assertVisible: "Idle"
 - tapOn: "Explore"
+- assertVisible: "Today’s practice"
 - assertVisible: "1 completed session"
 - launchApp
 - assertNotVisible: "Find your inner sanctuary"
