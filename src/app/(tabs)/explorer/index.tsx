@@ -2,10 +2,11 @@ import { Link } from "expo-router";
 import { ScrollView, Text, View } from "react-native";
 import { StyleSheet } from "react-native-unistyles";
 import { Button } from "@/components/Button";
-import { PROGRAMS, type Program } from "@/features/explorer/programs";
+import { ADVICE, PROGRAMS, type Program } from "@/features/explorer/programs";
 import { getProgramProgress } from "@/features/explorer/progress";
 import { useExplorerProgress } from "@/features/explorer/useExplorerProgress";
 import { StackHeader } from "@/presentation/stack-header";
+import { getDailyStats } from "@/stats/dailyStats";
 
 function ProgramCard({
   program,
@@ -42,6 +43,7 @@ function ProgramCard({
 
 export default function ExplorerScreen() {
   useExplorerProgress();
+  const dailyStats = getDailyStats();
   const continuing = PROGRAMS.find((program) => {
     const progress = getProgramProgress(program.id);
     return progress.completed > 0 && !progress.isComplete;
@@ -69,6 +71,48 @@ export default function ExplorerScreen() {
         <Text style={styles.sectionTitle}>Available programs</Text>
         {PROGRAMS.map((program) => (
           <ProgramCard key={program.id} program={program} />
+        ))}
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Today’s practice</Text>
+        <View style={styles.summaryCard}>
+          {dailyStats.sessionCount === 0 ? (
+            <>
+              <Text style={styles.summaryTitle}>
+                No sessions completed today
+              </Text>
+              <Text style={styles.summaryBody}>
+                A few quiet minutes is a good place to begin.
+              </Text>
+              <Link href="/" asChild>
+                <Button>
+                  <Text style={styles.inlineAction}>Begin a session</Text>
+                </Button>
+              </Link>
+            </>
+          ) : (
+            <>
+              <Text style={styles.summaryTitle}>
+                {dailyStats.sessionCount} completed session
+                {dailyStats.sessionCount === 1 ? "" : "s"}
+              </Text>
+              <Text style={styles.summaryBody}>
+                {Math.round(dailyStats.totalDurationSeconds / 60)} minutes of
+                practice today.
+              </Text>
+            </>
+          )}
+        </View>
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Advice</Text>
+        {ADVICE.map((advice) => (
+          <View key={advice.id} style={styles.adviceCard}>
+            <Text style={styles.adviceTitle}>{advice.title}</Text>
+            <Text style={styles.adviceBody}>{advice.body}</Text>
+          </View>
         ))}
       </View>
     </ScrollView>

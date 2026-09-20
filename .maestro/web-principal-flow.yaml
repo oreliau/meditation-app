@@ -1,0 +1,46 @@
+url: http://127.0.0.1:8081
+appId: meditation-app-web
+name: Principal meditation journey (Chromium)
+tags:
+  - smoke
+  - screenshots
+  - web
+
+---
+
+- launchApp:
+    clearState: true
+- assertVisible: "Find your inner sanctuary"
+- takeScreenshot: chromium-01-welcome
+- tapOn: "Begin my journey"
+- tapOn: "Ease stress & anxiety"
+- tapOn: "Continue"
+- tapOn: "Beginner"
+- tapOn: "Continue"
+- tapOn: "3 mins — Quick pause"
+- tapOn: "Morning"
+- tapOn: "Confirm my rhythm"
+- tapOn: "Amber Dawn"
+- tapOn: "Enter the Sanctuary"
+- assertVisible: "Idle"
+- takeScreenshot: chromium-02-home
+- tapOn:
+    id: session-duration
+- tapOn: "6 secs"
+- tapOn: "Apply"
+- tapOn:
+    id: session-play
+- assertVisible: "Running"
+- takeScreenshot: chromium-03-running
+- extendedWaitUntil:
+    visible: "Moment of stillness"
+    timeout: 15000
+- takeScreenshot: chromium-04-completed
+- tapOn:
+    id: completion-done
+- assertVisible: "Idle"
+- tapOn: "Explore"
+- assertVisible: "Today’s practice"
+- assertVisible: "1 completed session"
+- launchApp
+- assertNotVisible: "Find your inner sanctuary"

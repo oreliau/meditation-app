@@ -109,3 +109,13 @@ A person's self-reported familiarity with meditation (Beginner, Regular, or Zen 
 **Soundscape preference**:
 A person's chosen ambient audio identity (e.g. Amber Dawn, Silent River, Misty Forest), selected during Onboarding's final step. Persisted for when real audio playback is built; the Onboarding screen itself does not play audio.
 _Avoid_: Soundscape (reserve that for the eventual playable feature; "preference" makes clear this is only a stored choice today)
+
+### Verification
+
+**Principal journey**:
+The first-launch path from Onboarding through one naturally Completed Session and back to the app's practice summary. It is the cross-platform smoke path used to verify that the essential meditation experience remains usable.
+_Avoid_: Happy path (too vague to identify which user journey is covered)
+
+**Submission screenshot**:
+A rendered image of a named Principal journey state on a pinned target device, produced for review, advertising, or store submission. It is evidence of a rendered state, not a pixel-diff baseline.
+_Avoid_: Snapshot (implies an automated visual regression contract)

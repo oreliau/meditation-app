@@ -50,6 +50,8 @@ example
 
 # ADRs
 docs/adr/
+!docs/adr/
+!docs/adr/*.md
 
 # sandbox
 *.tar

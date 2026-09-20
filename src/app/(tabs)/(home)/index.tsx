@@ -207,6 +207,7 @@ const TimerDial = ({
         accessibilityLabel={`${formatClock(session.remainingSeconds)} remaining. Change duration`}
         accessibilityHint="Pauses the session and opens duration choices"
         accessibilityState={{ disabled: !canEdit }}
+        testID="session-duration"
         disabled={!canEdit}
         onPress={onOpenDurationEditor}
       >

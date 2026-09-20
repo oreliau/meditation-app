@@ -1,0 +1,93 @@
+name: E2E smoke (PR)
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  EXPO_NO_TELEMETRY: "1"
+  EXPO_PUBLIC_DISABLE_WEBGPU: "1"
+
+jobs:
+  chromium:
+    name: Chromium principal journey
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: |
+          mkdir -p artifacts
+          pnpm web -- --port 8081 > artifacts/maestro-web-server.log 2>&1 &
+          for attempt in $(seq 1 60); do
+            curl --fail --silent http://127.0.0.1:8081/ >/dev/null && break
+            sleep 1
+          done
+          curl --fail --silent http://127.0.0.1:8081/ >/dev/null
+          mkdir -p artifacts/maestro
+          curl -Ls https://get.maestro.mobile.dev | bash
+          Xvfb :99 -screen 0 1280x768x24 >/tmp/maestro-xvfb.log 2>&1 &
+          export DISPLAY=:99
+          /home/runner/.maestro/bin/maestro start-device --platform web
+          /home/runner/.maestro/bin/maestro test --platform web .maestro/web-principal-flow.yaml \
+            --format junit --output artifacts/maestro/chromium.xml \
+            --test-output-dir artifacts/maestro/screenshots/chromium
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: e2e-chromium
+          path: artifacts/
+          if-no-files-found: warn
+
+  android:
+    name: Android principal journey
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: platform-tools
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec expo prebuild --platform android --no-install
+      - run: ./gradlew assembleDebug
+        working-directory: android
+      - run: curl -Ls https://get.maestro.mobile.dev | bash
+      - run: mkdir -p artifacts/maestro/screenshots/android
+      - uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: Pixel_6
+          script: >-
+            adb install android/app/build/outputs/apk/debug/app-debug.apk &&
+            /home/runner/.maestro/bin/maestro test .maestro/android-principal-flow.yaml
+              --format junit --output artifacts/maestro/android.xml
+              --test-output-dir artifacts/maestro/screenshots/android
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: e2e-android
+          path: artifacts/
+          if-no-files-found: warn
