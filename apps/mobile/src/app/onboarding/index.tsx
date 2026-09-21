@@ -2,7 +2,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Stack, useRouter } from "expo-router";
 import { ScrollView, Text, View } from "react-native";
 import { StyleSheet, useUnistyles } from "react-native-unistyles";
-import { GradientOrb } from "@/features/onboarding/GradientOrb";
+import { CompletionOrb } from "@/features/completion/CompletionOrb";
 import { OnboardingButton } from "@/features/onboarding/OnboardingButton";
 import { useI18n } from "@/i18n";
 
@@ -40,7 +40,7 @@ export default function OnboardingWelcomeScreen() {
       <Text style={styles.headline}>{t("findSanctuary")}</Text>
       <Text style={styles.subtitle}>{t("welcomeDescription")}</Text>
 
-      <GradientOrb label={t("breathe")} />
+      <CompletionOrb />
 
       <View style={styles.features}>
         {features.map((feature) => (

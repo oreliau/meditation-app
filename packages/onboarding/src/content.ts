@@ -10,6 +10,7 @@ export type IconName =
   | "wb-sunny"
   | "nightlight"
   | "wb-twilight"
+  | "wb-iridescent"
   | "water"
   | "park";
 
@@ -78,32 +79,60 @@ export const REMINDER_MOMENTS: {
   { id: "evening", icon: "nightlight", label: "evening", time: "18:00" },
 ];
 
-export const SOUNDSCAPES: {
+type Sound = {
   id: SoundscapeId;
   icon: IconName;
   title: string;
-  description: string;
+  originalTitle: string;
   hz: number;
-}[] = [
+  author: { name: string; link: `https://${string}` };
+  source: { name: string; link: `https://${string}` };
+};
+
+export const SOUNDSCAPES: Sound[] = [
   {
     id: "amber-dawn",
-    icon: "wb-twilight",
+    icon: "wb-sunny",
     title: "amberDawn",
-    description: "amberDawnDescription",
-    hz: 432,
+    originalTitle: "leberch-meditation-513747",
+    hz: 440.0,
+    author: {
+      name: "Nikita Kondrashev",
+      link: "https://pixabay.com/users/leberch-42823964/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=513747",
+    },
+    source: {
+      name: "Pixabay",
+      link: "https://pixabay.com/music//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=513747",
+    },
   },
   {
     id: "silent-river",
-    icon: "water",
+    icon: "wb-iridescent",
     title: "silentRiver",
-    description: "silentRiverDescription",
-    hz: 528,
+    originalTitle: "monume-meditation-music-577979",
+    author: {
+      name: "Monume",
+      link: "https://pixabay.com/users/monume-44679891/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=577979",
+    },
+    source: {
+      name: "Pixabay",
+      link: "https://pixabay.com/music//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=577979",
+    },
+    hz: 417.87,
   },
   {
     id: "misty-forest",
-    icon: "park",
+    icon: "wb-twilight",
     title: "mistyForest",
-    description: "mistyForestDescription",
-    hz: 396,
+    originalTitle: "solarflex-meditation-meditation-music-589064",
+    author: {
+      name: "SolarFLEX",
+      link: "https://pixabay.com/users/solarflex-54712313/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=589064",
+    },
+    source: {
+      name: "Pixabay",
+      link: "https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=589064",
+    },
+    hz: 390.65,
   },
-];
+] as const;

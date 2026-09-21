@@ -1,13 +1,20 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import type { IconName } from "@meditation-app/onboarding";
+import type React from "react";
 import { Text, View } from "react-native";
-import { StyleSheet, useUnistyles } from "react-native-unistyles";
+import {
+  StyleSheet,
+  useUnistyles,
+  withUnistyles,
+} from "react-native-unistyles";
 import { Button } from "@/components/Button";
+
+const UniButton = withUnistyles(Button);
 
 type Props = {
   icon: IconName;
   title: string;
-  description: string;
+  description: React.ReactNode;
   selected: boolean;
   onPress: () => void;
   // "checkbox" for multi-select (intentions), "radio" for single-select
@@ -26,7 +33,7 @@ export function SelectableCard({
   const { theme } = useUnistyles();
 
   return (
-    <Button
+    <UniButton
       onPress={onPress}
       role={indicator}
       accessibilityRole={indicator === "checkbox" ? "checkbox" : "radio"}
@@ -43,21 +50,7 @@ export function SelectableCard({
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.description}>{description}</Text>
       </View>
-
-      <MaterialIcons
-        name={
-          indicator === "checkbox"
-            ? selected
-              ? "check-circle"
-              : "radio-button-unchecked"
-            : selected
-              ? "radio-button-checked"
-              : "radio-button-unchecked"
-        }
-        size={22}
-        color={selected ? theme.colors.primary : theme.colors.outline}
-      />
-    </Button>
+    </UniButton>
   );
 }
 
