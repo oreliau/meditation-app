@@ -14,11 +14,12 @@ tags:
     visible: "Find your inner sanctuary"
     timeout: 120000
 - takeScreenshot: github-pages-01-welcome
-- scrollUntilVisible:
-    element:
-      text: "Begin my journey"
-    direction: DOWN
-- tapOn: "Begin my journey"
+- swipe:
+    direction: UP
+- swipe:
+    direction: UP
+- tapOn:
+    id: onboarding-continue
 - tapOn: "Ease stress & anxiety"
 - tapOn: "Continue"
 - tapOn: "Beginner"
