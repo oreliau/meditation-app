@@ -131,7 +131,7 @@ const styles = StyleSheet.create((theme) => ({
     },
   },
   content: {
-    flex: 1,
+    flexGrow: 1,
     maxWidth: 480,
     width: "100%",
     alignSelf: "center",
