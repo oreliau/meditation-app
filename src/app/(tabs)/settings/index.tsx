@@ -99,8 +99,6 @@ const styles = StyleSheet.create((theme, rt) => ({
     fontFamily: theme.typography.titleLg.fontFamily,
     fontSize: theme.typography.titleLg.fontSize,
     lineHeight: theme.typography.titleLg.lineHeight,
-
-    color: theme.colors.onPrimary,
   },
   button: {
     flexDirection: "row",

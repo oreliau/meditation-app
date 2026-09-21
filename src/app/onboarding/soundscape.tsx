@@ -122,6 +122,7 @@ export default function OnboardingSoundscapeScreen() {
 const styles = StyleSheet.create((theme, rt) => ({
   screen: {
     flex: 1,
+    backgroundColor: theme.colors.background,
     _web: {
       minHeight: "100vh",
     },

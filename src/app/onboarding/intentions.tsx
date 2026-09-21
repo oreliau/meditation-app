@@ -132,6 +132,7 @@ export default function OnboardingIntentionsScreen() {
 
 const styles = StyleSheet.create((theme, rt) => ({
   screen: {
+    backgroundColor: theme.colors.background,
     flex: 1,
     _web: {
       minHeight: "100vh",

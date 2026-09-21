@@ -221,6 +221,7 @@ export default function OnboardingRhythmScreen() {
 const styles = StyleSheet.create((theme, rt) => ({
   screen: {
     flex: 1,
+    backgroundColor: theme.colors.background,
     _web: {
       minHeight: "100vh",
     },
