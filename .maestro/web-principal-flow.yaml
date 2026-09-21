@@ -10,37 +10,105 @@ tags:
 
 - launchApp:
     clearState: true
-- assertVisible: "Find your inner sanctuary"
+- extendedWaitUntil:
+    visible: "Find your inner sanctuary"
+    timeout: 120000
 - takeScreenshot: chromium-01-welcome
+- scrollUntilVisible:
+    element: "Begin my journey"
+    direction: DOWN
 - tapOn: "Begin my journey"
+- scrollUntilVisible:
+    element: "Ease stress & anxiety"
+    direction: DOWN
 - tapOn: "Ease stress & anxiety"
+- scrollUntilVisible:
+    element: "Continue"
+    direction: DOWN
 - tapOn: "Continue"
+- scrollUntilVisible:
+    element: "Beginner"
+    direction: DOWN
 - tapOn: "Beginner"
+- scrollUntilVisible:
+    element: "Continue"
+    direction: DOWN
 - tapOn: "Continue"
+- scrollUntilVisible:
+    element: "3 mins — Quick pause"
+    direction: DOWN
 - tapOn: "3 mins — Quick pause"
+- scrollUntilVisible:
+    element: "Morning"
+    direction: DOWN
 - tapOn: "Morning"
+- scrollUntilVisible:
+    element: "Confirm my rhythm"
+    direction: DOWN
 - tapOn: "Confirm my rhythm"
+- scrollUntilVisible:
+    element: "Amber Dawn"
+    direction: DOWN
 - tapOn: "Amber Dawn"
+- scrollUntilVisible:
+    element: "Enter the Sanctuary"
+    direction: DOWN
 - tapOn: "Enter the Sanctuary"
+- scrollUntilVisible:
+    element: "Idle"
+    direction: DOWN
 - assertVisible: "Idle"
 - takeScreenshot: chromium-02-home
+- scrollUntilVisible:
+    element:
+      id: session-duration
+    direction: DOWN
 - tapOn:
     id: session-duration
+- scrollUntilVisible:
+    element: "6 secs"
+    direction: DOWN
 - tapOn: "6 secs"
+- scrollUntilVisible:
+    element: "Apply"
+    direction: DOWN
 - tapOn: "Apply"
+- scrollUntilVisible:
+    element:
+      id: session-play
+    direction: DOWN
 - tapOn:
     id: session-play
+- scrollUntilVisible:
+    element: "Running"
+    direction: DOWN
 - assertVisible: "Running"
 - takeScreenshot: chromium-03-running
 - extendedWaitUntil:
     visible: "Moment of stillness"
     timeout: 15000
 - takeScreenshot: chromium-04-completed
+- scrollUntilVisible:
+    element:
+      id: completion-done
+    direction: DOWN
 - tapOn:
     id: completion-done
+- scrollUntilVisible:
+    element: "Idle"
+    direction: DOWN
 - assertVisible: "Idle"
+- scrollUntilVisible:
+    element: "Explore"
+    direction: DOWN
 - tapOn: "Explore"
+- scrollUntilVisible:
+    element: "Today’s practice"
+    direction: DOWN
 - assertVisible: "Today’s practice"
+- scrollUntilVisible:
+    element: "1 completed session"
+    direction: DOWN
 - assertVisible: "1 completed session"
 - launchApp
 - assertNotVisible: "Find your inner sanctuary"

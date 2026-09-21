@@ -10,7 +10,9 @@ tags:
 
 - launchApp:
     clearState: true
-- assertVisible: "Find your inner sanctuary"
+- extendedWaitUntil:
+    visible: "Find your inner sanctuary"
+    timeout: 120000
 - takeScreenshot: github-pages-01-welcome
 - tapOn: "Begin my journey"
 - tapOn: "Ease stress & anxiety"

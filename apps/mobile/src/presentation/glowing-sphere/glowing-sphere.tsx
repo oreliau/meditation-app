@@ -33,6 +33,7 @@ export function GlowingSphere({ onReady }: { onReady?: () => void }) {
   const { rt } = useUnistyles();
   const reducedMotion = useReducedMotion();
   const [gpuFailed, setGpuFailed] = useState(false);
+  const disableWebGpu = process.env.EXPO_PUBLIC_DISABLE_WEBGPU === "1";
   const themeValues =
     glowingsphereThemeValues[rt.themeName === "dark" ? "dark" : "light"];
 
@@ -41,7 +42,7 @@ export function GlowingSphere({ onReady }: { onReady?: () => void }) {
   }
 
   return (
-    <View style={styles.root}>
+    <View style={disableWebGpu ? styles.disabledRoot : styles.root}>
       <View
         pointerEvents="none"
         style={[styles.container]}
@@ -49,7 +50,7 @@ export function GlowingSphere({ onReady }: { onReady?: () => void }) {
         importantForAccessibility="no-hide-descendants"
         testID="adaptive-background"
       >
-        {!gpuFailed ? (
+        {!gpuFailed && !disableWebGpu ? (
           <WebGpuErrorBoundary onFailure={handleFailure}>
             <Suspense fallback={null}>
               <Root disableWorklets>
@@ -75,6 +76,10 @@ const styles = StyleSheet.create({
     height: 250,
     alignItems: "center",
     justifyContent: "center",
+  },
+  disabledRoot: {
+    width: 0,
+    height: 0,
   },
   fallback: {
     position: "absolute",
