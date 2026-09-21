@@ -10,14 +10,16 @@ import {
   formatDurationLabel,
   getPersistedDurationMinutes,
 } from "@meditation-app/timer";
-import { Stack, useRouter } from "expo-router";
+import { Link, Stack, useRouter } from "expo-router";
 import { useState } from "react";
 import { ScrollView, Text, View } from "react-native";
-import { StyleSheet } from "react-native-unistyles";
+import { StyleSheet, withUnistyles } from "react-native-unistyles";
 import { OnboardingButton } from "@/features/onboarding/OnboardingButton";
 import { OnboardingProgressHeader } from "@/features/onboarding/OnboardingProgressHeader";
 import { SelectableCard } from "@/features/onboarding/SelectableCard";
 import { formatList, formatNumber, useI18n } from "@/i18n";
+
+const UniLink = withUnistyles(Link);
 
 export default function OnboardingSoundscapeScreen() {
   const router = useRouter();
@@ -82,7 +84,27 @@ export default function OnboardingSoundscapeScreen() {
             key={option.id}
             icon={option.icon}
             title={t(option.title)}
-            description={`${formatNumber(option.hz, language)} Hz · ${t(option.description)}`}
+            description={
+              <Text>
+                <Text>{formatNumber(option.hz, language)} Hz</Text>
+                {" · Music by "}
+                <UniLink
+                  href={option.author.link}
+                  target="_blank"
+                  style={styles.link}
+                >
+                  {t(option.author.name)}
+                </UniLink>
+                {" from "}
+                <UniLink
+                  href={option.source.link}
+                  target="_blank"
+                  style={styles.link}
+                >
+                  {t(option.source.name)}
+                </UniLink>
+              </Text>
+            }
             selected={soundscape === option.id}
             indicator="radio"
             onPress={() => chooseSoundscape(option.id)}
@@ -99,6 +121,14 @@ const styles = StyleSheet.create((theme) => ({
   screen: {
     flex: 1,
     backgroundColor: "transparent",
+  },
+  link: {
+    textDecorationLine: "underline",
+    web: {
+      _hover: {
+        color: theme.colors.info,
+      },
+    },
   },
   content: {
     maxWidth: 480,
