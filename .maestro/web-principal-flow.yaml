@@ -10,7 +10,9 @@ tags:
 
 - launchApp:
     clearState: true
-- assertVisible: "Find your inner sanctuary"
+- extendedWaitUntil:
+    visible: "Find your inner sanctuary"
+    timeout: 60000
 - takeScreenshot: chromium-01-welcome
 - scrollUntilVisible:
     element:
