@@ -97,7 +97,7 @@
     "claude:sbx": "sbx run ./sandbox/kits/claude-sonnet -t claude-code-pnpm:v1 --clone --static-mcp expo",
     "codex:sbx": "sbx run ./sandbox/kits/codex-luna -t codex-pnpm:v1 --clone --static-mcp expo",
     "prepare": "husky",
-    "knip": "knip"
+    "investigate:files": "knip"
   },
   "private": true,
   "packageManager": "pnpm@12.4.1+sha256.6276298e9af576b7a7f5e9044bfafbe2678209250cd10b1705ea5d3aa64d4882"
