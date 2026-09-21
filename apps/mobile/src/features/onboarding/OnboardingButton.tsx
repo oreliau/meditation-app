@@ -1,6 +1,10 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import { Text } from "react-native";
-import { StyleSheet, useUnistyles } from "react-native-unistyles";
+import {
+  StyleSheet,
+  useUnistyles,
+  withUnistyles,
+} from "react-native-unistyles";
 import { Button } from "@/components/Button";
 
 type Props = {
@@ -9,13 +13,15 @@ type Props = {
   disabled?: boolean;
 };
 
+const UniButton = withUnistyles(Button);
+
 // Primary pill CTA used at the bottom of every onboarding step, matching
 // the mockups' "Continue →" / "Confirm my rhythm →" buttons.
 export function OnboardingButton({ label, onPress, disabled = false }: Props) {
   const { theme } = useUnistyles();
 
   return (
-    <Button
+    <UniButton
       onPress={onPress}
       disabled={disabled}
       accessibilityRole="button"
@@ -30,7 +36,7 @@ export function OnboardingButton({ label, onPress, disabled = false }: Props) {
         size={20}
         color={theme.colors.onPrimary}
       />
-    </Button>
+    </UniButton>
   );
 }
 
@@ -39,10 +45,12 @@ const styles = StyleSheet.create((theme) => ({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
+    width: "100%",
     gap: theme.spacing.unit,
     paddingVertical: theme.spacing.gutter,
     borderRadius: theme.radius.full,
     backgroundColor: theme.colors.primary,
+    marginTop: "auto",
   },
   buttonDisabled: {
     opacity: 0.5,
