@@ -23,6 +23,12 @@ export function setHasCompletedOnboarding(): void {
   }
 }
 
+export function resetOnboardingStorage(): void {
+  if (isStorageAvailable()) {
+    onboardingStorage.clearAll();
+  }
+}
+
 export const INTENTION_IDS = [
   "stress-anxiety",
   "sleep",

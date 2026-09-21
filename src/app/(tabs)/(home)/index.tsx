@@ -346,7 +346,7 @@ export default function TimerScreen() {
             icon="restart"
             label={t("restart")}
             disabled={isEditing}
-            onPress={session.restart}
+            onPress={session.stop}
           />
           <ControlButton
             primary

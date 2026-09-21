@@ -58,14 +58,33 @@ export function useTimerSession(
     persistVolumePreference(!isVolumeEnabled);
   };
 
+  const pause = () => {
+    store.pause();
+    persistVolumePreference(false);
+  };
+
+  const stop = () => {
+    store.stop();
+    persistVolumePreference(false);
+  };
+
+  const play = () => {
+    store.play();
+    persistVolumePreference(true);
+  };
+
+  const restart = () => {
+    store.restart();
+  };
+
   return {
     ...snapshot,
     setDurationMinutes: store.setDurationMinutes,
     setProgramContext: store.setProgramContext,
-    play: store.play,
-    pause: store.pause,
-    stop: store.stop,
-    restart: store.restart,
+    play,
+    pause,
+    stop,
+    restart,
     isVolumeEnabled,
     toggleVolume,
   };

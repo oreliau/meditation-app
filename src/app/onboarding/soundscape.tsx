@@ -53,7 +53,11 @@ export default function OnboardingSoundscapeScreen() {
   }
 
   return (
-    <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
+    <ScrollView
+      style={styles.screen}
+      contentContainerStyle={styles.content}
+      bounces={false}
+    >
       <OnboardingProgressHeader
         step={4}
         label={t("soundscape")}
@@ -115,7 +119,7 @@ export default function OnboardingSoundscapeScreen() {
   );
 }
 
-const styles = StyleSheet.create((theme) => ({
+const styles = StyleSheet.create((theme, rt) => ({
   screen: {
     flex: 1,
     _web: {
@@ -132,6 +136,7 @@ const styles = StyleSheet.create((theme) => ({
   },
   content: {
     flex: 1,
+    paddingVertical: rt.insets.top || theme.spacing.containerPaddingMobile,
     maxWidth: 480,
     width: "100%",
     alignSelf: "center",

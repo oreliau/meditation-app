@@ -1,5 +1,7 @@
 import { ScrollView, Text } from "react-native";
 import { StyleSheet } from "react-native-unistyles";
+import { Button } from "@/components/Button";
+import { resetOnboardingStorage } from "@/features/onboarding";
 import { useI18n } from "@/i18n";
 import { StackHeader } from "@/presentation/stack-header";
 import { useReminderSettings } from "@/reminders";
@@ -80,18 +82,42 @@ export default function SettingsScreen() {
           </>
         )}
       />
+
+      <Button onPress={resetOnboardingStorage} style={[styles.button]}>
+        <Text style={styles.label}>{t("Reset")}</Text>
+      </Button>
     </ScrollView>
   );
 }
 
-const styles = StyleSheet.create((theme) => ({
+const styles = StyleSheet.create((theme, rt) => ({
   screen: {
     flexGrow: 1,
     backgroundColor: theme.colors.background,
   },
+  label: {
+    fontFamily: theme.typography.titleLg.fontFamily,
+    fontSize: theme.typography.titleLg.fontSize,
+    lineHeight: theme.typography.titleLg.lineHeight,
+
+    color: theme.colors.onPrimary,
+  },
+  button: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    gap: theme.spacing.unit,
+    paddingVertical: theme.spacing.gutter,
+    borderRadius: theme.radius.full,
+    backgroundColor: theme.colors.onError,
+    marginTop: theme.spacing.sectionGap,
+  },
   content: {
-    flex: 1,
+    flexShrink: 0,
+    flexGrow: 1,
     padding: theme.spacing.containerPaddingMobile,
+    paddingTop: rt.insets.top,
     gap: theme.spacing.unit,
     maxWidth: theme.maxWidth,
     width: "100%",

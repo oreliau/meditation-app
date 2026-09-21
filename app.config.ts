@@ -66,28 +66,19 @@ export default {
         },
       ],
       "react-native-webgpu",
-      // [
-      //   "expo-widgets",
-      //   {
-      //     widgets: [
-      //       {
-      //         name: "MeditationWidget",
-      //         displayName: "Meditation",
-      //         description: "Start or control your meditation session.",
-      //         ios: {
-      //           supportedFamilies: [
-      //             "systemSmall",
-      //             "systemMedium",
-      //             "accessoryCircular",
-      //             "accessoryRectangular",
-      //             "accessoryInline",
-      //           ],
-      //           contentMarginsDisabled: true,
-      //         },
-      //       },
-      //     ],
-      //   },
-      // ],
+
+      [
+        "expo-font",
+        {
+          fonts: [
+            "node_modules/@expo-google-fonts/inter/400Regular/Inter_400Regular.ttf",
+            "node_modules/@expo-google-fonts/inter/500Medium/Inter_500Medium.ttf",
+            "node_modules/@expo-google-fonts/inter/600SemiBold/Inter_600SemiBold.ttf",
+            "node_modules/@expo-google-fonts/playfair-display/500Medium/PlayfairDisplay_500Medium.ttf",
+            "node_modules/@expo-google-fonts/playfair-display/600SemiBold/PlayfairDisplay_600SemiBold.ttf",
+          ],
+        },
+      ],
     ],
     experiments: {
       reactCompiler: true,

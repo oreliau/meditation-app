@@ -45,7 +45,11 @@ export default function OnboardingIntentionsScreen() {
   )?.descriptor;
 
   return (
-    <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
+    <ScrollView
+      style={styles.screen}
+      contentContainerStyle={styles.content}
+      bounces={false}
+    >
       <OnboardingProgressHeader
         step={2}
         label={t("intentions")}
@@ -126,7 +130,7 @@ export default function OnboardingIntentionsScreen() {
   );
 }
 
-const styles = StyleSheet.create((theme) => ({
+const styles = StyleSheet.create((theme, rt) => ({
   screen: {
     flex: 1,
     _web: {
@@ -134,11 +138,11 @@ const styles = StyleSheet.create((theme) => ({
     },
   },
   content: {
-    flex: 1,
     maxWidth: 480,
+    paddingVertical: rt.insets.top || theme.spacing.containerPaddingMobile,
     width: "100%",
     alignSelf: "center",
-    padding: theme.spacing.containerPaddingMobile,
+    paddingHorizontal: theme.spacing.containerPaddingMobile,
     gap: theme.spacing.unit,
   },
   stepEyebrow: {

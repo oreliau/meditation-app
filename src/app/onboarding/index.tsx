@@ -16,20 +16,14 @@ export default function OnboardingWelcomeScreen() {
       title: t("featureShaders"),
       description: t("featureShadersDescription"),
     },
-    {
-      icon: "self-improvement" as const,
-      title: t("featureRhythms"),
-      description: t("featureRhythmsDescription"),
-    },
-    {
-      icon: "nightlight" as const,
-      title: t("featureDistractionFree"),
-      description: t("featureDistractionFreeDescription"),
-    },
   ];
 
   return (
-    <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
+    <ScrollView
+      style={styles.screen}
+      contentContainerStyle={styles.content}
+      bounces={false}
+    >
       <View style={styles.eyebrowRow}>
         <MaterialIcons name="spa" size={16} color={theme.colors.primary} />
         <Text style={styles.eyebrow}>{t("auraSanctuary")}</Text>
@@ -77,7 +71,7 @@ export default function OnboardingWelcomeScreen() {
   );
 }
 
-const styles = StyleSheet.create((theme) => ({
+const styles = StyleSheet.create((theme, rt) => ({
   screen: {
     flex: 1,
     _web: {
@@ -85,11 +79,12 @@ const styles = StyleSheet.create((theme) => ({
     },
   },
   content: {
+    flex: 1,
     maxWidth: 480,
     width: "100%",
-    flex: 1,
     alignSelf: "center",
     padding: theme.spacing.containerPaddingMobile,
+    paddingTop: rt.insets.top || theme.spacing.containerPaddingMobile,
     gap: theme.spacing.sectionGap / 2,
     alignItems: "center",
   },
