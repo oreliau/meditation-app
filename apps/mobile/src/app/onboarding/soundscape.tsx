@@ -10,7 +10,7 @@ import {
   formatDurationLabel,
   getPersistedDurationMinutes,
 } from "@meditation-app/timer";
-import { Link, Stack, useRouter } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { StyleSheet, withUnistyles } from "react-native-unistyles";
@@ -54,8 +54,6 @@ export default function OnboardingSoundscapeScreen() {
 
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
-      <Stack.Screen />
-
       <OnboardingProgressHeader
         step={4}
         label={t("soundscape")}
@@ -120,7 +118,9 @@ export default function OnboardingSoundscapeScreen() {
 const styles = StyleSheet.create((theme) => ({
   screen: {
     flex: 1,
-    backgroundColor: "transparent",
+    _web: {
+      minHeight: "100vh",
+    },
   },
   link: {
     textDecorationLine: "underline",
@@ -131,6 +131,7 @@ const styles = StyleSheet.create((theme) => ({
     },
   },
   content: {
+    flex: 1,
     maxWidth: 480,
     width: "100%",
     alignSelf: "center",

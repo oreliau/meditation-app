@@ -1,5 +1,5 @@
 import { MaterialIcons } from "@expo/vector-icons";
-import { Stack, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { ScrollView, Text, View } from "react-native";
 import { StyleSheet, useUnistyles } from "react-native-unistyles";
 import { CompletionOrb } from "@/features/completion/CompletionOrb";
@@ -30,8 +30,6 @@ export default function OnboardingWelcomeScreen() {
 
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
-      <Stack.Screen />
-
       <View style={styles.eyebrowRow}>
         <MaterialIcons name="spa" size={16} color={theme.colors.primary} />
         <Text style={styles.eyebrow}>{t("auraSanctuary")}</Text>
@@ -82,11 +80,14 @@ export default function OnboardingWelcomeScreen() {
 const styles = StyleSheet.create((theme) => ({
   screen: {
     flex: 1,
-    backgroundColor: "transparent",
+    _web: {
+      minHeight: "100vh",
+    },
   },
   content: {
     maxWidth: 480,
     width: "100%",
+    flex: 1,
     alignSelf: "center",
     padding: theme.spacing.containerPaddingMobile,
     gap: theme.spacing.sectionGap / 2,

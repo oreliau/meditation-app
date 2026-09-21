@@ -79,7 +79,7 @@
     "android": "pnpm --dir apps/mobile android",
     "ios": "pnpm --dir apps/mobile ios",
     "web": "pnpm --dir apps/mobile web",
-    "lint": "biome check . --fix",
+    "lint": "biome check . --write --unsafe",
     "lint:ci": "biome ci .",
     "test": "jest --cache",
     "test:ci": "jest --ci --coverage",

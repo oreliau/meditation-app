@@ -8,15 +8,17 @@ import {
   setExperienceLevel,
   setIntentions,
 } from "@meditation-app/onboarding";
-import { Stack, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import { ScrollView, Text, View } from "react-native";
-import { StyleSheet } from "react-native-unistyles";
+import { StyleSheet, withUnistyles } from "react-native-unistyles";
 import { Button } from "@/components/Button";
 import { OnboardingButton } from "@/features/onboarding/OnboardingButton";
 import { OnboardingProgressHeader } from "@/features/onboarding/OnboardingProgressHeader";
 import { SelectableCard } from "@/features/onboarding/SelectableCard";
 import { useI18n } from "@/i18n";
+
+const UniButton = withUnistyles(Button);
 
 export default function OnboardingIntentionsScreen() {
   const router = useRouter();
@@ -44,8 +46,6 @@ export default function OnboardingIntentionsScreen() {
 
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
-      <Stack.Screen />
-
       <OnboardingProgressHeader
         step={2}
         label={t("intentions")}
@@ -83,7 +83,7 @@ export default function OnboardingIntentionsScreen() {
         </View>
         <View style={styles.experienceSegments}>
           {EXPERIENCE_LEVELS.map((level) => (
-            <Button
+            <UniButton
               key={level.id}
               onPress={() => chooseExperienceLevel(level.id)}
               role="radio"
@@ -106,7 +106,7 @@ export default function OnboardingIntentionsScreen() {
               >
                 {t(level.label)}
               </Text>
-            </Button>
+            </UniButton>
           ))}
         </View>
       </View>
@@ -129,9 +129,12 @@ export default function OnboardingIntentionsScreen() {
 const styles = StyleSheet.create((theme) => ({
   screen: {
     flex: 1,
-    backgroundColor: "transparent",
+    _web: {
+      minHeight: "100vh",
+    },
   },
   content: {
+    flex: 1,
     maxWidth: 480,
     width: "100%",
     alignSelf: "center",

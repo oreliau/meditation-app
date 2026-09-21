@@ -11,15 +11,20 @@ import {
   getPersistedDurationMinutes,
   persistDurationMinutes,
 } from "@meditation-app/timer";
-import { Stack, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import { ScrollView, Switch, Text, View } from "react-native";
-import { StyleSheet, useUnistyles } from "react-native-unistyles";
+import {
+  StyleSheet,
+  useUnistyles,
+  withUnistyles,
+} from "react-native-unistyles";
 import { Button } from "@/components/Button";
 import { OnboardingButton } from "@/features/onboarding/OnboardingButton";
 import { OnboardingProgressHeader } from "@/features/onboarding/OnboardingProgressHeader";
 import { useI18n } from "@/i18n";
 
+const UniButton = withUnistyles(Button);
 const ONBOARDING_DEFAULT_DURATION: DurationMinutes = 5;
 
 export default function OnboardingRhythmScreen() {
@@ -72,8 +77,6 @@ export default function OnboardingRhythmScreen() {
 
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
-      <Stack.Screen />
-
       <OnboardingProgressHeader
         step={3}
         label={t("dailyRhythm")}
@@ -87,7 +90,7 @@ export default function OnboardingRhythmScreen() {
       <Text style={styles.sectionTitle}>{t("breathingDuration")}</Text>
       <View style={styles.durationGrid}>
         {DURATION_PRESET_CONTENT.map((preset) => (
-          <Button
+          <UniButton
             key={preset.minutes}
             onPress={() => chooseDuration(preset.minutes)}
             role="radio"
@@ -111,14 +114,14 @@ export default function OnboardingRhythmScreen() {
               {formatDurationLabel(preset.minutes)}
             </Text>
             <Text style={styles.durationTitle}>{t(preset.title)}</Text>
-          </Button>
+          </UniButton>
         ))}
       </View>
 
       <Text style={styles.sectionTitle}>{t("bestMoment")}</Text>
       <View style={styles.momentRow}>
         {REMINDER_MOMENTS.map((option) => (
-          <Button
+          <UniButton
             key={option.id}
             onPress={() => chooseMoment(option.id)}
             role="radio"
@@ -137,7 +140,7 @@ export default function OnboardingRhythmScreen() {
             />
             <Text style={styles.momentLabel}>{t(option.label)}</Text>
             <Text style={styles.momentTime}>{option.time}</Text>
-          </Button>
+          </UniButton>
         ))}
       </View>
 
@@ -214,9 +217,12 @@ export default function OnboardingRhythmScreen() {
 const styles = StyleSheet.create((theme) => ({
   screen: {
     flex: 1,
-    backgroundColor: "transparent",
+    _web: {
+      minHeight: "100vh",
+    },
   },
   content: {
+    flex: 1,
     maxWidth: 480,
     width: "100%",
     alignSelf: "center",
