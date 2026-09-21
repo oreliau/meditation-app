@@ -14,12 +14,7 @@ tags:
     visible: "Find your inner sanctuary"
     timeout: 120000
 - takeScreenshot: github-pages-01-welcome
-- swipe:
-    direction: UP
-- swipe:
-    direction: UP
-- tapOn:
-    id: onboarding-continue
+- tapOn: "Begin my journey"
 - tapOn: "Ease stress & anxiety"
 - tapOn: "Continue"
 - tapOn: "Beginner"
