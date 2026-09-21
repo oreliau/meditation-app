@@ -15,7 +15,7 @@ export const StackHeader = ({ title, description }: StackHeaderProps) => {
   );
 };
 
-const styles = StyleSheet.create((theme, rt) => ({
+const styles = StyleSheet.create((theme, _rt) => ({
   title: {
     fontFamily: theme.typography.headlineMd.fontFamily,
     fontSize: theme.typography.headlineMd.fontSize,
@@ -33,6 +33,6 @@ const styles = StyleSheet.create((theme, rt) => ({
       xs: theme.spacing.containerPaddingMobile,
       lg: theme.spacing.containerPaddingDesktop,
     },
-    paddingTop: rt.insets.top + theme.spacing.gutter,
+    paddingVertical: theme.spacing.gutter,
   },
 }));

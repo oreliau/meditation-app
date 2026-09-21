@@ -2,3 +2,4 @@ pnpm run lint:ci
 pnpm run typecheck
 pnpm run react-compiler:healthcheck
 pnpm test
+pnpm investigate:files

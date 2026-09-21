@@ -82,9 +82,10 @@ export default function ExplorerScreen() {
   );
 }
 
-const styles = StyleSheet.create((theme) => ({
+const styles = StyleSheet.create((theme, rt) => ({
   screen: { flex: 1, backgroundColor: theme.colors.background },
   content: {
+    paddingTop: rt.insets.top,
     padding: theme.spacing.containerPaddingMobile,
     gap: theme.spacing.gutter,
     paddingBottom: theme.spacing.sectionGap,

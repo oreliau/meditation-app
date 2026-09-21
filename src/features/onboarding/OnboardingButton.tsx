@@ -1,5 +1,5 @@
 import { MaterialIcons } from "@expo/vector-icons";
-import { Text } from "react-native";
+import { Text, View } from "react-native";
 import {
   StyleSheet,
   useUnistyles,
@@ -21,26 +21,32 @@ export function OnboardingButton({ label, onPress, disabled = false }: Props) {
   const { theme } = useUnistyles();
 
   return (
-    <UniButton
-      onPress={onPress}
-      disabled={disabled}
-      accessibilityRole="button"
-      accessibilityLabel={label}
-      accessibilityState={{ disabled }}
-      testID="onboarding-continue"
-      style={[styles.button, disabled && styles.buttonDisabled]}
-    >
-      <Text style={styles.label}>{label}</Text>
-      <MaterialIcons
-        name="arrow-forward"
-        size={20}
-        color={theme.colors.onPrimary}
-      />
-    </UniButton>
+    <View style={styles.container}>
+      <UniButton
+        onPress={onPress}
+        disabled={disabled}
+        accessibilityRole="button"
+        accessibilityLabel={label}
+        accessibilityState={{ disabled }}
+        testID="onboarding-continue"
+        style={[styles.button, disabled && styles.buttonDisabled]}
+      >
+        <Text style={styles.label}>{label}</Text>
+        <MaterialIcons
+          name="arrow-forward"
+          size={20}
+          color={theme.colors.onPrimary}
+        />
+      </UniButton>
+    </View>
   );
 }
 
 const styles = StyleSheet.create((theme) => ({
+  container: {
+    marginTop: "auto",
+    width: "100%",
+  },
   button: {
     flexDirection: "row",
     alignItems: "center",
@@ -50,7 +56,7 @@ const styles = StyleSheet.create((theme) => ({
     paddingVertical: theme.spacing.gutter,
     borderRadius: theme.radius.full,
     backgroundColor: theme.colors.primary,
-    marginTop: "auto",
+    marginTop: theme.spacing.sectionGap,
   },
   buttonDisabled: {
     opacity: 0.5,

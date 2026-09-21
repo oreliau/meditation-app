@@ -76,7 +76,11 @@ export default function OnboardingRhythmScreen() {
   }
 
   return (
-    <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
+    <ScrollView
+      style={styles.screen}
+      contentContainerStyle={styles.content}
+      bounces={false}
+    >
       <OnboardingProgressHeader
         step={3}
         label={t("dailyRhythm")}
@@ -214,7 +218,7 @@ export default function OnboardingRhythmScreen() {
   );
 }
 
-const styles = StyleSheet.create((theme) => ({
+const styles = StyleSheet.create((theme, rt) => ({
   screen: {
     flex: 1,
     _web: {
@@ -227,6 +231,7 @@ const styles = StyleSheet.create((theme) => ({
     width: "100%",
     alignSelf: "center",
     padding: theme.spacing.containerPaddingMobile,
+    paddingTop: rt.insets.top || theme.spacing.containerPaddingMobile,
     gap: theme.spacing.unit,
   },
   stepEyebrow: {

@@ -120,8 +120,15 @@ export function getPersistedVolumePreference(): boolean | undefined {
   return typeof value === "boolean" ? value : undefined;
 }
 
-export function persistVolumePreference(enabled: boolean): void {
+export function persistVolumePreference(
+  enabled: boolean | ((enabled: boolean) => boolean),
+): void {
   if (isStorageAvailable()) {
-    timerStorage.set(VOLUME_PREFERENCE_KEY, enabled);
+    timerStorage.set(
+      VOLUME_PREFERENCE_KEY,
+      typeof enabled === "function"
+        ? enabled(getPersistedVolumePreference() ?? true)
+        : enabled,
+    );
   }
 }

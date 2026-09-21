@@ -59,15 +59,16 @@
     "@testing-library/react": "^15.0.6",
     "@testing-library/react-native": "^13.0.0",
     "@types/jest": "29.5.14",
+    "@types/node": "^26.6.2",
     "@types/react": "~19.2.2",
     "@webgpu/types": "^0.1.72",
-    "babel-jest": "^29.7.0",
     "babel-preset-expo": "~57.0.12",
     "globals": "^17.12.0",
     "husky": "^9.1.7",
     "jest": "~29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "jest-expo": "~57.0.5",
+    "knip": "^6.37.0",
     "lint-staged": "^17.5.1",
     "react-test-renderer": "19.2.3",
     "typescript": "~6.0.3",
@@ -95,7 +96,8 @@
     "react-compiler:healthcheck": "pnpm dlx react-compiler-healthcheck@latest",
     "claude:sbx": "sbx run ./sandbox/kits/claude-sonnet -t claude-code-pnpm:v1 --clone --static-mcp expo",
     "codex:sbx": "sbx run ./sandbox/kits/codex-luna -t codex-pnpm:v1 --clone --static-mcp expo",
-    "prepare": "husky"
+    "prepare": "husky",
+    "investigate:files": "knip"
   },
   "private": true,
   "packageManager": "pnpm@12.4.1+sha256.6276298e9af576b7a7f5e9044bfafbe2678209250cd10b1705ea5d3aa64d4882"
