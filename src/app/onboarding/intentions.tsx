@@ -139,6 +139,7 @@ const styles = StyleSheet.create((theme, rt) => ({
     },
   },
   content: {
+    flexGrow: 1,
     maxWidth: 480,
     paddingVertical: rt.insets.top || theme.spacing.containerPaddingMobile,
     width: "100%",

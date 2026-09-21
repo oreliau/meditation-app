@@ -57,4 +57,17 @@ jest.mock("react-native-worklets", () =>
   require("react-native-worklets/src/mock"),
 );
 
+if (typeof window.matchMedia !== "function") {
+  window.matchMedia = jest.fn().mockImplementation((query) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: jest.fn(),
+    removeListener: jest.fn(),
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
+  }));
+}
+
 require("react-native-reanimated").setUpTests();

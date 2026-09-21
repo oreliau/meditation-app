@@ -1,4 +1,8 @@
+set -e
+
 pnpm run lint:ci
+pnpm run security:scan
+pnpm run secrets:scan
 pnpm run typecheck
 pnpm run react-compiler:healthcheck
 pnpm test

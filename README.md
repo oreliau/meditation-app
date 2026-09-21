@@ -135,6 +135,8 @@ settings must be enabled in GitHub to make that policy non-bypassable.
 ### Prerequisites
 
 - Node.js and pnpm
+- Trivy and Gitleaks CLIs for the pre-commit security scans (`brew install trivy gitleaks` on macOS)
+- Gitleaks CLI for the pre-commit secrets scan (`brew install gitleaks` on macOS)
 - Xcode for iOS development
 - Android Studio for Android development
 

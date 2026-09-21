@@ -1,6 +1,6 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useCallback, useEffect } from "react";
-import { BackHandler, Platform, Text, View } from "react-native";
+import { BackHandler, Platform, ScrollView, Text, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useReducedMotion,
@@ -94,7 +94,7 @@ export default function SessionCompleteScreen() {
   }));
 
   return (
-    <View style={styles.screen}>
+    <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
       <Animated.View style={[styles.phase, contentStyle]}>
         <View style={styles.content}>
           <View style={styles.statusPill}>
@@ -128,7 +128,7 @@ export default function SessionCompleteScreen() {
       <Animated.View style={[styles.phaseTransition, transitionStyle]}>
         <CompletionTransition onFinished={handleTransitionFinished} />
       </Animated.View>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -145,11 +145,11 @@ const styles = StyleSheet.create((theme) => ({
     ...StyleSheet.absoluteFillObject,
   },
   content: {
-    flex: 1,
+    flexGrow: 1,
     alignItems: "center",
     justifyContent: "center",
     paddingHorizontal: theme.spacing.containerPaddingMobile,
-    paddingVertical: theme.spacing.sectionGap,
+    // paddingVertical: theme.spacing.sectionGap,
     gap: theme.spacing.sectionGap / 2,
   },
   statusPill: {

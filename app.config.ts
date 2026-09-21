@@ -79,6 +79,8 @@ export default {
           ],
         },
       ],
+      "expo-web-browser",
+      "expo-widgets",
     ],
     experiments: {
       reactCompiler: true,

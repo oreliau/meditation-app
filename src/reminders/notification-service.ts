@@ -30,7 +30,7 @@ export function createNotificationService(): NotificationsClient {
     handleNotification: async (notification) => ({
       ...notificationPresentation(
         notification.request.content.data as { kind?: string } | undefined,
-        AppState.currentState,
+        AppState.currentState === "background" ? "background" : "active",
       ),
       shouldSetBadge: false,
     }),
