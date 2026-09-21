@@ -42,7 +42,7 @@ export function GlowingSphere({ onReady }: { onReady?: () => void }) {
   }
 
   return (
-    <View style={styles.root}>
+    <View style={disableWebGpu ? styles.disabledRoot : styles.root}>
       <View
         pointerEvents="none"
         style={[styles.container]}
@@ -76,6 +76,10 @@ const styles = StyleSheet.create({
     height: 250,
     alignItems: "center",
     justifyContent: "center",
+  },
+  disabledRoot: {
+    width: 0,
+    height: 0,
   },
   fallback: {
     position: "absolute",
