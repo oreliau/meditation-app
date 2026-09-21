@@ -9,7 +9,7 @@
 jest.mock("react-native-mmkv", () => ({
   createMMKV: () => {
     const store = jest
-      .requireActual("./apps/mobile/src/test/inMemoryMMKV")
+      .requireActual("./src/test/inMemoryMMKV")
       .createInMemoryMMKV();
     for (const key of Object.keys(store)) {
       store[key] = jest.fn(store[key]);

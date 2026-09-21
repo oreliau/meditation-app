@@ -40,7 +40,7 @@ jobs:
 
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: apps/mobile/dist
+          path: dist
 
   deploy:
     name: Publish to GitHub Pages
