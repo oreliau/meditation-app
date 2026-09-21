@@ -12,10 +12,9 @@ module.exports = {
   ],
   // Mirrors tsconfig.json `paths`; order matters (assets before the catch-all).
   moduleNameMapper: {
-    "^@formatjs/.*/polyfill\\.js$":
-      "<rootDir>/apps/mobile/src/test/intl-polyfill.mock.js",
-    "^@/assets/(.*)$": "<rootDir>/apps/mobile/assets/$1",
-    "^@/(.*)$": "<rootDir>/apps/mobile/src/$1",
+    "^@formatjs/.*/polyfill\\.js$": "<rootDir>/src/test/intl-polyfill.mock.js",
+    "^@/assets/(.*)$": "<rootDir>/assets/$1",
+    "^@/(.*)$": "<rootDir>/src/$1",
   },
   collectCoverageFrom: [
     "app/**/*.{ts,tsx}",

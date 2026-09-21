@@ -10,7 +10,6 @@
     "includes": [
       "**",
       "!assets",
-      "!apps/mobile/assets",
       "!.claude",
       "!.agents",
       "!kits",
