@@ -130,6 +130,7 @@ export function createSessionStore(): SessionStore {
     if (
       next.status === snapshot.status &&
       next.remainingSeconds === snapshot.remainingSeconds &&
+      next.endsAt === snapshot.endsAt &&
       next.durationMinutes === snapshot.durationMinutes &&
       next.programContext?.programId === snapshot.programContext?.programId &&
       next.programContext?.sessionId === snapshot.programContext?.sessionId
@@ -236,6 +237,7 @@ export function createSessionStore(): SessionStore {
     },
     restart() {
       const now = Date.now();
+      commit(stop(session), now);
       commit(restart(session, now, minutesToMs(durationMinutes)), now);
     },
     resetToIdle() {

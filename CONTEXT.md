@@ -119,8 +119,12 @@ _Avoid_: Goal (reserve "Intention" for this Onboarding concept specifically)
 A person's self-reported familiarity with meditation (Beginner, Regular, or Zen guide), chosen once during Onboarding's Intentions step. Persisted for future personalization; nothing currently reads it.
 
 **Soundscape preference**:
-A person's chosen ambient audio identity (e.g. Amber Dawn, Silent River, Misty Forest), selected during Onboarding's final step. Persisted for when real audio playback is built; the Onboarding screen itself does not play audio.
+A person's chosen ambient audio identity (e.g. Amber Dawn, Silent River, Misty Forest), selected during Onboarding's final step. Persisted for future Sessions; the Onboarding screen itself does not play audio.
 _Avoid_: Soundscape (reserve that for the eventual playable feature; "preference" makes clear this is only a stored choice today)
+
+**Soundscape**:
+The bundled ambient audio selected by a Soundscape preference and played as a looping background during a Running Session. It pauses with a Paused Session and stops when that Session ends; audio failure never prevents the Session from running.
+_Avoid_: Ambient track (use Soundscape for the product concept)
 
 ### Verification
 

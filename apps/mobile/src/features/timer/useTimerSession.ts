@@ -65,7 +65,7 @@ export function useTimerSession(
     play: store.play,
     pause: store.pause,
     stop: store.stop,
-    restart: store.resetToIdle,
+    restart: store.restart,
     isVolumeEnabled,
     toggleVolume,
   };

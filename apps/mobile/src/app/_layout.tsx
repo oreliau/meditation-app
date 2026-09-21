@@ -1,3 +1,4 @@
+import { useSoundscapePlayback } from "@meditation-app/audio-feedback";
 import {
   initializeNotifications,
   setDailyStatsReader,
@@ -14,6 +15,7 @@ import "../unistyles";
 import { useLoadFonts } from "@meditation-app/fonts";
 import {
   getHasCompletedOnboarding,
+  getSoundscape,
   HAS_COMPLETED_ONBOARDING_KEY,
   onboardingStorage,
 } from "@meditation-app/onboarding";
@@ -47,6 +49,7 @@ export default function RootLayout() {
   useRecordCompletedSessions();
   useNavigateToCompletion();
   useRefreshRemindersOnForeground(intlLoaded);
+  useSoundscapePlayback({ getSoundscape });
   useEffect(() => {
     loadPolyfills(getInitialLocale()).finally(() => setIntlLoaded(true));
   }, []);
