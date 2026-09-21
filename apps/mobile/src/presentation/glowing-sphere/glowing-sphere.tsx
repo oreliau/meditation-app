@@ -33,6 +33,7 @@ export function GlowingSphere({ onReady }: { onReady?: () => void }) {
   const { rt } = useUnistyles();
   const reducedMotion = useReducedMotion();
   const [gpuFailed, setGpuFailed] = useState(false);
+  const disableWebGpu = process.env.EXPO_PUBLIC_DISABLE_WEBGPU === "1";
   const themeValues =
     glowingsphereThemeValues[rt.themeName === "dark" ? "dark" : "light"];
 
@@ -49,7 +50,7 @@ export function GlowingSphere({ onReady }: { onReady?: () => void }) {
         importantForAccessibility="no-hide-descendants"
         testID="adaptive-background"
       >
-        {!gpuFailed ? (
+        {!gpuFailed && !disableWebGpu ? (
           <WebGpuErrorBoundary onFailure={handleFailure}>
             <Suspense fallback={null}>
               <Root disableWorklets>

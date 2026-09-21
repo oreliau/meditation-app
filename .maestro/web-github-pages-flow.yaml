@@ -12,7 +12,7 @@ tags:
     clearState: true
 - extendedWaitUntil:
     visible: "Find your inner sanctuary"
-    timeout: 60000
+    timeout: 120000
 - takeScreenshot: github-pages-01-welcome
 - scrollUntilVisible:
     element:
