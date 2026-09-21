@@ -16,7 +16,6 @@ concurrency:
 
 env:
   EXPO_NO_TELEMETRY: "1"
-  EXPO_PUBLIC_DISABLE_WEBGPU: "1"
   EXPO_BASE_URL: /meditation-app
 
 jobs:
