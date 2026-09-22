@@ -43,14 +43,14 @@ The project is in active development. The repository contains the working produc
 These are curated design explorations from the project’s visual direction. They are included as references while the product continues to evolve.
 
 <p align="center">
-  <img src="assets/images/screenshots/en/explore-programs.png" alt="Meditation App exploration screen showing a calm journey library" width="31%" />
+  <img src="assets/images/screenshots/raw/en/explore-programs.png" alt="Meditation App exploration screen showing a calm journey library" width="31%" />
   &nbsp;
-  <img src="assets/images/screenshots/en/session-in-progress.png" alt="Meditation App exploration screen showing a meditation timer" width="31%" />
+  <img src="assets/images/screenshots/raw/en/session-in-progress.png" alt="Meditation App exploration screen showing a meditation timer" width="31%" />
   &nbsp;
-  <img src="assets/images/screenshots/en/session-complete.png" alt="Meditation App exploration screen showing session completion" width="31%" />
+  <img src="assets/images/screenshots/raw/en/session-complete.png" alt="Meditation App exploration screen showing session completion" width="31%" />
 </p>
 
-<video src="assets/images/screenshots/en/iphone-duo-demo.mp4" controls width="96%" aria-label="Meditation App iPhone demo"></video>
+<video src="assets/images/screenshots/raw/en/iphone-duo-demo.mp4" controls width="96%" aria-label="Meditation App iPhone demo"></video>
 
 ## Technology
 
