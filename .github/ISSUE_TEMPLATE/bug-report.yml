@@ -1,0 +1,63 @@
+name: Bug report
+description: Something isn't working in the app
+title: "[Bug] "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for taking the time to report this. The more detail, the faster we can fix it.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you expect, and what happened instead?
+      placeholder: "I started a 10-minute session, locked my phone, and the end-of-session alert never arrived."
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open the Timer tab
+        2. Tap "Change duration" and pick 10 min
+        3. Press play, then lock the phone
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - iPhone
+        - iPad
+        - Android phone
+        - Android tablet
+        - Web
+    validations:
+      required: true
+  - type: input
+    id: os-version
+    attributes:
+      label: OS version
+      placeholder: "iOS 26.0 / Android 15"
+    validations:
+      required: true
+  - type: input
+    id: app-version
+    attributes:
+      label: App version
+      placeholder: "1.0.0"
+  - type: dropdown
+    id: theme
+    attributes:
+      label: Theme in use
+      options:
+        - Adaptive (follows system)
+        - Light
+        - Dark
+  - type: textarea
+    id: extra
+    attributes:
+      label: Screenshots or screen recording
+      description: Drag and drop images or videos here.

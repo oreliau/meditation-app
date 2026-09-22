@@ -1,6 +1,6 @@
 # Use shared authored translations with platform-specific locale resolution
 
-Lumina Flow uses one shared translation catalog and Hermes-compatible FormatJS Intl polyfills for nine launch languages. Mobile resolves the Locale from the device and web exposes a persisted Web language selection in Settings; both use exact-locale, base-language, then English fallback resolution. Locale changes affect presentation and future notification content only, never Session state or persisted meditation data, and timer clocks remain fixed numeric `mm:ss`/`hh:mm:ss` displays.
+Meditation app uses one shared translation catalog and Hermes-compatible FormatJS Intl polyfills for nine launch languages. Mobile resolves the Locale from the device and web exposes a persisted Web language selection in Settings; both use exact-locale, base-language, then English fallback resolution. Locale changes affect presentation and future notification content only, never Session state or persisted meditation data, and timer clocks remain fixed numeric `mm:ss`/`hh:mm:ss` displays.
 
 ## Considered Options
 

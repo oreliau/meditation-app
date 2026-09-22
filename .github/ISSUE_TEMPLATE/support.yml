@@ -1,0 +1,30 @@
+name: Support / question
+description: Need help using the app, or have a question?
+title: "[Support] "
+labels: ["question", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A few quick answers first:
+        - **No account is needed.** Everything is stored on your device.
+        - **Reminders not arriving?** Check that notifications are allowed for the app in your system settings, then re-enable the reminder in the Settings tab.
+        - **Lost your program progress?** Progress is saved per device and isn't synced.
+
+        Not covered? Ask below.
+  - type: textarea
+    id: question
+    attributes:
+      label: How can we help?
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - iPhone
+        - iPad
+        - Android phone
+        - Android tablet
+        - Web

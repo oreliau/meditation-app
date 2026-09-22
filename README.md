@@ -24,7 +24,7 @@
 
 ## The idea
 
-Meditation App is an exploration of what a daily meditation ritual can feel like when the interface gets out of the way. The experience is intentionally quiet: focused sessions, gentle feedback, atmospheric visuals, and enough flexibility to make a practice your own.
+Meditation App is an off line exploration of what a daily meditation ritual can feel like when the interface gets out of the way. The experience is intentionally quiet: focused sessions, gentle feedback, atmospheric visuals, and enough flexibility to make a practice your own.
 
 The project is in active development. The repository contains the working product foundation alongside visual experiments that help shape its direction.
 
@@ -43,12 +43,14 @@ The project is in active development. The repository contains the working produc
 These are curated design explorations from the project’s visual direction. They are included as references while the product continues to evolve.
 
 <p align="center">
-  <img src="docs/stitch_lumina_flow_meditation/aura_sanctuary_explorer_web/screen.png" alt="Meditation App exploration screen showing a calm journey library" width="31%" />
+  <img src="assets/images/screenshots/en/explore-programs.png" alt="Meditation App exploration screen showing a calm journey library" width="31%" />
   &nbsp;
-  <img src="docs/stitch_lumina_flow_meditation/aura_sanctuary_timer_web/screen.png" alt="Meditation App exploration screen showing a meditation timer" width="31%" />
+  <img src="assets/images/screenshots/en/session-in-progress.png" alt="Meditation App exploration screen showing a meditation timer" width="31%" />
   &nbsp;
-  <img src="docs/stitch_lumina_flow_meditation/aura_m_ditation_compl_t_e_success_3d/screen.png" alt="Meditation App exploration screen showing session completion" width="31%" />
+  <img src="assets/images/screenshots/en/session-complete.png" alt="Meditation App exploration screen showing session completion" width="31%" />
 </p>
+
+<video src="assets/images/screenshots/en/iphone-duo-demo.mp4" controls width="96%" aria-label="Meditation App iPhone demo"></video>
 
 ## Technology
 

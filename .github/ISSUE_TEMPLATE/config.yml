@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Email support
+    url: mailto:contact@oreliaukmz.com
+    about: Prefer not to post publicly? Email us and we'll get back to you.
+  - name: Try the web version
+    url: https://oreliau.github.io/meditation-app
+    about: The app also runs in the browser.

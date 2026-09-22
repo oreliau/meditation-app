@@ -57,7 +57,7 @@ const en = {
   sessionEndDescription:
     "Let me know when my session finishes, even if I've stepped away",
   language: "Language",
-  languageDescription: "Choose the language used by Lumina Flow",
+  languageDescription: "Choose the language used by Meditation App",
   languageCode: "{language}",
   explore: "Explore",
   exploreDescription: "Find a practice for this moment.",
@@ -105,7 +105,7 @@ const en = {
   hrs: "hrs",
   languageChanged: "Language changed",
   notificationsDisabled:
-    "Notifications are turned off for Lumina Flow. Enable them in your device settings to receive reminders.",
+    "Notifications are turned off for Meditation App. Enable them in your device settings to receive reminders.",
   openDeviceSettings: "Open device settings",
   programNotFound: "Program not found",
   progressComplete: "{completed} of {total} {sessions} complete",
@@ -183,7 +183,7 @@ const en = {
   reminderDescription:
     "Receive a soft bell at your chosen moment, bringing you back to the present without pressure.",
   notificationsDisabledLater:
-    "Notifications are turned off for Lumina Flow. You can enable them later in Settings.",
+    "Notifications are turned off for Meditation App. You can enable them later in Settings.",
   lockScreenPreview: "LOCK SCREEN PREVIEW",
   morningDescriptionToday: "A gentle invitation to be present today.",
   todayPracticeDescription: "A reflection on today's practice.",
@@ -222,7 +222,7 @@ const translations: Record<SupportedLanguage, Messages> = {
     sessionEndDescription:
       "Prévenez-moi quand ma séance se termine, même si je me suis éloigné",
     language: "Langue",
-    languageDescription: "Choisissez la langue de Lumina Flow",
+    languageDescription: "Choisissez la langue de Meditation App",
     explore: "Explorer",
     exploreDescription: "Trouvez une pratique pour cet instant.",
     prepare: "Préparer",
@@ -270,7 +270,7 @@ const translations: Record<SupportedLanguage, Messages> = {
     hrs: "h",
     languageChanged: "Langue modifiée",
     notificationsDisabled:
-      "Les notifications sont désactivées pour Lumina Flow. Activez-les dans les réglages de votre appareil pour recevoir des rappels.",
+      "Les notifications sont désactivées pour Meditation App. Activez-les dans les réglages de votre appareil pour recevoir des rappels.",
     openDeviceSettings: "Ouvrir les réglages de l'appareil",
     programNotFound: "Programme introuvable",
     progressComplete: "{completed} sur {total} {sessions} terminées",
@@ -352,7 +352,7 @@ const translations: Record<SupportedLanguage, Messages> = {
     reminderDescription:
       "Recevez une cloche douce au moment choisi, qui vous ramène au présent sans pression.",
     notificationsDisabledLater:
-      "Les notifications sont désactivées pour Lumina Flow. Vous pourrez les activer plus tard dans les réglages.",
+      "Les notifications sont désactivées pour Meditation App. Vous pourrez les activer plus tard dans les réglages.",
     lockScreenPreview: "APERÇU DE L'ÉCRAN VERROUILLÉ",
     morningDescriptionToday: "Une douce invitation à être présent aujourd'hui.",
     todayPracticeDescription: "Une réflexion sur la pratique d'aujourd'hui.",
@@ -387,7 +387,7 @@ const translations: Record<SupportedLanguage, Messages> = {
     sessionEndDescription:
       "Avísame cuando termine mi sesión, aunque me haya alejado",
     language: "Idioma",
-    languageDescription: "Elige el idioma de Lumina Flow",
+    languageDescription: "Elige el idioma de Meditation App",
     languageCode: "{language}",
     explore: "Explorar",
     exploreDescription: "Encuentra una práctica para este momento.",
@@ -434,7 +434,7 @@ const translations: Record<SupportedLanguage, Messages> = {
     hrs: "h",
     languageChanged: "Idioma cambiado",
     notificationsDisabled:
-      "Las notificaciones están desactivadas para Lumina Flow. Actívalas en los ajustes del dispositivo para recibir recordatorios.",
+      "Las notificaciones están desactivadas para Meditation App. Actívalas en los ajustes del dispositivo para recibir recordatorios.",
     openDeviceSettings: "Abrir los ajustes del dispositivo",
     programNotFound: "Programa no encontrado",
     progressComplete: "{completed} de {total} {sessions} completadas",
@@ -514,7 +514,7 @@ const translations: Record<SupportedLanguage, Messages> = {
     reminderDescription:
       "Recibe una campana suave en el momento elegido para volver al presente sin presión.",
     notificationsDisabledLater:
-      "Las notificaciones están desactivadas para Lumina Flow. Podrás activarlas más tarde en Ajustes.",
+      "Las notificaciones están desactivadas para Meditation App. Podrás activarlas más tarde en Ajustes.",
     lockScreenPreview: "VISTA PREVIA DE LA PANTALLA DE BLOQUEO",
     morningDescriptionToday: "Una invitación amable a estar presente hoy.",
     todayPracticeDescription: "Una reflexión sobre la práctica de hoy.",
@@ -548,7 +548,7 @@ const translations: Record<SupportedLanguage, Messages> = {
     sessionEndDescription:
       "Avise-me quando a sessão terminar, mesmo que eu me afaste",
     language: "Idioma",
-    languageDescription: "Escolha o idioma do Lumina Flow",
+    languageDescription: "Escolha o idioma do Meditation App",
     languageCode: "{language}",
     explore: "Explorar",
     exploreDescription: "Encontre uma prática para este momento.",
@@ -595,7 +595,7 @@ const translations: Record<SupportedLanguage, Messages> = {
     hrs: "h",
     languageChanged: "Idioma alterado",
     notificationsDisabled:
-      "As notificações estão desativadas para o Lumina Flow. Ative-as nas definições do dispositivo para receber lembretes.",
+      "As notificações estão desativadas para o Meditation App. Ative-as nas definições do dispositivo para receber lembretes.",
     openDeviceSettings: "Abrir definições do dispositivo",
     programNotFound: "Programa não encontrado",
     progressComplete: "{completed} de {total} {sessions} concluídas",
@@ -674,7 +674,7 @@ const translations: Record<SupportedLanguage, Messages> = {
     reminderDescription:
       "Receba um sino suave no momento escolhido, trazendo-o de volta ao presente sem pressão.",
     notificationsDisabledLater:
-      "As notificações estão desativadas para o Lumina Flow. Poderá ativá-las mais tarde nas Definições.",
+      "As notificações estão desativadas para o Meditation App. Poderá ativá-las mais tarde nas Definições.",
     lockScreenPreview: "PRÉ-VISUALIZAÇÃO DO ECRÃ DE BLOQUEIO",
     morningDescriptionToday: "Um convite suave para estar presente hoje.",
     todayPracticeDescription: "Uma reflexão sobre a prática de hoje.",
@@ -708,7 +708,7 @@ const translations: Record<SupportedLanguage, Messages> = {
     sessionEndDescription:
       "Informiere mich, wenn meine Sitzung endet, auch wenn ich weggegangen bin",
     language: "Sprache",
-    languageDescription: "Wähle die Sprache von Lumina Flow",
+    languageDescription: "Wähle die Sprache von Meditation App",
     languageCode: "{language}",
     explore: "Entdecken",
     exploreDescription: "Finde eine Praxis für diesen Moment.",
@@ -756,7 +756,7 @@ const translations: Record<SupportedLanguage, Messages> = {
     hrs: "Std.",
     languageChanged: "Sprache geändert",
     notificationsDisabled:
-      "Benachrichtigungen für Lumina Flow sind deaktiviert. Aktiviere sie in den Geräteeinstellungen, um Erinnerungen zu erhalten.",
+      "Benachrichtigungen für Meditation App sind deaktiviert. Aktiviere sie in den Geräteeinstellungen, um Erinnerungen zu erhalten.",
     openDeviceSettings: "Geräteeinstellungen öffnen",
     programNotFound: "Programm nicht gefunden",
     progressComplete: "{completed} von {total} {sessions} abgeschlossen",
@@ -838,7 +838,7 @@ const translations: Record<SupportedLanguage, Messages> = {
     reminderDescription:
       "Erhalte zum gewählten Zeitpunkt einen sanften Gong, der dich ohne Druck ins Jetzt zurückbringt.",
     notificationsDisabledLater:
-      "Benachrichtigungen für Lumina Flow sind deaktiviert. Du kannst sie später in den Einstellungen aktivieren.",
+      "Benachrichtigungen für Meditation App sind deaktiviert. Du kannst sie später in den Einstellungen aktivieren.",
     lockScreenPreview: "VORSCHAU DES SPERRBILDSCHIRMS",
     morningDescriptionToday: "Eine sanfte Einladung, heute präsent zu sein.",
     todayPracticeDescription: "Eine Reflexion über die heutige Praxis.",
@@ -872,7 +872,7 @@ const translations: Record<SupportedLanguage, Messages> = {
     sessionEndDescription:
       "Avvisami quando la sessione termina, anche se mi allontano",
     language: "Lingua",
-    languageDescription: "Scegli la lingua di Lumina Flow",
+    languageDescription: "Scegli la lingua di Meditation App",
     languageCode: "{language}",
     explore: "Esplora",
     exploreDescription: "Trova una pratica per questo momento.",
@@ -919,7 +919,7 @@ const translations: Record<SupportedLanguage, Messages> = {
     hrs: "h",
     languageChanged: "Lingua cambiata",
     notificationsDisabled:
-      "Le notifiche di Lumina Flow sono disattivate. Abilitale nelle impostazioni del dispositivo per ricevere i promemoria.",
+      "Le notifiche di Meditation App sono disattivate. Abilitale nelle impostazioni del dispositivo per ricevere i promemoria.",
     openDeviceSettings: "Apri le impostazioni del dispositivo",
     programNotFound: "Programma non trovato",
     progressComplete: "{completed} di {total} {sessions} completate",
@@ -999,7 +999,7 @@ const translations: Record<SupportedLanguage, Messages> = {
     reminderDescription:
       "Ricevi una campana delicata nel momento scelto, per tornare al presente senza pressione.",
     notificationsDisabledLater:
-      "Le notifiche di Lumina Flow sono disattivate. Potrai abilitarle più tardi nelle Impostazioni.",
+      "Le notifiche di Meditation App sono disattivate. Potrai abilitarle più tardi nelle Impostazioni.",
     lockScreenPreview: "ANTEPRIMA DELLA SCHERMATA DI BLOCCO",
     morningDescriptionToday: "Un invito gentile a essere presente oggi.",
     todayPracticeDescription: "Una riflessione sulla pratica di oggi.",
@@ -1030,7 +1030,7 @@ const translations: Record<SupportedLanguage, Messages> = {
     sessionEndAlert: "セッション終了アラート",
     sessionEndDescription: "離れていてもセッションの終了をお知らせします",
     language: "言語",
-    languageDescription: "Lumina Flowの言語を選択",
+    languageDescription: "Meditation Appの言語を選択",
     languageCode: "{language}",
     explore: "探す",
     exploreDescription: "今この瞬間の実践を見つけましょう。",
@@ -1076,7 +1076,7 @@ const translations: Record<SupportedLanguage, Messages> = {
     hrs: "時間",
     languageChanged: "言語を変更しました",
     notificationsDisabled:
-      "Lumina Flowの通知がオフになっています。リマインダーを受け取るには端末の設定でオンにしてください。",
+      "Meditation Appの通知がオフになっています。リマインダーを受け取るには端末の設定でオンにしてください。",
     openDeviceSettings: "端末の設定を開く",
     programNotFound: "プログラムが見つかりません",
     progressComplete: "{total}回中{completed}回の{sessions}が完了",
@@ -1151,7 +1151,7 @@ const translations: Record<SupportedLanguage, Messages> = {
     reminderDescription:
       "選んだ時間にやさしいベルを鳴らし、無理なく今この瞬間へ戻ります。",
     notificationsDisabledLater:
-      "Lumina Flowの通知はオフになっています。後で設定からオンにできます。",
+      "Meditation Appの通知はオフになっています。後で設定からオンにできます。",
     lockScreenPreview: "ロック画面プレビュー",
     morningDescriptionToday: "今日、今ここにいるためのやさしい招待。",
     todayPracticeDescription: "今日の実践を振り返ります。",
@@ -1182,7 +1182,7 @@ const translations: Record<SupportedLanguage, Messages> = {
     sessionEndAlert: "세션 종료 알림",
     sessionEndDescription: "잠시 자리를 비워도 세션이 끝나면 알려드립니다",
     language: "언어",
-    languageDescription: "Lumina Flow에서 사용할 언어를 선택하세요",
+    languageDescription: "Meditation App에서 사용할 언어를 선택하세요",
     languageCode: "{language}",
     explore: "탐색",
     exploreDescription: "지금 이 순간을 위한 수행을 찾아보세요.",
@@ -1229,7 +1229,7 @@ const translations: Record<SupportedLanguage, Messages> = {
     hrs: "시간",
     languageChanged: "언어가 변경되었습니다",
     notificationsDisabled:
-      "Lumina Flow 알림이 꺼져 있습니다. 알림을 받으려면 기기 설정에서 켜 주세요.",
+      "Meditation App 알림이 꺼져 있습니다. 알림을 받으려면 기기 설정에서 켜 주세요.",
     openDeviceSettings: "기기 설정 열기",
     programNotFound: "프로그램을 찾을 수 없습니다",
     progressComplete: "전체 {total}회 중 {completed}회 {sessions} 완료",
@@ -1303,7 +1303,7 @@ const translations: Record<SupportedLanguage, Messages> = {
     reminderDescription:
       "선택한 시간에 부드러운 종소리를 울려 부담 없이 현재로 돌아오게 합니다.",
     notificationsDisabledLater:
-      "Lumina Flow 알림이 꺼져 있습니다. 나중에 설정에서 켤 수 있습니다.",
+      "Meditation App 알림이 꺼져 있습니다. 나중에 설정에서 켤 수 있습니다.",
     lockScreenPreview: "잠금 화면 미리보기",
     morningDescriptionToday: "오늘 현재에 머물도록 부드럽게 초대합니다.",
     todayPracticeDescription: "오늘의 수행을 돌아봅니다.",
@@ -1333,7 +1333,7 @@ const translations: Record<SupportedLanguage, Messages> = {
     sessionEndAlert: "练习结束提醒",
     sessionEndDescription: "即使你暂时离开，也会在练习结束时通知你",
     language: "语言",
-    languageDescription: "选择 Lumina Flow 的语言",
+    languageDescription: "选择 Meditation App 的语言",
     languageCode: "{language}",
     explore: "探索",
     exploreDescription: "为此刻找到一项练习。",
@@ -1378,7 +1378,7 @@ const translations: Record<SupportedLanguage, Messages> = {
     hrs: "小时",
     languageChanged: "语言已更改",
     notificationsDisabled:
-      "Lumina Flow 的通知已关闭。请在设备设置中开启通知，以接收提醒。",
+      "Meditation App 的通知已关闭。请在设备设置中开启通知，以接收提醒。",
     openDeviceSettings: "打开设备设置",
     programNotFound: "未找到课程",
     progressComplete: "共 {total} 次，已完成 {completed} 次{sessions}",
@@ -1448,7 +1448,7 @@ const translations: Record<SupportedLanguage, Messages> = {
     bestMoment: "最佳时刻",
     reminderDescription: "在你选择的时刻收到温和的铃声，不带压力地回到当下。",
     notificationsDisabledLater:
-      "Lumina Flow 的通知已关闭。你可以稍后在设置中开启。",
+      "Meditation App 的通知已关闭。你可以稍后在设置中开启。",
     lockScreenPreview: "锁屏预览",
     morningDescriptionToday: "温柔地邀请你今天回到当下。",
     todayPracticeDescription: "回顾今天的练习。",

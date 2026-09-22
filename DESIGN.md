@@ -1,4 +1,4 @@
-# Aura Design System - Lumina Flow Meditation
+# Aura Design System - Meditation App
 
 ## Overview
 

@@ -1,4 +1,4 @@
-# Lumina Flow (Meditation App)
+# Meditation (by Oréliau)
 
 A meditation app styled by the **Aura** design system (`DESIGN.md`): color, typography, spacing, and elevation tokens shared across Expo Router web and mobile.
 

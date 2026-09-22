@@ -1,0 +1,21 @@
+name: Feature request
+description: Suggest an idea for the app
+title: "[Feature] "
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What would you like to be able to do?
+      placeholder: "I'd like to set my own custom session length instead of picking from presets."
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why does it matter to you?
+      description: The moment in your practice where this would help.
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Anything you do today as a workaround?
