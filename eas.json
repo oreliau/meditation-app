@@ -4,7 +4,28 @@
     "appVersionSource": "remote"
   },
   "build": {
+    "base": {
+      "node": "24.20.0",
+      "pnpm": "12.4.1",
+      "env": {
+        "EXAMPLE_ENV": "example value"
+      },
+      "android": {
+        "image": "latest",
+        "env": {
+          "PLATFORM": "android"
+        }
+      },
+      "ios": {
+        "image": "latest",
+        "env": {
+          "PLATFORM": "ios"
+        }
+      }
+    },
+
     "production": {
+      "extends": "base",
       "autoIncrement": true
     }
   },

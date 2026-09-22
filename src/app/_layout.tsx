@@ -9,8 +9,6 @@ import {
   setDailyStatsReader,
   useRefreshRemindersOnForeground,
 } from "@/reminders";
-// import { getSessionStore } from "@/features/timer";
-// import { useSessionWidgets } from "@/features/timer/widgets";
 import "../unistyles";
 import { useUnistyles } from "react-native-unistyles";
 import { useNavigateToCompletion } from "@/features/completion/useNavigateToCompletion";
@@ -50,7 +48,6 @@ export default function RootLayout() {
   useEffect(() => {
     loadPolyfills(getInitialLocale()).finally(() => setIntlLoaded(true));
   }, []);
-  // useSessionWidgets(getSessionStore());
 
   // Reacts to onboarding's finish step flipping the persisted flag, so the
   // Stack.Protected guard below swaps from onboarding to (tabs) live.
