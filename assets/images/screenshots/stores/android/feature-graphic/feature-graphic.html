@@ -1,0 +1,54 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+  @font-face { font-family: "Playfair"; src: url("file://../../../../../../node_modules/@expo-google-fonts/playfair-display/600SemiBold/PlayfairDisplay_600SemiBold.ttf"); font-weight: 600; }
+  @font-face { font-family: "Playfair"; src: url("file://../../../../../../node_modules/@expo-google-fonts/playfair-display/500Medium_Italic/PlayfairDisplay_500Medium_Italic.ttf"); font-weight: 500; font-style: italic; }
+  @font-face { font-family: "InterApp"; src: url("file://../../../../../../node_modules/@expo-google-fonts/inter/500Medium/Inter_500Medium.ttf"); font-weight: 500; }
+  @font-face { font-family: "InterApp"; src: url("file://../../../../../../node_modules/@expo-google-fonts/inter/600SemiBold/Inter_600SemiBold.ttf"); font-weight: 600; }
+  html, body { margin: 0; }
+  .canvas {
+    position: relative; width: 1024px; height: 500px; overflow: hidden;
+    background: linear-gradient(160deg, #FBF6F0 0%, #F4EAE0 100%);
+    font-family: "InterApp", sans-serif; color: #2B2320;
+  }
+  .blob { position: absolute; border-radius: 50%; filter: blur(70px); }
+  .b1 { left: -140px; top: -180px; width: 560px; height: 560px; background: #E07A57; opacity: 0.30; }
+  .b2 { right: -120px; bottom: -260px; width: 520px; height: 520px; background: #E9A88A; opacity: 0.35; }
+  .b3 { left: 420px; top: -240px; width: 380px; height: 380px; background: #C2C2F2; opacity: 0.35; }
+  .ring { position: absolute; border-radius: 50%; border: 2px solid #E07A57; }
+  .r1 { left: 40px; top: 70px; width: 300px; height: 300px; opacity: 0.28; }
+  .r2 { left: 22px; top: 52px; width: 336px; height: 336px; opacity: 0.16; }
+  .r3 { left: 4px; top: 34px; width: 372px; height: 372px; opacity: 0.08; }
+  .icon {
+    position: absolute; left: 100px; top: 130px; width: 180px; height: 180px; border-radius: 42px;
+    box-shadow: 0 24px 60px rgba(120, 70, 50, 0.22), 0 4px 14px rgba(120, 70, 50, 0.10);
+  }
+  .text { position: absolute; left: 400px; top: 118px; right: 64px; }
+  .eyebrow {
+    font-weight: 600; font-size: 15px; letter-spacing: 0.16em; text-transform: uppercase; color: #E07A57; margin-bottom: 18px;
+  }
+  h1 {
+    margin: 0; font-family: "Playfair", serif; font-weight: 600; font-size: 74px; line-height: 1.0; letter-spacing: -0.015em;
+  }
+  h1 em { font-style: italic; font-weight: 500; color: #E07A57; }
+  .sub { margin-top: 26px; font-size: 25px; font-weight: 500; color: #7A6C63; letter-spacing: -0.005em; }
+  .pills { position: absolute; left: 400px; bottom: 56px; display: flex; gap: 10px; }
+  .pill {
+    font-size: 14px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #5E4E44;
+    padding: 9px 16px; border-radius: 999px; background: rgba(255,255,255,0.55);
+    border: 1px solid rgba(224,122,87,0.28);
+  }
+</style></head>
+<body>
+<div class="canvas">
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+  <div class="ring r3"></div><div class="ring r2"></div><div class="ring r1"></div>
+  <img class="icon" src="file://../../../../../../assets/images/icon.png" alt="">
+  <div class="text">
+    <div class="eyebrow">Meditation by Oréliau</div>
+    <h1><em>Stillness,</em><br>in minutes.</h1>
+    <div class="sub">A calm timer for everyday rituals.</div>
+  </div>
+  <div class="pills"><span class="pill">Offline</span><span class="pill">No account</span><span class="pill">No ads</span></div>
+</div>
+</body></html>

@@ -8,7 +8,7 @@ const iosBundleIdentifier =
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
-  name: "meditation-app",
+  name: "Meditation (by Oréliau)",
   slug: "meditation-app",
   version: "1.0.0",
   orientation: "portrait",
@@ -34,6 +34,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     predictiveBackGestureEnabled: false,
     package: androidPackage,
     versionCode: Number(androidVersionCode),
+    blockedPermissions: ["android.permission.SYSTEM_ALERT_WINDOW"],
   },
   web: {
     output: "static",
@@ -50,7 +51,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       },
     ],
     "expo-image",
-    "expo-audio",
+    ["expo-audio", { recordAudioAndroid: false }],
     "expo-asset",
     "expo-status-bar",
     "expo-localization",

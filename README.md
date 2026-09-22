@@ -7,11 +7,10 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/oreliau/meditation-app"><img src="https://img.shields.io/badge/status-active%20development-e07a57?style=flat-square" alt="Active development" /></a>
-  <a href="https://expo.dev/"><img src="https://img.shields.io/badge/Expo-57.0.24-000020?style=flat-square&logo=expo&logoColor=white" alt="Expo 57" /></a>
-  <a href="https://reactnative.dev/"><img src="https://img.shields.io/badge/React%20Native-0.86.3-61DAFB?style=flat-square&logo=react&logoColor=20232A" alt="React Native 0.86.3" /></a>
-  <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-6.0.3-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript" /></a>
-  <a href="https://jestjs.io/"><img src="https://img.shields.io/badge/tests-Jest-C21325?style=flat-square&logo=jest&logoColor=white" alt="Jest tests" /></a>
+  <a href="https://oreliau.github.io/meditation-app/"><img src="https://img.shields.io/badge/website-live-2f7d6d?style=flat-square" alt="Website" /></a>
+  <a href="https://play.google.com/apps/internaltest/4701735182302521416"><img src="https://img.shields.io/badge/Android-internal%20testing%20link-2f7d6d?style=flat-square&logo=android&logoColor=white" alt="Android internal testing" /></a>
+  <img src="https://img.shields.io/badge/iOS-submitting-f0a04b?style=flat-square&logo=apple&logoColor=white" alt="iOS submitting" />
+  <a href="https://expo.dev/"><img src="https://img.shields.io/badge/58.0.0-preview.4-000020?style=flat-square&logo=expo&logoColor=white" alt="Expo 58" /></a>
 </p>
 
 <p align="center">
@@ -43,14 +42,14 @@ The project is in active development. The repository contains the working produc
 These are curated design explorations from the project’s visual direction. They are included as references while the product continues to evolve.
 
 <p align="center">
-  <img src="assets/images/screenshots/raw/en/explore-programs.png" alt="Meditation App exploration screen showing a calm journey library" width="31%" />
+  <img src="assets/images/screenshots/raw/en/mobile/explore-programs.png" alt="Meditation App exploration screen showing a calm journey library" width="31%" />
   &nbsp;
-  <img src="assets/images/screenshots/raw/en/session-in-progress.png" alt="Meditation App exploration screen showing a meditation timer" width="31%" />
+  <img src="assets/images/screenshots/raw/en/mobile/session-in-progress.png" alt="Meditation App exploration screen showing a meditation timer" width="31%" />
   &nbsp;
-  <img src="assets/images/screenshots/raw/en/session-complete.png" alt="Meditation App exploration screen showing session completion" width="31%" />
+  <img src="assets/images/screenshots/raw/en/mobile/session-complete.png" alt="Meditation App exploration screen showing session completion" width="31%" />
 </p>
 
-<video src="assets/images/screenshots/raw/en/iphone-duo-demo.mp4" controls width="96%" aria-label="Meditation App iPhone demo"></video>
+<video src="assets/images/screenshots/raw/en/mobile/iphone-duo-demo.mp4" controls width="96%" aria-label="Meditation App iPhone demo"></video>
 
 ## Technology
 
