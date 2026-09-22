@@ -49,7 +49,7 @@ These are curated design explorations from the project’s visual direction. The
   <img src="assets/images/screenshots/raw/en/mobile/session-complete.png" alt="Meditation App exploration screen showing session completion" width="31%" />
 </p>
 
-<video src="assets/images/screenshots/raw/en/mobile/iphone-duo-demo.mp4" controls width="96%" aria-label="Meditation App iPhone demo"></video>
+<video src="assets/video/iphone-duo-demo.mp4" controls width="96%" aria-label="Meditation App iPhone demo"></video>
 
 ## Technology
 
