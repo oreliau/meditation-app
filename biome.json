@@ -14,7 +14,8 @@
       "!.agents",
       "!kits",
       "!sandbox/kits",
-      "!docs/stitch_lumina_flow_meditation"
+      "!docs/stitch_lumina_flow_meditation",
+      "!marketing"
     ]
   },
   "formatter": {

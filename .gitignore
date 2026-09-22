@@ -62,3 +62,9 @@ docs/adr/
 apps/mobile/ios/
 apps/mobile/android/
 apps/mobile/dist/
+
+# Local EAS build outputs
+/build
+*.aab
+*.apk
+*.ipa

@@ -91,6 +91,8 @@
     "security:scan": "trivy fs --exit-code 1 --ignore-unfixed --severity HIGH,CRITICAL .",
     "secrets:scan": "gitleaks detect --source . --no-banner --redact",
     "expo:prebuild": "expo prebuild --clean --no-install",
+    "build:android:production": "eas build --platform android --profile production --local --output ./build/meditation-app.aab",
+    "build:ios:production": "eas build --platform ios --profile production --local --output ./build/meditation-app.ipa",
     "expo:export:web": "expo export --platform web",
     "expo:export:github-pages": "EXPO_BASE_URL=/meditation-app expo export --platform web && cp dist/index.html dist/404.html",
     "expo:doctor": "pnpm dlx expo-doctor@latest",
