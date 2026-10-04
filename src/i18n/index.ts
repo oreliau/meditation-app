@@ -201,17 +201,21 @@ const en = {
   intentionsCount: "intentions",
   timer: "Timer",
   beginAgain: "Begin Again",
-  beginAgainDescription: "A gentle introduction to returning to the present moment.",
+  beginAgainDescription:
+    "A gentle introduction to returning to the present moment.",
   arrive: "Arrive",
-  arriveDescription: "Notice where you are, without needing to change anything.",
+  arriveDescription:
+    "Notice where you are, without needing to change anything.",
   soften: "Soften",
-  softenDescription: "Let the body release a little of what it has been holding.",
+  softenDescription:
+    "Let the body release a little of what it has been holding.",
   returnStep: "Return",
   returnStepDescription: "Practice coming back to one quiet, steady breath.",
   steadyBreath: "Steady Breath",
   steadyBreathDescription: "Build a calm rhythm through breath-led attention.",
   countingBreaths: "Counting breaths",
-  countingBreathsDescription: "Give the mind a simple anchor as each breath passes.",
+  countingBreathsDescription:
+    "Give the mind a simple anchor as each breath passes.",
   openAwareness: "Open awareness",
   openAwarenessDescription:
     "Make room for sounds, sensations, and thoughts to move through.",
@@ -405,7 +409,8 @@ const translations: Record<SupportedLanguage, Messages> = {
     beginAgainDescription:
       "Une douce introduction pour revenir à l'instant présent.",
     arrive: "Arriver",
-    arriveDescription: "Remarquez où vous êtes, sans rien avoir besoin de changer.",
+    arriveDescription:
+      "Remarquez où vous êtes, sans rien avoir besoin de changer.",
     soften: "Adoucir",
     softenDescription: "Laissez le corps relâcher un peu de ce qu'il retenait.",
     returnStep: "Revenir",
@@ -805,8 +810,7 @@ const translations: Record<SupportedLanguage, Messages> = {
     softenDescription:
       "Deixe o corpo libertar um pouco do que tem estado a reter.",
     returnStep: "Voltar",
-    returnStepDescription:
-      "Pratique voltar a uma respiração calma e estável.",
+    returnStepDescription: "Pratique voltar a uma respiração calma e estável.",
     steadyBreath: "Respiração estável",
     steadyBreathDescription:
       "Construa um ritmo calmo através de uma atenção guiada pela respiração.",
@@ -1396,8 +1400,7 @@ const translations: Record<SupportedLanguage, Messages> = {
     returnStep: "戻る",
     returnStepDescription: "静かで落ち着いた一つの呼吸へ戻る練習をします。",
     steadyBreath: "安定した呼吸",
-    steadyBreathDescription:
-      "呼吸に導かれた意識で、穏やかなリズムを築きます。",
+    steadyBreathDescription: "呼吸に導かれた意識で、穏やかなリズムを築きます。",
     countingBreaths: "呼吸を数える",
     countingBreathsDescription:
       "過ぎていく一息ごとに、心へシンプルな拠り所を与えます。",
@@ -1572,27 +1575,34 @@ const translations: Record<SupportedLanguage, Messages> = {
     beginAgain: "다시 시작하기",
     beginAgainDescription: "현재의 순간으로 돌아오기 위한 부드러운 안내입니다.",
     arrive: "도착하기",
-    arriveDescription: "무언가를 바꿀 필요 없이, 지금 있는 곳을 알아차려 보세요.",
+    arriveDescription:
+      "무언가를 바꿀 필요 없이, 지금 있는 곳을 알아차려 보세요.",
     soften: "누그러뜨리기",
     softenDescription: "몸이 붙잡고 있던 것을 조금 풀어놓게 하세요.",
     returnStep: "돌아오기",
-    returnStepDescription: "고요하고 안정된 하나의 호흡으로 돌아오는 연습을 합니다.",
+    returnStepDescription:
+      "고요하고 안정된 하나의 호흡으로 돌아오는 연습을 합니다.",
     steadyBreath: "안정된 호흡",
-    steadyBreathDescription: "호흡이 이끄는 주의를 통해 차분한 리듬을 만듭니다.",
+    steadyBreathDescription:
+      "호흡이 이끄는 주의를 통해 차분한 리듬을 만듭니다.",
     countingBreaths: "호흡 세기",
-    countingBreathsDescription: "지나가는 숨마다 마음에 단순한 닻을 내려줍니다.",
+    countingBreathsDescription:
+      "지나가는 숨마다 마음에 단순한 닻을 내려줍니다.",
     openAwareness: "열린 알아차림",
-    openAwarenessDescription: "소리와 감각, 생각이 지나갈 수 있는 여백을 만듭니다.",
+    openAwarenessDescription:
+      "소리와 감각, 생각이 지나갈 수 있는 여백을 만듭니다.",
     thePause: "멈춤",
     thePauseDescription: "날숨과 들숨 사이의 작은 공간을 발견해 보세요.",
     steadyGround: "단단한 바탕",
-    steadyGroundDescription: "이 단단히 뿌리내린 주의를 하루의 나머지로 가져가세요.",
+    steadyGroundDescription:
+      "이 단단히 뿌리내린 주의를 하루의 나머지로 가져가세요.",
     sleepward: "잠을 향해",
     sleepwardDescription: "더 느리고 부드러운 주의로 하루를 마무리합니다.",
     unwind: "풀어놓기",
     unwindDescription: "하루의 마무리되지 않은 부분들을 내려놓으세요.",
     heavyAndHeld: "무겁고 받쳐진",
-    heavyAndHeldDescription: "자신을 받치는 지지를 느끼고 몸이 가라앉도록 두세요.",
+    heavyAndHeldDescription:
+      "자신을 받치는 지지를 느끼고 몸이 가라앉도록 두세요.",
     drift: "떠돌기",
     driftDescription: "더 이상 할 일이 없을 때까지 호흡과 함께 쉬세요.",
   },

@@ -1,3 +1,5 @@
+allowBuilds:
+  '@parcel/watcher': false
 minimumReleaseAgeExclude:
   - '@expo/cli@58.0.4'
   - '@expo/devtools@58.0.1'
@@ -43,5 +45,3 @@ overrides:
   '@xmldom/xmldom@>=0.9.0-beta.1 <=0.9.11': ^0.9.12
   decode-uri-component@<=0.4.2: ^0.5.0
   uuid@<11.1.1: ^11.1.1
-patchedDependencies:
-  expo-modules-jsi@58.0.3: patches/expo-modules-jsi@58.0.3.patch
