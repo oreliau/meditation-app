@@ -41,7 +41,7 @@ export default function ProgramDetailScreen() {
           headerBackButtonMenuEnabled: true,
           headerShown: true,
           headerBackButtonDisplayMode: "minimal",
-          title: `${t("program")}: ${program.title}`,
+          title: `${t("program")}: ${t(program.title)}`,
           headerBackground: () => <View style={styles.screen} />,
         }}
       />

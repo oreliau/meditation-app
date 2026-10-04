@@ -199,6 +199,37 @@ const en = {
   ritual: "ritual",
   intentionCount: "intention",
   intentionsCount: "intentions",
+  timer: "Timer",
+  beginAgain: "Begin Again",
+  beginAgainDescription: "A gentle introduction to returning to the present moment.",
+  arrive: "Arrive",
+  arriveDescription: "Notice where you are, without needing to change anything.",
+  soften: "Soften",
+  softenDescription: "Let the body release a little of what it has been holding.",
+  returnStep: "Return",
+  returnStepDescription: "Practice coming back to one quiet, steady breath.",
+  steadyBreath: "Steady Breath",
+  steadyBreathDescription: "Build a calm rhythm through breath-led attention.",
+  countingBreaths: "Counting breaths",
+  countingBreathsDescription: "Give the mind a simple anchor as each breath passes.",
+  openAwareness: "Open awareness",
+  openAwarenessDescription:
+    "Make room for sounds, sensations, and thoughts to move through.",
+  thePause: "The pause",
+  thePauseDescription:
+    "Discover the small spaces between an exhale and an inhale.",
+  steadyGround: "Steady ground",
+  steadyGroundDescription:
+    "Carry a grounded quality of attention into the rest of your day.",
+  sleepward: "Sleepward",
+  sleepwardDescription: "Ease out of the day with slower, softer attention.",
+  unwind: "Unwind",
+  unwindDescription: "Set down the unfinished edges of the day.",
+  heavyAndHeld: "Heavy and held",
+  heavyAndHeldDescription:
+    "Feel the support beneath you and allow the body to settle.",
+  drift: "Drift",
+  driftDescription: "Rest with the breath until there is nothing left to do.",
 };
 
 type Messages = Record<keyof typeof en, string>;
@@ -369,6 +400,43 @@ const translations: Record<SupportedLanguage, Messages> = {
     ritual: "rituel",
     intentionCount: "intention",
     intentionsCount: "intentions",
+    timer: "Minuteur",
+    beginAgain: "Recommencer",
+    beginAgainDescription:
+      "Une douce introduction pour revenir à l'instant présent.",
+    arrive: "Arriver",
+    arriveDescription: "Remarquez où vous êtes, sans rien avoir besoin de changer.",
+    soften: "Adoucir",
+    softenDescription: "Laissez le corps relâcher un peu de ce qu'il retenait.",
+    returnStep: "Revenir",
+    returnStepDescription:
+      "Entraînez-vous à revenir à un souffle calme et stable.",
+    steadyBreath: "Souffle stable",
+    steadyBreathDescription:
+      "Construisez un rythme calme grâce à une attention guidée par le souffle.",
+    countingBreaths: "Compter les respirations",
+    countingBreathsDescription:
+      "Donnez à l'esprit un point d'ancrage simple à chaque respiration.",
+    openAwareness: "Conscience ouverte",
+    openAwarenessDescription:
+      "Faites de la place pour que sons, sensations et pensées puissent traverser.",
+    thePause: "La pause",
+    thePauseDescription:
+      "Découvrez les petits espaces entre une expiration et une inspiration.",
+    steadyGround: "Ancrage stable",
+    steadyGroundDescription:
+      "Emportez cette qualité d'attention ancrée dans le reste de votre journée.",
+    sleepward: "Vers le sommeil",
+    sleepwardDescription:
+      "Quittez la journée avec une attention plus lente et plus douce.",
+    unwind: "Se relâcher",
+    unwindDescription: "Déposez les aspérités inachevées de la journée.",
+    heavyAndHeld: "Lourd et soutenu",
+    heavyAndHeldDescription:
+      "Sentez le soutien sous vous et laissez le corps s'installer.",
+    drift: "Dériver",
+    driftDescription:
+      "Reposez-vous avec le souffle jusqu'à ce qu'il n'y ait plus rien à faire.",
   },
   es: {
     settings: "Ajustes",
@@ -530,6 +598,43 @@ const translations: Record<SupportedLanguage, Messages> = {
     ritual: "ritual",
     intentionCount: "intención",
     intentionsCount: "intenciones",
+    timer: "Temporizador",
+    beginAgain: "Empezar de nuevo",
+    beginAgainDescription:
+      "Una introducción suave para volver al momento presente.",
+    arrive: "Llegar",
+    arriveDescription: "Nota dónde estás, sin necesidad de cambiar nada.",
+    soften: "Suavizar",
+    softenDescription:
+      "Deja que el cuerpo libere un poco de lo que ha estado reteniendo.",
+    returnStep: "Volver",
+    returnStepDescription:
+      "Practica volver a una respiración tranquila y estable.",
+    steadyBreath: "Respiración estable",
+    steadyBreathDescription:
+      "Construye un ritmo calmado mediante una atención guiada por la respiración.",
+    countingBreaths: "Contar respiraciones",
+    countingBreathsDescription:
+      "Dale a la mente un ancla simple con cada respiración que pasa.",
+    openAwareness: "Conciencia abierta",
+    openAwarenessDescription:
+      "Haz espacio para que sonidos, sensaciones y pensamientos puedan pasar.",
+    thePause: "La pausa",
+    thePauseDescription:
+      "Descubre los pequeños espacios entre una exhalación y una inhalación.",
+    steadyGround: "Terreno firme",
+    steadyGroundDescription:
+      "Lleva esta calidad de atención arraigada al resto de tu día.",
+    sleepward: "Hacia el sueño",
+    sleepwardDescription: "Sal del día con una atención más lenta y suave.",
+    unwind: "Relajarse",
+    unwindDescription: "Suelta los bordes inacabados del día.",
+    heavyAndHeld: "Pesado y sostenido",
+    heavyAndHeldDescription:
+      "Siente el apoyo debajo de ti y permite que el cuerpo se asiente.",
+    drift: "Flotar",
+    driftDescription:
+      "Descansa con la respiración hasta que no quede nada más por hacer.",
   },
   pt: {
     settings: "Definições",
@@ -690,6 +795,43 @@ const translations: Record<SupportedLanguage, Messages> = {
     ritual: "ritual",
     intentionCount: "intenção",
     intentionsCount: "intenções",
+    timer: "Temporizador",
+    beginAgain: "Recomeçar",
+    beginAgainDescription:
+      "Uma introdução suave para voltar ao momento presente.",
+    arrive: "Chegar",
+    arriveDescription: "Repare onde está, sem precisar de mudar nada.",
+    soften: "Suavizar",
+    softenDescription:
+      "Deixe o corpo libertar um pouco do que tem estado a reter.",
+    returnStep: "Voltar",
+    returnStepDescription:
+      "Pratique voltar a uma respiração calma e estável.",
+    steadyBreath: "Respiração estável",
+    steadyBreathDescription:
+      "Construa um ritmo calmo através de uma atenção guiada pela respiração.",
+    countingBreaths: "Contar respirações",
+    countingBreathsDescription:
+      "Dê à mente uma âncora simples a cada respiração que passa.",
+    openAwareness: "Consciência aberta",
+    openAwarenessDescription:
+      "Abra espaço para que sons, sensações e pensamentos possam passar.",
+    thePause: "A pausa",
+    thePauseDescription:
+      "Descubra os pequenos espaços entre uma expiração e uma inspiração.",
+    steadyGround: "Terreno firme",
+    steadyGroundDescription:
+      "Leve esta qualidade de atenção enraizada para o resto do seu dia.",
+    sleepward: "Rumo ao sono",
+    sleepwardDescription: "Saia do dia com uma atenção mais lenta e suave.",
+    unwind: "Relaxar",
+    unwindDescription: "Largue as arestas inacabadas do dia.",
+    heavyAndHeld: "Pesado e sustentado",
+    heavyAndHeldDescription:
+      "Sinta o apoio debaixo de si e permita que o corpo se instale.",
+    drift: "Deriva",
+    driftDescription:
+      "Descanse com a respiração até não haver mais nada para fazer.",
   },
   de: {
     settings: "Einstellungen",
@@ -854,6 +996,44 @@ const translations: Record<SupportedLanguage, Messages> = {
     ritual: "Ritual",
     intentionCount: "Absicht",
     intentionsCount: "Absichten",
+    timer: "Timer",
+    beginAgain: "Neu beginnen",
+    beginAgainDescription:
+      "Eine sanfte Einführung in die Rückkehr zum gegenwärtigen Moment.",
+    arrive: "Ankommen",
+    arriveDescription: "Nimm wahr, wo du bist, ohne etwas ändern zu müssen.",
+    soften: "Loslassen",
+    softenDescription:
+      "Lass den Körper ein wenig von dem loslassen, was er festgehalten hat.",
+    returnStep: "Zurückkehren",
+    returnStepDescription:
+      "Übe die Rückkehr zu einem ruhigen, gleichmäßigen Atem.",
+    steadyBreath: "Ruhiger Atem",
+    steadyBreathDescription:
+      "Baue einen ruhigen Rhythmus durch atemgeführte Aufmerksamkeit auf.",
+    countingBreaths: "Atemzüge zählen",
+    countingBreathsDescription:
+      "Gib dem Geist bei jedem Atemzug einen einfachen Anker.",
+    openAwareness: "Offenes Gewahrsein",
+    openAwarenessDescription:
+      "Schaffe Raum, damit Geräusche, Empfindungen und Gedanken hindurchziehen können.",
+    thePause: "Die Pause",
+    thePauseDescription:
+      "Entdecke die kleinen Räume zwischen einem Ausatmen und einem Einatmen.",
+    steadyGround: "Fester Boden",
+    steadyGroundDescription:
+      "Trage diese geerdete Aufmerksamkeit in den Rest deines Tages.",
+    sleepward: "Richtung Schlaf",
+    sleepwardDescription:
+      "Lass den Tag mit langsamerer, sanfterer Aufmerksamkeit ausklingen.",
+    unwind: "Entspannen",
+    unwindDescription: "Lege die unerledigten Kanten des Tages ab.",
+    heavyAndHeld: "Schwer und getragen",
+    heavyAndHeldDescription:
+      "Spüre die Unterstützung unter dir und lass den Körper sich setzen.",
+    drift: "Treiben",
+    driftDescription:
+      "Ruhe dich mit dem Atem aus, bis nichts mehr zu tun bleibt.",
   },
   it: {
     settings: "Impostazioni",
@@ -1015,6 +1195,44 @@ const translations: Record<SupportedLanguage, Messages> = {
     ritual: "rituale",
     intentionCount: "intenzione",
     intentionsCount: "intenzioni",
+    timer: "Timer",
+    beginAgain: "Ricominciare",
+    beginAgainDescription:
+      "Una dolce introduzione al ritorno al momento presente.",
+    arrive: "Arrivare",
+    arriveDescription: "Nota dove ti trovi, senza bisogno di cambiare nulla.",
+    soften: "Ammorbidire",
+    softenDescription:
+      "Lascia che il corpo rilasci un po' di ciò che ha trattenuto.",
+    returnStep: "Ritornare",
+    returnStepDescription:
+      "Esercitati a tornare a un respiro calmo e costante.",
+    steadyBreath: "Respiro stabile",
+    steadyBreathDescription:
+      "Costruisci un ritmo calmo attraverso un'attenzione guidata dal respiro.",
+    countingBreaths: "Contare i respiri",
+    countingBreathsDescription:
+      "Dai alla mente un ancoraggio semplice a ogni respiro che passa.",
+    openAwareness: "Consapevolezza aperta",
+    openAwarenessDescription:
+      "Fai spazio perché suoni, sensazioni e pensieri possano attraversare.",
+    thePause: "La pausa",
+    thePauseDescription:
+      "Scopri i piccoli spazi tra un'espirazione e un'inspirazione.",
+    steadyGround: "Terreno stabile",
+    steadyGroundDescription:
+      "Porta questa qualità di attenzione radicata nel resto della tua giornata.",
+    sleepward: "Verso il sonno",
+    sleepwardDescription:
+      "Esci dalla giornata con un'attenzione più lenta e morbida.",
+    unwind: "Distendersi",
+    unwindDescription: "Posa i bordi incompiuti della giornata.",
+    heavyAndHeld: "Pesante e sostenuto",
+    heavyAndHeldDescription:
+      "Senti il sostegno sotto di te e lascia che il corpo si depositi.",
+    drift: "Fluttuare",
+    driftDescription:
+      "Riposa con il respiro finché non resta più nulla da fare.",
   },
   ja: {
     settings: "設定",
@@ -1167,6 +1385,38 @@ const translations: Record<SupportedLanguage, Messages> = {
     ritual: "儀式",
     intentionCount: "つの意図",
     intentionsCount: "つの意図",
+    timer: "タイマー",
+    beginAgain: "再び始める",
+    beginAgainDescription: "今この瞬間に戻るための、やさしい導入です。",
+    arrive: "到着する",
+    arriveDescription:
+      "何かを変える必要はありません。ただ今いる場所に気づきましょう。",
+    soften: "ゆるめる",
+    softenDescription: "体が抱えていたものを少し手放させましょう。",
+    returnStep: "戻る",
+    returnStepDescription: "静かで落ち着いた一つの呼吸へ戻る練習をします。",
+    steadyBreath: "安定した呼吸",
+    steadyBreathDescription:
+      "呼吸に導かれた意識で、穏やかなリズムを築きます。",
+    countingBreaths: "呼吸を数える",
+    countingBreathsDescription:
+      "過ぎていく一息ごとに、心へシンプルな拠り所を与えます。",
+    openAwareness: "開かれた気づき",
+    openAwarenessDescription: "音や感覚、思考が通り過ぎる余白をつくります。",
+    thePause: "間",
+    thePauseDescription:
+      "息を吐くことと吸うことの間にある、小さな空間を発見します。",
+    steadyGround: "安定した足場",
+    steadyGroundDescription:
+      "この地に足のついた意識を、一日の残りへ持ち運びます。",
+    sleepward: "眠りに向けて",
+    sleepwardDescription: "ゆっくりと柔らかな意識で、一日を終えましょう。",
+    unwind: "ほどく",
+    unwindDescription: "一日の未完の部分を、そっと手放します。",
+    heavyAndHeld: "重さと支え",
+    heavyAndHeldDescription: "自分を支えるものを感じ、体を落ち着かせましょう。",
+    drift: "漂う",
+    driftDescription: "何もすることがなくなるまで、呼吸とともに休みます。",
   },
   ko: {
     settings: "설정",
@@ -1318,6 +1568,33 @@ const translations: Record<SupportedLanguage, Messages> = {
     ritual: "의식",
     intentionCount: "가지 의도",
     intentionsCount: "가지 의도",
+    timer: "타이머",
+    beginAgain: "다시 시작하기",
+    beginAgainDescription: "현재의 순간으로 돌아오기 위한 부드러운 안내입니다.",
+    arrive: "도착하기",
+    arriveDescription: "무언가를 바꿀 필요 없이, 지금 있는 곳을 알아차려 보세요.",
+    soften: "누그러뜨리기",
+    softenDescription: "몸이 붙잡고 있던 것을 조금 풀어놓게 하세요.",
+    returnStep: "돌아오기",
+    returnStepDescription: "고요하고 안정된 하나의 호흡으로 돌아오는 연습을 합니다.",
+    steadyBreath: "안정된 호흡",
+    steadyBreathDescription: "호흡이 이끄는 주의를 통해 차분한 리듬을 만듭니다.",
+    countingBreaths: "호흡 세기",
+    countingBreathsDescription: "지나가는 숨마다 마음에 단순한 닻을 내려줍니다.",
+    openAwareness: "열린 알아차림",
+    openAwarenessDescription: "소리와 감각, 생각이 지나갈 수 있는 여백을 만듭니다.",
+    thePause: "멈춤",
+    thePauseDescription: "날숨과 들숨 사이의 작은 공간을 발견해 보세요.",
+    steadyGround: "단단한 바탕",
+    steadyGroundDescription: "이 단단히 뿌리내린 주의를 하루의 나머지로 가져가세요.",
+    sleepward: "잠을 향해",
+    sleepwardDescription: "더 느리고 부드러운 주의로 하루를 마무리합니다.",
+    unwind: "풀어놓기",
+    unwindDescription: "하루의 마무리되지 않은 부분들을 내려놓으세요.",
+    heavyAndHeld: "무겁고 받쳐진",
+    heavyAndHeldDescription: "자신을 받치는 지지를 느끼고 몸이 가라앉도록 두세요.",
+    drift: "떠돌기",
+    driftDescription: "더 이상 할 일이 없을 때까지 호흡과 함께 쉬세요.",
   },
   "zh-CN": {
     settings: "设置",
@@ -1463,6 +1740,33 @@ const translations: Record<SupportedLanguage, Messages> = {
     ritual: "仪式",
     intentionCount: "个意图",
     intentionsCount: "个意图",
+    timer: "计时器",
+    beginAgain: "重新开始",
+    beginAgainDescription: "温柔地引导你回到当下这一刻。",
+    arrive: "抵达",
+    arriveDescription: "留意你所在之处，无需改变任何事。",
+    soften: "放松",
+    softenDescription: "让身体释放一些它一直紧抓的东西。",
+    returnStep: "回归",
+    returnStepDescription: "练习回到一次平静而稳定的呼吸。",
+    steadyBreath: "平稳呼吸",
+    steadyBreathDescription: "通过以呼吸为引导的专注，建立平静的节奏。",
+    countingBreaths: "数呼吸",
+    countingBreathsDescription: "让每一次呼吸经过时，都给心一个简单的依托。",
+    openAwareness: "开放的觉知",
+    openAwarenessDescription: "为声音、感受和念头的流动留出空间。",
+    thePause: "停顿",
+    thePauseDescription: "发现呼气与吸气之间那些细微的空隙。",
+    steadyGround: "稳固的根基",
+    steadyGroundDescription: "把这份扎根的专注带入你一天中剩下的时光。",
+    sleepward: "走向睡眠",
+    sleepwardDescription: "以更缓慢、更柔和的专注结束这一天。",
+    unwind: "舒展放松",
+    unwindDescription: "放下这一天尚未完成的棱角。",
+    heavyAndHeld: "沉重而被托住",
+    heavyAndHeldDescription: "感受身下的支撑，让身体安定下来。",
+    drift: "漂浮",
+    driftDescription: "随呼吸休憩，直到无事可做。",
   },
 };
 

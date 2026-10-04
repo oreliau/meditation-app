@@ -1,8 +1,10 @@
 import { NativeTabs } from "expo-router/unstable-native-tabs";
 import { useUnistyles } from "react-native-unistyles";
+import { useI18n } from "@/i18n";
 
 export default function TabLayout() {
   const { theme } = useUnistyles();
+  const { t } = useI18n();
   return (
     <NativeTabs
       backgroundColor={theme.colors.background}
@@ -26,14 +28,14 @@ export default function TabLayout() {
         contentStyle={{ backgroundColor: "transparent" }}
       >
         <NativeTabs.Trigger.Icon sf="timer" md="timer" />
-        <NativeTabs.Trigger.Label>Timer</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Label>{t("timer")}</NativeTabs.Trigger.Label>
       </NativeTabs.Trigger>
       <NativeTabs.Trigger
         name="explorer"
         contentStyle={{ backgroundColor: "transparent" }}
       >
         <NativeTabs.Trigger.Icon sf="safari" md="explore" />
-        <NativeTabs.Trigger.Label>Explore</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Label>{t("explore")}</NativeTabs.Trigger.Label>
       </NativeTabs.Trigger>
       <NativeTabs.Trigger
         name="settings"
@@ -43,7 +45,7 @@ export default function TabLayout() {
           sf={{ default: "gearshape", selected: "gearshape.fill" }}
           md="settings"
         />
-        <NativeTabs.Trigger.Label>Settings</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Label>{t("settings")}</NativeTabs.Trigger.Label>
       </NativeTabs.Trigger>
     </NativeTabs>
   );

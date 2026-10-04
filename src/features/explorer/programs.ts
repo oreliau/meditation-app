@@ -17,87 +17,81 @@ export type Program = {
 export const PROGRAMS: readonly Program[] = [
   {
     id: "begin-again",
-    title: "Begin Again",
-    description: "A gentle introduction to returning to the present moment.",
+    title: "beginAgain",
+    description: "beginAgainDescription",
     sessions: [
       {
         id: "arrive",
-        title: "Arrive",
-        description:
-          "Notice where you are, without needing to change anything.",
+        title: "arrive",
+        description: "arriveDescription",
         durationMinutes: 5,
       },
       {
         id: "soften",
-        title: "Soften",
-        description:
-          "Let the body release a little of what it has been holding.",
+        title: "soften",
+        description: "softenDescription",
         durationMinutes: 10,
       },
       {
         id: "return",
-        title: "Return",
-        description: "Practice coming back to one quiet, steady breath.",
+        title: "returnStep",
+        description: "returnStepDescription",
         durationMinutes: 10,
       },
     ],
   },
   {
     id: "steady-breath",
-    title: "Steady Breath",
-    description: "Build a calm rhythm through breath-led attention.",
+    title: "steadyBreath",
+    description: "steadyBreathDescription",
     sessions: [
       {
         id: "counting",
-        title: "Counting breaths",
-        description: "Give the mind a simple anchor as each breath passes.",
+        title: "countingBreaths",
+        description: "countingBreathsDescription",
         durationMinutes: 10,
       },
       {
         id: "open-awareness",
-        title: "Open awareness",
-        description:
-          "Make room for sounds, sensations, and thoughts to move through.",
+        title: "openAwareness",
+        description: "openAwarenessDescription",
         durationMinutes: 12,
       },
       {
         id: "the-pause",
-        title: "The pause",
-        description:
-          "Discover the small spaces between an exhale and an inhale.",
+        title: "thePause",
+        description: "thePauseDescription",
         durationMinutes: 15,
       },
       {
         id: "steady-ground",
-        title: "Steady ground",
-        description:
-          "Carry a grounded quality of attention into the rest of your day.",
+        title: "steadyGround",
+        description: "steadyGroundDescription",
         durationMinutes: 15,
       },
     ],
   },
   {
     id: "sleepward",
-    title: "Sleepward",
-    description: "Ease out of the day with slower, softer attention.",
+    title: "sleepward",
+    description: "sleepwardDescription",
     sessions: [
       {
         id: "unwind",
-        title: "Unwind",
-        description: "Set down the unfinished edges of the day.",
+        title: "unwind",
+        description: "unwindDescription",
         durationMinutes: 12,
       },
       {
         id: "heavy-and-held",
-        title: "Heavy and held",
-        description:
-          "Feel the support beneath you and allow the body to settle.",
+        title: "heavyAndHeld",
+        description: "heavyAndHeldDescription",
         durationMinutes: 15,
       },
       {
         id: "drift",
-        title: "Drift",
-        description: "Rest with the breath until there is nothing left to do.",
+        title: "drift",
+        description: "driftDescription",
         durationMinutes: 20,
       },
     ],

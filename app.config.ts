@@ -54,7 +54,15 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     ["expo-audio", { recordAudioAndroid: false }],
     "expo-asset",
     "expo-status-bar",
-    "expo-localization",
+    [
+      "expo-localization",
+      {
+        supportedLocales: {
+          ios: ["en", "fr", "es", "pt", "de", "it", "ja", "ko", "zh-CN"],
+          android: ["en", "fr", "es", "pt", "de", "it", "ja", "ko", "zh-CN"],
+        },
+      },
+    ],
     [
       "expo-build-properties",
       {
