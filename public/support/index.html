@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Support · Meditation by Oréliau</title>
+    <meta
+      name="description"
+      content="Get help with the Meditation app by Oréliau Koumedzro: frequently asked questions, how to report a bug, and how to contact us."
+    />
+    <link rel="icon" href="../favicon.ico" />
+    <style>
+      :root {
+        --bg: #fbf9f5;
+        --surface: #ffffff;
+        --fg: #2b2320;
+        --muted: #7a6c63;
+        --accent: #e07a57;
+        --line: #e9e2da;
+        color-scheme: light dark;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #1c1a2c;
+          --surface: #26233c;
+          --fg: #f4f0fa;
+          --muted: #b3acc4;
+          --accent: #f0a48a;
+          --line: #3a3652;
+        }
+      }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; background: var(--bg); color: var(--fg); }
+      body {
+        font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+        padding: 48px 24px 96px;
+      }
+      main { max-width: 680px; margin: 0 auto; }
+      .eyebrow {
+        font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+        color: var(--accent); margin: 0 0 12px;
+      }
+      h1, h2 {
+        font-family: "Playfair Display", "Iowan Old Style", Georgia, "Times New Roman", serif;
+        font-weight: 500; letter-spacing: -0.01em; line-height: 1.2;
+      }
+      h1 { font-size: 40px; margin: 0 0 8px; }
+      h2 { font-size: 24px; margin: 40px 0 12px; }
+      p, li { margin: 0 0 12px; }
+      ul { padding-left: 22px; }
+      .meta { color: var(--muted); font-size: 15px; margin-bottom: 32px; }
+      .summary {
+        background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+        padding: 20px 24px; margin: 0 0 40px;
+      }
+      .summary p { margin: 0; }
+      a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+      .faq {
+        background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+        padding: 4px 24px; margin: 8px 0 16px;
+      }
+      .faq h3 { font-size: 16px; margin: 20px 0 4px; }
+      .faq p { color: var(--muted); }
+      footer { margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+      @media (max-width: 480px) {
+        body { padding: 32px 20px 64px; }
+        h1 { font-size: 32px; }
+        h2 { font-size: 21px; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="eyebrow">Meditation by Oréliau</p>
+      <h1>Support</h1>
+      <p class="meta">Help with the iOS, Android, and web versions of the app</p>
+
+      <div class="summary">
+        <p>
+          <strong>Need help or have feedback?</strong> Email
+          <a href="mailto:contact@oreliaukmz.com">contact@oreliaukmz.com</a> and we'll get back to you as soon
+          as we can.
+        </p>
+      </div>
+
+      <h2>Frequently asked questions</h2>
+      <div class="faq">
+        <h3>A session didn't resume after I left the app</h3>
+        <p>
+          Reopen the app from where you left it; in-progress sessions are saved on your device and resume
+          automatically. If the timer looks wrong, stop the session and start a new one.
+        </p>
+        <h3>I'm not getting reminder notifications</h3>
+        <p>
+          Reminders are optional, local notifications. Check that they're enabled in the app's settings and
+          that notifications are allowed for the app in your device's system settings.
+        </p>
+        <h3>How do I reset my data?</h3>
+        <p>
+          All data lives on your device only. Deleting and reinstalling the app (iOS and Android), or
+          clearing the site's storage in your browser (web), clears everything and starts fresh.
+        </p>
+        <h3>Does the app collect my data?</h3>
+        <p>
+          No. See the <a href="../privacy/">Privacy Policy</a> for details — there's no account, no
+          analytics, and no server.
+        </p>
+      </div>
+
+      <h2>Report a bug or request a feature</h2>
+      <p>
+        Found something broken, or have an idea for the app? Open an issue on
+        <a href="https://github.com/oreliau/meditation-app/issues" rel="noopener">GitHub</a>, or just email us
+        directly — whichever is easier for you.
+      </p>
+
+      <h2>Contact us</h2>
+      <p>
+        For anything else — questions, feedback, or support requests — email
+        <a href="mailto:contact@oreliaukmz.com">contact@oreliaukmz.com</a>. We read every message and reply
+        personally.
+      </p>
+
+      <footer>
+        © 2026 Oréliau Koumedzro ·
+        <a href="../">Back to the app</a> ·
+        <a href="../privacy/">Privacy Policy</a> ·
+        <a href="https://github.com/oreliau/meditation-app" rel="noopener">Source code</a>
+      </footer>
+    </main>
+  </body>
+</html>
